@@ -16,7 +16,7 @@ router.route('/api/login')
         Object.assign(req.session, admin ? admin : user);
         return handleAPIResponse(res, 200);
       }
-      return handleAPIResponse(res, 404, 'email || password not exist');
+      return handleAPIResponse(res, 400, 'user not exist');
     } catch (e) {
       next(e);
     }
