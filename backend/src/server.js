@@ -32,10 +32,13 @@ app.use(session({
 const public_apis = [
   'login',
   'register',
+];
+const private_apis = [
   'restaurants',
 ];
 
 public_apis.forEach(api => app.use(require(`./routes/public/${api}`)));
+private_apis.forEach(api => app.use(require(`./routes/private/${api}`)));
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Your app is listening on port ${port}`));

@@ -1,17 +1,19 @@
 /* eslint-disable require-atomic-updates */
-const route = require('express').Router();
+const router = require('express').Router();
 const knex = require('../../knex');
-const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
+const { validateSession } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
-route('/api/restaurants')
-  .get(validateCustomer, async (req, res, next) => {
+router.route('/api/restaurants')
+  .get(validateSession, async (req, res, next) => {
+    const { restaurant_name } = req.body;
     try {
-      const restaurants = await knex('restaurants');
+      let restaurants = knex('restaurants');
+      if (restaurant_name) restaurants.where({ name: restaurant_name });
       return handleAPIResponse(res, 200, restaurants);
     } catch (e) {
       next(e);
     }
   });
 
-module.exports = route;
+module.exports = router;

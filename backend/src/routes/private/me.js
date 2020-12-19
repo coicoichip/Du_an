@@ -1,10 +1,10 @@
 /* eslint-disable require-atomic-updates */
-const route = require('express').Router();
+const router = require('express').Router();
 const knex = require('../../knex');
 const { validateSession } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
-route('/api/me')
+router.route('/api/me')
   .get(validateSession, async (req, res, next) => {
     const { id, position } = req.session;
     try {
@@ -17,4 +17,4 @@ route('/api/me')
     }
   });
 
-module.exports = route;
+module.exports = router;

@@ -1,10 +1,10 @@
 /* eslint-disable require-atomic-updates */
-const route = require('express').Router();
+const router = require('express').Router();
 const knex = require('knex');
 const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
-route('/api/restaurants')
+router.route('/api/foods')
   .get(validateCustomer, async (req, res, next) => {
     try {
       const restaurants = await knex('restaurants');
@@ -14,4 +14,4 @@ route('/api/restaurants')
     }
   });
 
-module.exports = route;
+module.exports = router;

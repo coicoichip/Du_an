@@ -1,9 +1,9 @@
 /* eslint-disable require-atomic-updates */
-const route = require('express').Router();
+const router = require('express').Router();
 const knex = require('../../knex');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
-route('/api/register')
+router.route('/api/register')
   .post(async (req, res, next) => {
     const { email, password, position, name, phone, address, avatar } = req.body;
     if (!email || !password) return handleAPIResponse(res, 400, 'email && password required');
@@ -32,4 +32,4 @@ route('/api/register')
     }
   });
 
-module.exports = route;
+module.exports = router;
