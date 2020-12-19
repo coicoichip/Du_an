@@ -9,15 +9,16 @@ const { handleAPIResponse } = require('./common/handleAPIResponse');
 const app = express();
 app.use(express.json());
 const whitelist = ['*'];
-app.use(cors({
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-}));
+app.use(
+  cors({
+    credentials: true,
+    allowedHeaders:
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    origin: [
+      'http://localhost:3001',
+    ],
+  })
+);
 
 app.use(session({
   store: new SQLiteStore({
