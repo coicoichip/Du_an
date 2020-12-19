@@ -13,6 +13,32 @@ router.route('/api/restaurants/:restaurant_id/foods/:food_id')
     } catch (e) {
       next(e);
     }
+  }).put(validateSession, async (req, res, next) => {
+    const { restaurant_id, food_id } = req.params;
+    try {
+      //
+      const update_data = {};
+      ['name', 'price', 'status', 'img_url', 'description'].forEach(param => {
+        if (req.body[param]) update_data[param] = req.body[param];
+      });
+      await knex('foods')
+        .update(update_data)
+        .where({ restaurant_id, id: food_id });
+      const food = await knex('foods').first().where({ restaurant_id, id: food_id });
+      return handleAPIResponse(res, 200, food);
+    } catch (e) {
+      next(e);
+    }
+  })
+  .delete(validateSession, async (req, res, next) => {
+    const { restaurant_id, food_id } = req.params;
+    try {
+      //
+      await knex('foods').delete().where({ restaurant_id, id: food_id });
+      return handleAPIResponse(res, 200);
+    } catch (e) {
+      next(e);
+    }
   });
 
 module.exports = router;
