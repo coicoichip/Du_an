@@ -6,8 +6,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
-import auth from './../auth/auth-helper'
-import {listByUser} from './api-order.js'
 import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -26,24 +24,6 @@ const useStyles = makeStyles(theme => ({
 export default function MyOrders(){
   const classes = useStyles()
   const [orders, setOrders] = useState([])
-  const jwt = auth.isAuthenticated()
-
-  useEffect(() => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-    listByUser({
-      userId: jwt?.user?._id
-    }, {t: jwt.token}).then((data) => {
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        setOrders(data)
-      }
-    })
-    return function cleanup(){
-      abortController.abort()
-    }
-  }, [])
 
     return (
       <Paper className={classes.root} elevation={4}>

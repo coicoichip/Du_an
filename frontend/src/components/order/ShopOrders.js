@@ -9,8 +9,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import Collapse from '@material-ui/core/Collapse'
 import Divider from '@material-ui/core/Divider'
-import auth from './../auth/auth-helper'
-import {listByShop} from './api-order.js'
 import ProductOrderEdit from './ProductOrderEdit'
 
 const useStyles = makeStyles(theme => ({
@@ -41,24 +39,6 @@ export default function ShopOrders({match}) {
   const [orders, setOrders] = useState([])
   const [open, setOpen] = useState(0)
 
-
-    const jwt = auth.isAuthenticated()
-    useEffect(() => {
-      const abortController = new AbortController()
-      const signal = abortController.signal
-      listByShop({
-        shopId: match.params.shopId
-      }, {t: jwt.token}, signal).then((data) => {
-        if (data.error) {
-          console.log(data)
-        } else {
-          setOrders(data)
-        }
-      })
-      return function cleanup(){
-        abortController.abort()
-      }
-    }, [])
 
   const handleClick = index => event => {
     setOpen(index)

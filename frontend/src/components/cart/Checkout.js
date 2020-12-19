@@ -4,8 +4,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
-import auth from './../auth/auth-helper'
-import cart from './cart-helper.js'
 import PlaceOrder from './PlaceOrder'
 
 const useStyles = makeStyles(theme => ({

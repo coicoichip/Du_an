@@ -7,7 +7,6 @@ import Divider from '@material-ui/core/Divider'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import Icon from '@material-ui/core/Icon'
-import {list} from './api-product.js'
 import Products from './Products'
 
 const useStyles = makeStyles(theme => ({
@@ -57,35 +56,8 @@ export default function Categories(props){
   const [products, setProducts] = useState([])
   const [selected, setSelected] = useState(props.categories[0])
 
-  useEffect(() => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-
-    list({
-      category: props.categories[0]
-    }).then((data) => {
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        setProducts(data)
-      }
-    })
-    return function cleanup(){
-      abortController.abort()
-    }
-  }, [])
-
   const listbyCategory = category => event => {
-    setSelected(category)
-    list({
-      category: category
-    }).then((data) => {
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        setProducts(data)
-      }
-    })
+
   }
 
     return (

@@ -8,8 +8,6 @@ import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import Divider from '@material-ui/core/Divider'
-import auth from './../auth/auth-helper'
-import {getStatusValues, update, cancelProduct, processCharge} from './api-order.js'
 
 const useStyles = makeStyles(theme => ({
   nested: {
@@ -47,102 +45,9 @@ export default function ProductOrderEdit (props){
       statusValues: [],
       error: ''
   })
-  const jwt = auth.isAuthenticated()
-  useEffect(() => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-    getStatusValues(signal).then((data) => {
-      if (data.error) {
-        setValues({...values, error: "Could not get status"})
-      } else {
-        setValues({...values, statusValues: data, error: ''})
-      }
-    })
-    return function cleanup(){
-      abortController.abort()
-    }
-  }, [])
+
 
   const handleStatusChange = productIndex => event => {
-    let order = props.order
-    order.products[productIndex].status = event.target.value
-    let product = order.products[productIndex]
-
-    if (event.target.value == "Cancelled") {
-      cancelProduct({
-          shopId: props.shopId,
-          productId: product.product._id
-        }, {
-          t: jwt.token
-        }, {
-          cartItemId: product._id,
-          status: event.target.value,
-          quantity: product.quantity
-        })
-        .then((data) => {
-          if (data.error) {
-            setValues({
-              ...values,
-              error: "Status not updated, try again"
-            })
-          } else {
-            props.updateOrders(props.orderIndex, order)
-            setValues({
-              ...values,
-              error: ''
-            })
-          }
-        })
-    } else if (event.target.value == "Processing") {
-      processCharge({
-          userId: jwt.user._id,
-          shopId: props.shopId,
-          orderId: order._id
-        }, {
-          t: jwt.token
-        }, {
-          cartItemId: product._id,
-          status: event.target.value,
-          amount: (product.quantity * product.product.price)
-        })
-        .then((data) => {
-          if (data.error) {
-            setValues({
-              ...values,
-              error: "Status not updated, try again"
-            })
-          } else {
-            props.updateOrders(props.orderIndex, order)
-            setValues({
-              ...values,
-              error: ''
-            })
-          }
-        })
-    } else {
-      update({
-          shopId: props.shopId
-        }, {
-          t: jwt.token
-        }, {
-          cartItemId: product._id,
-          status: event.target.value
-        })
-        .then((data) => {
-          if (data.error) {
-            setValues({
-              ...values,
-              error: "Status not updated, try again"
-            })
-          } else {
-            props.updateOrders(props.orderIndex, order)
-            setValues({
-              ...values,
-              error: ''
-            })
-          }
-        })
-    }
   }
     return (
     <div>

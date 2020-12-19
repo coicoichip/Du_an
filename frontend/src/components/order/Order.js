@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Divider from '@material-ui/core/Divider'
 import {makeStyles} from '@material-ui/core/styles'
-import {read} from './api-order.js'
 import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -100,30 +99,6 @@ export default function Order({match}) {
   const classes = useStyles()
   const [order, setOrder] = useState({products:[], delivery_address:{}})
 
-  useEffect(() => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-    read({
-      orderId: match.params.orderId
-    }).then((data) => {
-      if (data.error) {
-        console.log(data.error)
-      } else {
-        setOrder(data)
-      }
-    })
-    return function cleanup(){
-      abortController.abort()
-    }
-  }, [])
-
-  const getTotal = () => {
-    return order.products.reduce((a, b) => {
-       const quantity = b.status == "Cancelled" ? 0 : b.quantity
-        return a + (quantity*b.product.price)
-    }, 0)
-  }
-
     return (
       <Card className={classes.card}>
         <Typography type="headline" component="h2" className={classes.title}>
@@ -157,7 +132,7 @@ export default function Order({match}) {
                     </span>})
                   }
                   <div className={classes.checkout}>
-                    <span className={classes.total}>Total: ${getTotal()}</span>
+                    <span className={classes.total}>Total:getTotal()</span>
                   </div>
                 </Card>
             </Grid>

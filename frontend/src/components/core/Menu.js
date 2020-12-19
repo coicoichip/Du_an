@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
 import Button from "@material-ui/core/Button";
-import auth from "./../auth/auth-helper";
 import { Link, withRouter } from "react-router-dom";
 import CartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from "@material-ui/core/Badge";
-import cart from "./../cart/cart-helper";
 import { useDispatch, useSelector } from "react-redux";
-import { signout } from "../../redux/auth";
+import { signout, WHO_AM_I } from "../../redux/auth";
 
 const isActive = (history, path) => {
   if (history.location.pathname == path) return { color: "#bef67a" };
@@ -24,28 +22,28 @@ const isPartActive = (history, path) => {
 const Menu = withRouter(({ history }) => {
   const auth = useSelector((s) => s.auth);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: WHO_AM_I });
+  }, []);
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" color="inherit">
-          Get Food
+        <Typography variant="h6">
+          <Link to="/"><span style={{color: "white"}}>Get Food</span></Link>
         </Typography>
         <div>
-          <Link to="/">
-            <IconButton aria-label="Home" style={isActive(history, "/")}>
-              <HomeIcon />
-            </IconButton>
+          <Link to="/restaurants/all" className="ml-4">
+            <Button style={isActive(history, "/restaurants/all")}>
+              All Restaurants
+            </Button>
           </Link>
-          <Link to="/shops/all">
-            <Button style={isActive(history, "/shops/all")}>All Shops</Button>
-          </Link>
-          <Link to="/cart">
+          <Link to="/cart" className="ml-4">
             <Button style={isActive(history, "/cart")}>
               Cart
               <Badge
                 color="secondary"
                 invisible={false}
-                badgeContent={cart.itemTotal()}
+                badgeContent={9999}
                 style={{ marginLeft: "7px" }}
               >
                 <CartIcon />
@@ -67,13 +65,13 @@ const Menu = withRouter(({ history }) => {
             )}
             {auth.email && (
               <span>
-                {/* {auth.isAuthenticated().user.seller && (
-                  <Link to="/seller/shops">
+                {auth.position === "owner" && (
+                  <Link to="/seller/restaurants">
                     <Button style={isPartActive(history, "/seller/")}>
-                      My Shops
+                      My Restaurants
                     </Button>
                   </Link>
-                )} */}
+                )}
                 <Link to={"/user/user_id"}>
                   <Button style={isActive(history, "/user/user_id")}>
                     My Profile

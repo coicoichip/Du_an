@@ -33,18 +33,18 @@ const MainRouter = () => {
         <Route path="/user/:userId" component={Profile}/>
 
         <Route path="/cart" component={Cart}/>
-        <Route path="/product/:productId" component={Product}/>
-        <Route path="/shops/all" component={Shops}/>
-        <Route path="/shops/:shopId" component={Shop}/>
+        <Route path="/food/:productId" component={Product}/>
+        <Route path="/restaurants/all" component={Shops}/>
+        <Route path="/restaurants/:resId" component={Shop}/>
 
         <Route path="/order/:orderId" component={Order}/>
-        <PrivateRoute path="/seller/orders/:shop/:shopId" component={ShopOrders}/>
+        <PrivateRoute path="/seller/orders/:shop/:resId" component={ShopOrders}/>
 
-        <PrivateRoute path="/seller/shops" component={MyShops}/>
-        <PrivateRoute path="/seller/shop/new" component={NewShop}/>
-        <PrivateRoute path="/seller/shop/edit/:shopId" component={EditShop}/>
-        <PrivateRoute path="/seller/:shopId/products/new" component={NewProduct}/>
-        <PrivateRoute path="/seller/:shopId/:productId/edit" component={EditProduct}/>
+        <PrivateRoute path="/seller/restaurants" component={MyShops}/>
+        <PrivateRoute path="/seller/restaurant/new" component={NewShop}/>
+        <PrivateRoute path="/seller/restaurant/edit/:resId" component={EditShop}/>
+        <PrivateRoute path="/seller/:resId/foods/new" component={NewProduct}/>
+        <PrivateRoute path="/seller/:resId/:productId/edit" component={EditProduct}/>
 
         <Route path="/seller/stripe/connect" component={StripeConnect}/>
       </Switch>

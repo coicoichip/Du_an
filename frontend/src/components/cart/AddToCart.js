@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import IconButton from '@material-ui/core/IconButton'
 import AddCartIcon from '@material-ui/icons/AddShoppingCart'
 import DisabledCartIcon from '@material-ui/icons/RemoveShoppingCart'
-import cart from './cart-helper.js'
 import { Redirect } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -24,9 +23,7 @@ export default function AddToCart(props) {
   const [redirect, setRedirect] = useState(false)
 
   const addToCart = () => {
-    cart.addItem(props.item, () => {
       setRedirect({redirect:true})
-    })
   }
     if (redirect) {
       return (<Redirect to={'/cart'}/>)

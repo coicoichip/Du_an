@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography'
 import ArrowForward from '@material-ui/icons/ArrowForward'
 import Person from '@material-ui/icons/Person'
 import {Link} from 'react-router-dom'
-import {list} from './api-user.js'
 
 const useStyles = makeStyles(theme => ({
   root: theme.mixins.gutters({
@@ -28,23 +27,6 @@ const useStyles = makeStyles(theme => ({
 export default function Users() { 
   const classes = useStyles()
   const [users, setUsers] = useState([])
-
-  useEffect(() => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-
-    list(signal).then((data) => {
-      if (data && data.error) {
-        console.log(data.error)
-      } else {
-        setUsers(data)
-      }
-    })
-
-    return function cleanup(){
-      abortController.abort()
-    }
-  }, [])
 
   return (
     <Paper className={classes.root} elevation={4}>

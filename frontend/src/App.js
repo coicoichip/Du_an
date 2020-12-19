@@ -3,6 +3,7 @@ import MainRouter from "./MainRouter";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/styles";
 import { Provider } from "react-redux";
+import { ToastContainer } from 'react-toastify';
 import theme from "./theme";
 import reduxStore from "./redux/index";
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <MainRouter />
+          <ToastContainer/>
         </ThemeProvider>
       </BrowserRouter>
     </Provider>

@@ -13,10 +13,9 @@ import Edit from "@material-ui/icons/Edit";
 import Person from "@material-ui/icons/Person";
 import Divider from "@material-ui/core/Divider";
 import DeleteUser from "./DeleteUser";
-import auth from "./../auth/auth-helper";
-import { read } from "./api-user.js";
 import { Redirect, Link } from "react-router-dom";
 import MyOrders from "./../order/MyOrders";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -42,29 +41,7 @@ export default function Profile({ match }) {
   const classes = useStyles();
   const [user, setUser] = useState({});
   const [redirectToSignin, setRedirectToSignin] = useState(false);
-  const jwt = auth.isAuthenticated();
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-    read(
-      {
-        userId: match.params.userId,
-      },
-      { t: jwt.token },
-      signal
-    ).then((data) => {
-      if (data && data.error) {
-        setRedirectToSignin(true);
-      } else {
-        setUser(data);
-      }
-    });
-
-    return function cleanup() {
-      abortController.abort();
-    };
-  }, [match.params.userId]);
+  const auth = useSelector(s => s.auth)
 
   if (redirectToSignin) {
     return <Redirect to="/signin" />;

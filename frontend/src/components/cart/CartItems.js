@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import auth from './../auth/auth-helper'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
@@ -9,8 +8,8 @@ import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import PropTypes from 'prop-types'
 import {makeStyles} from '@material-ui/core/styles'
-import cart from './cart-helper.js'
 import {Link} from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -93,8 +92,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function CartItems (props) {
   const classes = useStyles()
-  const [cartItems, setCartItems] = useState(cart.getCart())
-
+  const [cartItems, setCartItems] = useState([])
+  const auth = useSelector(s => s.auth)
   const handleChange = index => event => {
     let updatedCartItems = cartItems
     if(event.target.value == 0){
@@ -103,7 +102,6 @@ export default function CartItems (props) {
       updatedCartItems[index].quantity = event.target.value
     }
     setCartItems([...updatedCartItems])
-    cart.updateCart(index, event.target.value)
   }
 
   const getTotal = () => {
@@ -113,11 +111,6 @@ export default function CartItems (props) {
   }
 
   const removeItem = index => event =>{
-    let updatedCartItems = cart.removeItem(index)
-    if(updatedCartItems.length == 0){
-      props.setCheckout(false)
-    }
-    setCartItems(updatedCartItems)
   }
 
   const openCheckout = () => {
@@ -167,7 +160,7 @@ export default function CartItems (props) {
         }
         <div className={classes.checkout}>
           <span className={classes.total}>Total: ${getTotal()}</span>
-          {!props.checkout && (auth.isAuthenticated()?
+          {!props.checkout && (auth.email ?
             <Button color="secondary" variant="contained" onClick={openCheckout}>Checkout</Button>
             :
             <Link to="/signin">

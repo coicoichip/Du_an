@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
-import {list} from './api-product.js'
 import Products from './Products'
 
 const useStyles = makeStyles(theme => ({
@@ -56,15 +55,6 @@ export default function Search(props) {
   }
   const search = () => {
     if(values.search){
-      list({
-        search: values.search || undefined, category: values.category
-      }).then((data) => {
-        if (data.error) {
-          console.log(data.error)
-        } else {
-          setValues({...values, results: data, searched:true})
-        }
-      })
     }
   }
   const enterKey = (event) => {
@@ -111,7 +101,7 @@ export default function Search(props) {
             <SearchIcon/>
           </Button>
           <Divider/>
-          <Products products={values.results} searched={values.searched}/>
+          <Products products={[]} searched={values.searched}/>
         </Card>
       </div>
     )

@@ -9,8 +9,6 @@ import Icon from '@material-ui/core/Icon'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import { makeStyles } from '@material-ui/core/styles'
-import auth from './../auth/auth-helper'
-import {read, update} from './api-user.js'
 import {Redirect} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
@@ -53,25 +51,6 @@ export default function EditProfile({ match }) {
       redirectToProfile: false,
       error: ''
   })
-  const jwt = auth.isAuthenticated()
-  useEffect(() => {
-    const abortController = new AbortController()
-    const signal = abortController.signal
-
-    read({
-      userId: match.params.userId
-    }, {t: jwt.token}, signal).then((data) => {
-      if (data && data.error) {
-        setValues({...values, error: data.error})
-      } else {
-        setValues({...values, name: data.name, email: data.email, seller: data.seller})
-      }
-    })
-    return function cleanup(){
-      abortController.abort()
-    }
-
-  }, [match.params.userId])
 
   const clickSubmit = () => {
     const user = {
@@ -80,19 +59,6 @@ export default function EditProfile({ match }) {
       password: values.password || undefined,
       seller: values.seller || undefined
     }
-    update({
-      userId: match.params.userId
-    }, {
-      t: jwt.token
-    }, user).then((data) => {
-      if (data && data.error) {
-        setValues({...values, error: data.error})
-      } else {
-        auth.updateUser(data, ()=>{
-          setValues({...values, userId: data._id, redirectToProfile: true})
-        })
-      }
-    })
   }
   const handleChange = name => event => {
     setValues({...values, [name]: event.target.value})
