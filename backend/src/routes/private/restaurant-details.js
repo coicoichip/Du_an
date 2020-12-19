@@ -9,6 +9,7 @@ router.route('/api/restaurant/:restaurant_id')
     const { restaurant_id } = req.params;
     try {
       const restaurant = await knex('restaurants')
+        .first()
         .where({ id: restaurant_id });
       return handleAPIResponse(res, 200, restaurant);
     } catch (e) {
