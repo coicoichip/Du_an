@@ -28,7 +28,7 @@ router.route('/api/restaurants')
     } = req.body;
     const fields = ['name', 'address', 'phone', 'open_time', 'close_time', 'email'];
     fields.forEach(field => {
-      if (!req.body[`${field}`]) return handleAPIResponse(res, 400, 'bad request');
+      if (!req.body[`${field}`]) return handleAPIResponse(res, 400, `${field} required`);
     });
     try {
       //
