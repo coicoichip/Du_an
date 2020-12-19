@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars *//* eslint-disable global-require */
 const express = require('express');
 const cors = require('cors');
+const bodyParse = require('body-parser');
+const morgan = require('morgan');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 
@@ -8,7 +10,9 @@ const { handleAPIResponse } = require('./common/handleAPIResponse');
 
 const app = express();
 app.use(express.json());
-const whitelist = ['*'];
+app.use(morgan('combined'));
+app.use(bodyParse.urlencoded({ extended: false }));
+app.use(bodyParse.json());
 app.use(
   cors({
     credentials: true,
