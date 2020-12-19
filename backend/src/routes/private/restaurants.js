@@ -9,7 +9,8 @@ router.route('/api/restaurants')
     const { restaurant_name } = req.body;
     try {
       let restaurants = knex('restaurants');
-      if (restaurant_name) restaurants.where({ name: restaurant_name });
+      if (restaurant_name) restaurants.where('name', 'like', `%${restaurant_name}%`);
+      restaurants = await restaurants;
       return handleAPIResponse(res, 200, restaurants);
     } catch (e) {
       next(e);
