@@ -26,8 +26,22 @@ router.route('/api/restaurants/:restaurant_id')
     });
     try {
       //
-      await knex('restaurants').update(update_data).where({ id: restaurant_id, manager_id: id });
+      await knex('restaurants')
+        .update(update_data)
+        .where({ id: restaurant_id, manager_id: id });
       return handleAPIResponse(res, 200);
+    } catch (e) {
+      next(e);
+    }
+  })
+  .delete(validateSession, async (req, res, next) => {
+    try {
+      //
+      const { id } = req.session;
+      const { restaurant_id } = req.params;
+      await knex('restaurants')
+        .delete()
+        .where({ id: restaurant_id, manager_id: id });
     } catch (e) {
       next(e);
     }

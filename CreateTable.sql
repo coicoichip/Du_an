@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR,
     phone VARCHAR,
     address VARCHAR,
-    avatar VARCHAR,
     position VARCHAR,
     create_time DEFAULT CURRENT_TIMESTAMP
   );
