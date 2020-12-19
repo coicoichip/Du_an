@@ -36,6 +36,7 @@ const public_apis = [
 const private_apis = [
   'foods',
   'restaurants',
+  'restaurant-details',
 ];
 
 public_apis.forEach(api => app.use(require(`./routes/public/${api}`)));
