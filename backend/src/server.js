@@ -34,6 +34,7 @@ const public_apis = [
   'register',
 ];
 const private_apis = [
+  'foods',
   'restaurants',
 ];
 

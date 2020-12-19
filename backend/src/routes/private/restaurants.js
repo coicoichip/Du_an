@@ -6,7 +6,7 @@ const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/restaurants')
   .get(validateSession, async (req, res, next) => {
-    const { restaurant_name } = req.body;
+    const { restaurant_name } = req.query;
     try {
       let restaurants = knex('restaurants');
       if (restaurant_name) restaurants.where('name', 'like', `%${restaurant_name}%`);
