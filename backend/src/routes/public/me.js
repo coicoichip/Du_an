@@ -9,9 +9,8 @@ router.route('/api/me')
     const { user_id, admin_id, position } = req.session;
     try {
       //
-      const id = position === 'admin' ? admin_id : user_id;
       if (position === 'admin') return handleAPIResponse(res, 200);
-      const user = await knex('users').first().where({ id });
+      const user = await knex('users').first().where({ user_id: admin_id || user_id });
       return handleAPIResponse(res, 200, user);
     } catch (e) {
       next(e);

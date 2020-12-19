@@ -3,7 +3,7 @@ const knex = require('../../knex');
 const { validateSession } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
-router.route('/api/me')
+router.route('/api/restaurants/:restaurant_id/comment')
   .get(validateSession, async (req, res, next) => {
     const { user_id, admin_id, position } = req.session;
     try {
