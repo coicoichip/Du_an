@@ -5,7 +5,7 @@ const { validateSession } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 route('/api/me')
-  .post(validateSession, async (req, res, next) => {
+  .get(validateSession, async (req, res, next) => {
     const { id, position } = req.session;
     try {
       //
