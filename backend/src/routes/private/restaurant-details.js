@@ -15,6 +15,22 @@ router.route('/api/restaurant/:restaurant_id')
     } catch (e) {
       next(e);
     }
+  })
+  .put(validateSession, (req, res, next) => {
+    const {
+      name,
+      address,
+      phone,
+      open_time,
+      close_time,
+      email,
+    } = req.body;
+    try {
+      //
+
+    } catch (e) {
+      next(e);
+    }
   });
 
 module.exports = router;

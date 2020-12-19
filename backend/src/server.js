@@ -43,12 +43,13 @@ app.use(session({
 
 const public_apis = [
   'login',
+  'me',
   'register',
 ];
 const private_apis = [
   'foods',
-  'restaurants',
   'restaurant-details',
+  'restaurants',
 ];
 
 public_apis.forEach(api => app.use(require(`./routes/public/${api}`)));
