@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars *//* eslint-disable global-require */
 const express = require('express');
+const cors = require('cors');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 
@@ -7,6 +8,16 @@ const { handleAPIResponse } = require('./common/handleAPIResponse');
 
 const app = express();
 app.use(express.json());
+const whitelist = ['*'];
+app.use(cors({
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
 
 app.use(session({
   store: new SQLiteStore({

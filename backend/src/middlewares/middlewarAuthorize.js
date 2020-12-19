@@ -7,7 +7,7 @@ module.exports = {
   },
   validateCustomer: (req, res, next) => {
     const { position } = req.session;
-    if (!position || position !== 'customer') return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!position || position !== 'customer' && position !== 'admin') return handleAPIResponse(res, 401, 'Unauthorized');
     return next();
   },
   validateOwner: (req, res, next) => {

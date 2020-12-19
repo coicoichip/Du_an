@@ -7,7 +7,7 @@ router.route('/api/register')
   .post(async (req, res, next) => {
     const { email, password, position, name, phone, address, avatar } = req.body;
     if (!email || !password) return handleAPIResponse(res, 400, 'email && password required');
-    if (['customer', 'owner'].includes(position)) return handleAPIResponse(res, 400, 'positon invalid');
+    if (!['customer', 'owner'].includes(position)) return handleAPIResponse(res, 400, 'positon invalid');
     try {
       //
       const check_email = await knex('users').first().where({ email });
