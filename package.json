@@ -1,0 +1,26 @@
+{
+  "name": "du_an",
+  "version": "1.0.0",
+  "description": "dự án",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coicoichip/Du_an.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coicoichip/Du_an/issues"
+  },
+  "homepage": "https://github.com/coicoichip/Du_an#readme",
+  "devDependencies": {
+    "babel-eslint": "10.1.0",
+    "concurrently": "5.3.0",
+    "eslint": "7.16.0",
+    "eslint-plugin-react": "7.21.5",
+    "eslint-plugin-react-hooks": "4.2.0"
+  }
+}
