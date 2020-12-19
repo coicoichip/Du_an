@@ -54,6 +54,7 @@ const private_apis = [
   'food-details',
   'foods',
   'me',
+  'rates',
   'restaurant-details',
   'restaurants',
 ];

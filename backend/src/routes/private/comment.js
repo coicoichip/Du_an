@@ -5,8 +5,8 @@ const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/restaurants/:restaurant_id/comments')
   .get(validateSession, async (req, res, next) => {
-
     const { restaurant_id } = req.params;
+    if (!restaurant_id) return handleAPIResponse(res, 400, 'restaurant_id required');
     try {
       //
       const comments = await knex('comments')
@@ -28,6 +28,8 @@ router.route('/api/restaurants/:restaurant_id/comments')
     const { user_id } = req.session;
     const { restaurant_id } = req.params;
     const { content } = req.body;
+    if (!restaurant_id || !content) return handleAPIResponse(res, 400, 'restaurant_id && content required');
+
     try {
       //
       await knex('comments')
