@@ -10,7 +10,7 @@ const { handleAPIResponse } = require('./common/handleAPIResponse');
 
 const app = express();
 app.use(express.json());
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 app.use(bodyParse.urlencoded({ extended: false }));
 app.use(bodyParse.json());
 app.use(
@@ -47,13 +47,13 @@ app.use(session({
 
 const public_apis = [
   'login',
-  'me',
   'register',
 ];
 const private_apis = [
   'comment',
   'food-details',
   'foods',
+  'me',
   'restaurant-details',
   'restaurants',
 ];

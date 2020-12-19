@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a137909b-f0ef-4cf4-91bc-b2d65ef9500e",
+		"_postman_id": "21260303-2336-4f6d-bb90-6b6621923e98",
 		"name": "duan",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,39 +14,8 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "email",
-									"value": "hieunt@kikaitech.",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "12345678",
-									"type": "text"
-								},
-								{
-									"key": "position",
-									"value": "owner",
-									"type": "text"
-								},
-								{
-									"key": "name",
-									"value": "hieunt",
-									"type": "text"
-								},
-								{
-									"key": "phone",
-									"value": "0394423925",
-									"type": "text"
-								},
-								{
-									"key": "address",
-									"value": "HaNoi",
-									"type": "text"
-								}
-							],
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"hieunt@kikaitech.io\",\n  \"password\": \"123456\",\n  \"position\": \"owner\",\n  \"name\": \"hieunt\",\n  \"phone\": \"0394423925\",\n  \"address\": \"HaNoi\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -71,8 +40,24 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"hieunt@kikaitech.io\",\n  \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": ""
+							"raw": "{{baseUrl}}/api/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -82,7 +67,280 @@
 		},
 		{
 			"name": "private",
-			"item": [],
+			"item": [
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurants",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"restaurant_test\",\n  \"address\": \"trash\",\n  \"phone\": \"0394423925\",\n  \"open_time\": \"YYYY-MM-DD HH:mm\",\n  \"close_time\": \"YYYY-MM-DD HH:mm\",\n  \"email\": \"hieunt@kikaitech.io\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurant-details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurant-details",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"restaurant_test\",\n  \"address\": \"trash\",\n  \"phone\": \"0394423925\",\n  \"open_time\": \"YYYY-MM-DD HH:mm\",\n  \"close_time\": \"YYYY-MM-DD HH:mm\",\n  \"email\": \"hieunt@kikaitech.io\",\n  \"status\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurant-details",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "foods",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"food_test\",\n  \"price\": 10000,\n  \"restaurant_id\": 1,\n  \"img_url\": \"https://google.com\",\n  \"description\": \"trash\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/foods",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"foods"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "foods",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"food_test\",\n  \"price\": \"10000\",\n  \"restaurant_id\": \"1\",\n  \"img_url\": \"https://google.com\",\n  \"description\": \"trash\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/foods",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"foods"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "food-details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/foods/:food_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"foods",
+								":food_id"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								},
+								{
+									"key": "food_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
 			"protocolProfileBehavior": {}
 		}
 	],
@@ -90,7 +348,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "b9ed0f25-5bad-4842-9941-1349928eec03",
+				"id": "984ebed8-21b3-4ad7-84c3-8203eb9dc40d",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -100,7 +358,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "4d7f422d-bfad-4553-80ec-4a043212b908",
+				"id": "cc5862c6-283e-4991-b63f-a6d2bee4a96a",
 				"type": "text/javascript",
 				"exec": [
 					""

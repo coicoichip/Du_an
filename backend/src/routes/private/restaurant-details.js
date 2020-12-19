@@ -7,6 +7,7 @@ const { handleAPIResponse } = require('../../common/handleAPIResponse');
 router.route('/api/restaurants/:restaurant_id')
   .get(validateSession, async (req, res, next) => {
     const { restaurant_id } = req.params;
+    if (!restaurant_id) return handleAPIResponse(res, 400, 'restaurant_id required');
     try {
       const restaurant = await knex('restaurants')
         .first()
@@ -19,7 +20,7 @@ router.route('/api/restaurants/:restaurant_id')
   .put(validateSession, async (req, res, next) => {
     const { user_id } = req.session;
     const { restaurant_id } = req.params;
-    const fields = ['name', 'address', 'phone', 'open_time', 'close_time', 'email'];
+    const fields = ['name', 'address', 'phone', 'open_time', 'close_time', 'email', 'status'];
     const update_data = {};
     fields.forEach(field => {
       if (req.body[`${field}`]) update_data[`${field}`] = req.body[`${field}`];
@@ -42,6 +43,7 @@ router.route('/api/restaurants/:restaurant_id')
       await knex('restaurants')
         .delete()
         .where({ id: restaurant_id, manager_id: user_id });
+      return handleAPIResponse(res, 200);
     } catch (e) {
       next(e);
     }
