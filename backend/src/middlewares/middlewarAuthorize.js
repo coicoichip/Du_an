@@ -7,12 +7,17 @@ module.exports = {
   },
   validateCustomer: (req, res, next) => {
     const { position } = req.session;
-    if (!position || position !== 'customer' && position !== 'admin') return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!position || !['customer', 'owner', 'admin'].includes(position)) return handleAPIResponse(res, 401, 'Unauthorized');
     return next();
   },
   validateOwner: (req, res, next) => {
     const { position } = req.session;
-    if (!position || position !== 'owner') return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!position || !['owner', 'admin'].includes(position)) return handleAPIResponse(res, 401, 'Unauthorized');
+    return next();
+  },
+  validateAdmin: (req, res, next) => {
+    const { position } = req.session;
+    if (!position || !['admin'].includes(position)) return handleAPIResponse(res, 401, 'Unauthorized');
     return next();
   },
 };

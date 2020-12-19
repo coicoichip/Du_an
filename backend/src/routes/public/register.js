@@ -12,7 +12,7 @@ router.route('/api/register')
       //
       const check_email = await knex('users').first().where({ email });
       if (check_email) return handleAPIResponse(res, 400, 'email exist');
-      const user = await knex('users').insert({
+      const [user] = await knex('users').insert({
         email,
         password,
         name,
@@ -22,10 +22,7 @@ router.route('/api/register')
         position,
       }).returning('*');
       if (!user) return handleAPIResponse(res, 500, 'internal server error');
-      Object.assign(req.session, {
-        id: user.id,
-        position: user.position,
-      });
+      Object.assign(req.session, user);
       return handleAPIResponse(res, 200);
     } catch (e) {
       next(e);

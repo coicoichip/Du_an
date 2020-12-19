@@ -13,10 +13,7 @@ router.route('/api/login')
         ['users', 'admins'].map(table => knex(table).first().where({ email, password }))
       );
       if (admin || user) {
-        Object.assign(req.session, {
-          id: admin ? admin.id : user.id,
-          position: admin ? 'admin' : user.position,
-        });
+        Object.assign(req.session, admin ? admin : user);
         return handleAPIResponse(res, 200);
       }
       return handleAPIResponse(res, 404, 'email || password not exist');
