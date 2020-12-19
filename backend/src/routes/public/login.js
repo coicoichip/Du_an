@@ -1,6 +1,6 @@
 /* eslint-disable require-atomic-updates */
 const route = require('express').Router();
-const knex = require('knex');
+const knex = require('../../knex');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 route('/api/login')
