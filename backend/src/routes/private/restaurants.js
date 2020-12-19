@@ -17,7 +17,7 @@ router.route('/api/restaurants')
     }
   })
   .post(validateCustomer, async (req, res, next) => {
-    const { id } = req.session;
+    const { user_id } = req.session;
     const {
       name,
       address,
@@ -37,7 +37,7 @@ router.route('/api/restaurants')
           name,
           address,
           phone,
-          manager_id: id,
+          manager_id: user_id,
           open_time,
           close_time,
           email,

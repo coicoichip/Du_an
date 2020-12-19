@@ -17,7 +17,7 @@ router.route('/api/restaurants/:restaurant_id')
     }
   })
   .put(validateSession, async (req, res, next) => {
-    const { id } = req.session;
+    const { user_id } = req.session;
     const { restaurant_id } = req.params;
     const fields = ['name', 'address', 'phone', 'open_time', 'close_time', 'email'];
     const update_data = {};
@@ -28,7 +28,7 @@ router.route('/api/restaurants/:restaurant_id')
       //
       await knex('restaurants')
         .update(update_data)
-        .where({ id: restaurant_id, manager_id: id });
+        .where({ id: restaurant_id, manager_id: user_id });
       return handleAPIResponse(res, 200);
     } catch (e) {
       next(e);
@@ -37,11 +37,11 @@ router.route('/api/restaurants/:restaurant_id')
   .delete(validateSession, async (req, res, next) => {
     try {
       //
-      const { id } = req.session;
+      const { user_id } = req.session;
       const { restaurant_id } = req.params;
       await knex('restaurants')
         .delete()
-        .where({ id: restaurant_id, manager_id: id });
+        .where({ id: restaurant_id, manager_id: user_id });
     } catch (e) {
       next(e);
     }

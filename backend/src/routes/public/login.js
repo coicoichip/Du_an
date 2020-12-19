@@ -12,9 +12,8 @@ router.route('/api/login')
       const [user, admin] = await Promise.all(
         ['users', 'admins'].map(table => knex(table).first().where({ email, password }))
       );
-      const assignSession = admin ? admin : user;
       if (admin || user) {
-        Object.assign(req.session, { ...assignSession });
+        Object.assign(req.session, admin ? admin : user);
         return handleAPIResponse(res, 200);
       }
       return handleAPIResponse(res, 404, 'email || password not exist');

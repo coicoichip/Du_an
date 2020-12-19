@@ -6,11 +6,11 @@ const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/me')
   .get(validateSession, async (req, res, next) => {
-    const { id, position } = req.session;
+    const { user_id, admin_id, position } = req.session;
     try {
       //
       if (position === 'admin') return handleAPIResponse(res, 200);
-      const user = await knex('users').first().where({ id });
+      const user = await knex('users').first().where({ id: admin_id || user_id });
       return handleAPIResponse(res, 200, user);
     } catch (e) {
       next(e);
