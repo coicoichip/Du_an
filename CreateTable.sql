@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS restaurants (
 
 CREATE TABLE IF NOT EXISTS admins (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email VARCHAR,
     name VARCHAR,
     password VARCHAR,
     create_time DEFAULT CURRENT_TIMESTAMP,
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR,
     address VARCHAR,
     avatar VARCHAR,
+    position VARCHAR,
     create_time DEFAULT CURRENT_TIMESTAMP
   );
 
