@@ -23,6 +23,11 @@ const Menu = withRouter(({ history }) => {
   const auth = useSelector((s) => s.auth);
   const cart = useSelector((s) => s.cart);
   const dispatch = useDispatch();
+  useEffect(() => {
+    if(!auth.email) {
+      dispatch({type: WHO_AM_I})
+    }
+  })
   return (
     <AppBar position="static">
       <Toolbar>

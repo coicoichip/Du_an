@@ -79,8 +79,9 @@ export default function ShopOrders({ match }) {
                 <ListItem button onClick={handleClick(index)}>
                   <ListItemText
                     primary={`Order # ${order.id} ----- ${
-                      order.status ? "Uncheckout" : "Checkedout"
+                      order.status ? "Uncheck out" : "Checked out"
                     }`}
+                    style={{color: !order.status ? 'green' : undefined}}
                     secondary={new Date(order.create_time).toDateString()}
                   />
                   {open == index ? <ExpandLess /> : <ExpandMore />}

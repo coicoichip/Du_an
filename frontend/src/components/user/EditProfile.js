@@ -11,6 +11,7 @@ import Switch from '@material-ui/core/Switch'
 import { makeStyles } from '@material-ui/core/styles'
 import {Redirect} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { editProfile } from '../../redux/auth'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -63,7 +64,7 @@ export default function EditProfile({ match }) {
       phone: values.phone || undefined,
       address: values.address || undefined,
     }
-    dispatch()
+    dispatch(editProfile({data: user}))
   }
   const handleChange = name => event => {
     setValues({...values, [name]: event.target.value})

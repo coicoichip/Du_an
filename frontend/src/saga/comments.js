@@ -1,28 +1,33 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import { createComment, deleteComment, getComments } from "../apis/comments";
 import { notifyErrorMsg } from "../redux/Alert";
-import { CREATE_COMMENT, DELETE_COMMENT, getComment, GET_COMMENT, GET_COMMENTS } from "../redux/comments";
-
+import {
+  CREATE_COMMENT,
+  DELETE_COMMENT,
+  getComment,
+  GET_COMMENT,
+  GET_COMMENTS,
+  GET_COMMENT_SUCCESS,
+} from "../redux/comments";
 
 function* getCommentsSaga({ payload }) {
   try {
-    const { success } = yield call(getComments, payload);
+    const { success, data } = yield call(getComments, payload);
     if (success) {
-    //   window.location.assign("/user/" + payload.data.user_id);
-    //   yield put({ type: CREATE_BILLS_SUCCESS });
+      yield put({ type: GET_COMMENT_SUCCESS, payload: data });
     }
   } catch (err) {
-    notifyErrorMsg(err)
+    console.log(err)
   }
 }
 function* getCommentSaga({ payload }) {
   try {
     const { data } = yield call(getComment, payload);
     if (data) {
-    //   yield put({ type: GET_BILLS_SUCCESS, payload: data });
+      //   yield put({ type: GET_BILLS_SUCCESS, payload: data });
     }
   } catch (err) {
-    notifyErrorMsg(err)
+    console.log(err)
   }
 }
 function* createCommentSaga({ payload }) {
@@ -33,7 +38,7 @@ function* createCommentSaga({ payload }) {
       yield put({ type: GET_COMMENTS, payload: { resId } });
     }
   } catch (err) {
-    notifyErrorMsg(err)
+    console.log(err)
   }
 }
 function* deleteCommentSaga({ payload }) {
@@ -41,10 +46,11 @@ function* deleteCommentSaga({ payload }) {
     const { resId } = payload;
     const { success } = yield call(deleteComment, payload);
     if (success) {
-    //   yield put({ type: GET_BILLS, payload: { resId } });
+      yield put({ type: GET_COMMENTS, payload: { resId } });
+      //   yield put({ type: GET_BILLS, payload: { resId } });
     }
   } catch (err) {
-    notifyErrorMsg(err)
+    console.log(err)
   }
 }
 

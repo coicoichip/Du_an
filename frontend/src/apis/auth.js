@@ -55,3 +55,22 @@ export const signout = async () => {
   });
   return response.data;
 };
+
+export const editProfile = async ({data}) => {
+  const response = await axios({
+    method: "PUT",
+    url: `${BASE_URL}/users`,
+    withCredentials: true,
+    data
+  });
+  return response.data;
+};
+
+export const deleteProfile = async () => {
+  const response = await axios({
+    method: "DELETE",
+    url: `${BASE_URL}/users`,
+    withCredentials: true,
+  });
+  return response.data;
+};

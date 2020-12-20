@@ -61,12 +61,12 @@ export default function Profile({ match }) {
           <ListItemText primary={auth?.name} secondary={auth?.email} />{" "}
           {auth.email && (
             <ListItemSecondaryAction>
-              {/* <Link to={"/user/edit/" + auth.user_id}>
+              <Link to={"/user/edit/" + auth.user_id}>
                 <IconButton aria-label="Edit" color="primary">
                   <Edit />
                 </IconButton>
               </Link>
-              <DeleteUser userId={auth.user_id} /> */}
+              {/* <DeleteUser userId={auth.user_id} /> */}
             </ListItemSecondaryAction>
           )}
         </ListItem>

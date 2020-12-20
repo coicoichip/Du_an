@@ -31,26 +31,22 @@ export const rateRes = ({ resId, data }) => ({
   payload: { resId, data },
 });
 
-export const deleteComment = () => ({
+export const deleteComment = ({ resId, comment_id }) => ({
   type: DELETE_COMMENT,
+  payload: { resId, comment_id },
 });
 
 export const resetComments = () => ({
   type: RESET_COMMENTS,
+
 });
 
-const initialState = [
-  {
-    id: 1,
-    user_id: 1,
-    content: "abcyz",
-    restaurant_id: 1,
-    create_time: Date.now(),
-  },
-];
+const initialState = [];
 
 export default function comments(state, action) {
   switch (action.type) {
+    case GET_COMMENT_SUCCESS: 
+      return [...action.payload]
     case RESET_COMMENTS:
       return initialState;
     default:

@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import CardHeader from "@material-ui/core/CardHeader";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
-import Icon from "@material-ui/core/Icon";
+import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { DEFAULT_AVATAR } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { createComment } from "../../redux/comments";
+import { createComment, deleteComment } from "../../redux/comments";
 
 const useStyles = makeStyles((theme) => ({
   cardHeader: {
@@ -56,9 +56,12 @@ export default function Comments(props) {
     }
   };
 
-  const deleteComment = (comment) => (event) => {};
+  const handleDeleteComment = (comment_id) => {
+    dispatch(deleteComment({resId: props.shopId, comment_id}))
+  };
 
   const commentBody = (item) => {
+    console.log(item)
     return (
       <p className={classes.commentText}>
         {/* <Link>{item.postedBy.name}</Link><br/> */}
@@ -66,12 +69,10 @@ export default function Comments(props) {
         <span className={classes.commentDate}>
           {moment(item.create_time).format("MM DD YYYY - HH:mm")} |
           {auth.user_id === item.user_id && (
-            <Icon
-              onClick={deleteComment(item)}
+            <DeleteIcon
+              onClick={() => handleDeleteComment(item.id)}
               className={classes.commentDelete}
-            >
-              delete
-            </Icon>
+            />
           )}
         </span>
       </p>
@@ -96,6 +97,7 @@ export default function Comments(props) {
         className={classes.cardHeader}
       />
       {comments.map((item, i) => {
+        console.log({item})
         return (
           <CardHeader
             avatar={

@@ -30,10 +30,10 @@ export const createComment = async ({ resId, data }) => {
   return response.data;
 };
 
-export const deleteComment = async ({ resId }) => {
+export const deleteComment = async ({ resId, comment_id }) => {
   const response = await axios({
     method: "DELETE",
-    url: `${BASE_URL}/restaurants/${resId}/comments`,
+    url: `${BASE_URL}/restaurants/${resId}/comments/${comment_id}`,
     withCredentials: true,
   });
   return response.data;
