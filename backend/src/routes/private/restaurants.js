@@ -20,14 +20,12 @@ router.route('/api/restaurants')
     const { user_id } = req.session;
     const { name, address, phone, open_time, close_time, email } = req.body;
     ['name', 'address', 'phone', 'open_time', 'close_time', 'email'].forEach(field => {
-      if (!req.body[`${field}`]) return handleAPIResponse(res, 400, `${field} required`);
+      if (!req.body[field]) return handleAPIResponse(res, 400, `${field} required`);
     });
 
     try {
       const status = 1;
-      await knex('restaurants')
-        .insert({ name, address, phone, manager_id: user_id, open_time, close_time, email, status })
-        .returning('*');
+      await knex('restaurants').insert({ name, address, phone, manager_id: user_id, open_time, close_time, email, status });
       const restaurant = await knex('restaurants')
         .first()
         .where({ name, address, phone, manager_id: user_id, open_time, close_time, email, status })
