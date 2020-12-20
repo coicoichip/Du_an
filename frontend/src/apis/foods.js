@@ -30,7 +30,7 @@ export const getFood = async ({foodId}) => {
 
 export const editFood = async ({foodId, data}) => {
   const response = await axios({
-    method: "PATCH",
+    method: "PUT",
     url: `${BASE_URL}/foods/${foodId}`,
     withCredentials: true,
     data
@@ -38,10 +38,10 @@ export const editFood = async ({foodId, data}) => {
   return response.data;
 };
 
-export const deleteFood = async ({foodId}) => {
+export const deleteFood = async ({resId, foodId}) => {
   const response = await axios({
     method: "DELETE",
-    url: `${BASE_URL}/foods/${foodId}`,
+    url: `${BASE_URL}/restaurants/${resId}/foods/${foodId}`,
     withCredentials: true,
   });
   return response.data;

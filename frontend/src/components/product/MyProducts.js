@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import DeleteProduct from "./../product/DeleteProduct";
 import { useDispatch, useSelector } from "react-redux";
-import { getFoodsByResId } from "../../redux/foods";
+import { deleteFood, getFoodsByResId } from "../../redux/foods";
 import { DEFAULT_AVATAR } from "../../config";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,9 +49,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyProducts(props) {
   const classes = useStyles();
-  const foods = useSelector(s => s.foods);
+  const foods = useSelector((s) => s.foods);
   const dispatch = useDispatch();
-  const removeProduct = (product) => {
+  const removeProduct = (productId) => {
+    dispatch(deleteFood({ foodId: productId, resId: props.shopId }));
   };
   useEffect(() => {
     dispatch(getFoodsByResId({ resId: props.shopId }));
@@ -59,7 +60,7 @@ export default function MyProducts(props) {
   return (
     <Card className={classes.products}>
       <Typography type="title" className={classes.title}>
-        Products
+        Foods
         <span className={classes.addButton}>
           <Link to={"/seller/" + props.shopId + "/foods/new"}>
             <Button color="primary" variant="contained">
@@ -75,9 +76,7 @@ export default function MyProducts(props) {
               <ListItem>
                 <CardMedia
                   className={classes.cover}
-                  image={
-                    DEFAULT_AVATAR
-                  }
+                  image={DEFAULT_AVATAR}
                   title={product.name}
                 />
                 <div className={classes.details}>
@@ -99,13 +98,7 @@ export default function MyProducts(props) {
                 </div>
                 <ListItemSecondaryAction>
                   <Link
-                    to={
-                      "/seller/" +
-                      props.shopId +
-                      "/" +
-                      product.id +
-                      "/edit"
-                    }
+                    to={"/seller/" + props.shopId + "/" + product.id + "/edit"}
                   >
                     <IconButton aria-label="Edit" color="primary">
                       <Edit />
@@ -114,7 +107,7 @@ export default function MyProducts(props) {
                   <DeleteProduct
                     product={product}
                     shopId={props.shopId}
-                    onRemove={removeProduct}
+                    onRemove={() => removeProduct(product.id)}
                   />
                 </ListItemSecondaryAction>
               </ListItem>

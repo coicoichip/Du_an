@@ -57,10 +57,12 @@ function* editFoodSaga({ payload }) {
   }
 }
 function* deleteFoodSaga({ payload }) {
+  const { resId } = payload;
   try {
-    const result = yield call(deleteFood, payload);
-    console.log(result);
-    yield put({ type: DELETE_FOOD_SUCCESS });
+    const { success } = yield call(deleteFood, payload);
+    if (success) {
+    }
+    yield put({ type: GET_FOODS_BY_RESID, payload: { resId } });
   } catch (err) {
     console.log(err);
   }

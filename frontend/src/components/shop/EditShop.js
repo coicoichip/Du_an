@@ -12,6 +12,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Redirect } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import MyProducts from "./../product/MyProducts";
+import { DEFAULT_AVATAR } from "../../config";
+import { useDispatch, useSelector } from "react-redux";
+import { editRestaurant } from "../../redux/restaurants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,29 +61,43 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditShop({ match }) {
   const classes = useStyles();
+  const restaurants = useSelector(s => s.restaurants);
+  const dispatch = useDispatch();
   const [values, setValues] = useState({
     name: "",
-    description: "",
     image: "",
+    address: "",
+    phone: "",
+    open_time: "",
+    close_time: "",
+    email: "",
     redirect: false,
     error: "",
     id: "",
   });
+  const resId = match.params.resId;
 
   const clickSubmit = () => {
-    let shopData = new FormData();
-    values.name && shopData.append("name", values.name);
-    values.description && shopData.append("description", values.description);
-    values.image && shopData.append("image", values.image);
+    dispatch(
+      editRestaurant({
+        resId,
+        data: {
+          name: values.name,
+          address: values.address,
+          phone: values.phone,
+          open_time: values.open_time,
+          close_time: values.close_time,
+          email: values.email,
+        },
+      })
+    );
   };
   const handleChange = (name) => (event) => {
-    const value = name === "image" ? event.target.files[0] : event.target.value;
-    setValues({ ...values, [name]: value });
+    setValues({ ...values, [name]: event.target.value });
   };
-
-  const logoUrl = values.id
-    ? `/api/restaurants/logo/${values.id}?${new Date().getTime()}`
-    : "/api/restaurants/defaultphoto";
+  useEffect(() => {
+  })
+  const logoUrl = DEFAULT_AVATAR + resId;
   if (values.redirect) {
     return <Redirect to={"/seller/restaurants"} />;
   }
@@ -97,6 +114,9 @@ export default function EditShop({ match }) {
               >
                 Edit Shop
               </Typography>
+              <br />
+              <Avatar src={logoUrl} className={classes.bigAvatar} />
+              <br />
               <br />
               <TextField
                 id="name"
@@ -172,7 +192,7 @@ export default function EditShop({ match }) {
           </Card>
         </Grid>
         <Grid item xs={6} sm={6}>
-          <MyProducts shopId={match.params.shopId} />
+          <MyProducts shopId={match.params.resId} />
         </Grid>
       </Grid>
     </div>

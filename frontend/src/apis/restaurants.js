@@ -21,7 +21,7 @@ export const getRestaurant = async ({resId}) => {
 
 export const editRestaurant = async ({resId, data}) => {
   const response = await axios({
-    method: "PATCH",
+    method: "PUT",
     url: `${BASE_URL}/restaurants/${resId}`,
     withCredentials: true,
     data

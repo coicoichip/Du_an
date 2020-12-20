@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Route, Switch} from 'react-router-dom'
 import Home from './components/core/Home'
 import Users from './components/user/Users'
@@ -20,8 +20,14 @@ import Cart from './components/cart/Cart'
 import StripeConnect from './components/user/StripeConnect'
 import ShopOrders from './components/order/ShopOrders'
 import Order from './components/order/Order'
+import { useDispatch } from 'react-redux'
+import { WHO_AM_I } from './redux/auth'
 
 const MainRouter = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: WHO_AM_I });
+  }, []);
   return (<div>
       <Menu/>
       <Switch>
@@ -33,7 +39,7 @@ const MainRouter = () => {
         <Route path="/user/:userId" component={Profile}/>
 
         <Route path="/cart" component={Cart}/>
-        <Route path="/food/:productId" component={Product}/>
+        <Route path="/food/:foodId" component={Product}/>
         <Route path="/restaurants/all" component={Shops}/>
         <Route path="/restaurants/:resId" component={Shop}/>
 
@@ -44,7 +50,7 @@ const MainRouter = () => {
         <PrivateRoute path="/seller/restaurant/new" component={NewShop}/>
         <PrivateRoute path="/seller/restaurant/edit/:resId" component={EditShop}/>
         <PrivateRoute path="/seller/:resId/foods/new" component={NewProduct}/>
-        <PrivateRoute path="/seller/:resId/:productId/edit" component={EditProduct}/>
+        <PrivateRoute path="/seller/:resId/:foodId/edit" component={EditProduct}/>
 
         <Route path="/seller/stripe/connect" component={StripeConnect}/>
       </Switch>

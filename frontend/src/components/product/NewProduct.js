@@ -72,10 +72,11 @@ export default function NewProduct({ match }) {
         },
       })
     );
+    setValues({...values, redirect: true})
   };
 
   if (values.redirect) {
-    return <Redirect to={"/seller/shop/edit/" + match.params.shopId} />;
+    return <Redirect to={"/seller/restaurant/edit/" + match.params.resId} />;
   }
   return (
     <div>
@@ -141,7 +142,7 @@ export default function NewProduct({ match }) {
             Submit
           </Button>
           <Link
-            to={"/seller/shop/edit/" + match.params.shopId}
+            to={"/seller/restaurant/edit/" + match.params.resId}
             className={classes.submit}
           >
             <Button variant="contained">Cancel</Button>

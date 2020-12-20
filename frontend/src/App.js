@@ -7,12 +7,6 @@ import { ToastContainer } from 'react-toastify';
 import theme from "./theme";
 import reduxStore from "./redux/index";
 const App = () => {
-  React.useEffect(() => {
-    const jssStyles = document.querySelector("#jss-server-side");
-    if (jssStyles) {
-      jssStyles.parentNode.removeChild(jssStyles);
-    }
-  }, []);
   return (
     <Provider store={reduxStore}>
       <BrowserRouter>

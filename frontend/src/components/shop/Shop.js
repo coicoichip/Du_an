@@ -9,7 +9,8 @@ import Products from "./../product/Products";
 import Comments from "./Comments.js";
 import { DEFAULT_AVATAR } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
-import { getFoods } from "../../redux/foods.js";
+import { getFoods, getFoodsByResId, resetFoods } from "../../redux/foods.js";
+import { getRestaurant, resetRestaurants } from "../../redux/restaurants.js";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -45,16 +46,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Shop({ match }) {
   const classes = useStyles();
-  const [shop, setShop] = useState("");
   const [error, setError] = useState("");
-  const foods = useSelector(s => s.foods)
+  const foods = useSelector((s) => s.foods);
+  const restaurants = useSelector((s) => s.restaurants);
   const dispatch = useDispatch();
-  const shopId = match.params.shopId;
+  const resId = match.params.resId;
   useEffect(() => {
-    dispatch(getFoods());
-  }, [shopId]);
+    dispatch(getFoodsByResId({ resId: resId }));
+    dispatch(getRestaurant({ resId: resId }));
+    return () => {
+      dispatch(resetFoods());
+      dispatch(resetRestaurants());
+    }
+  }, [resId]);
 
-  const logoUrl = DEFAULT_AVATAR + shopId;
+  const logoUrl = DEFAULT_AVATAR + resId;
   return (
     <div className={classes.root}>
       <Grid container spacing={8}>
@@ -66,7 +72,7 @@ export default function Shop({ match }) {
                 component="h2"
                 className={classes.title}
               >
-                {shop.name}
+                {restaurants[0]?.name}
               </Typography>
               <br />
               <Avatar src={logoUrl} className={classes.bigAvatar} />
@@ -76,7 +82,7 @@ export default function Shop({ match }) {
                 component="h2"
                 className={classes.subheading}
               >
-                {shop.description}
+                {restaurants[0]?.description}
               </Typography>
               <br />
             </CardContent>

@@ -22,9 +22,6 @@ const isPartActive = (history, path) => {
 const Menu = withRouter(({ history }) => {
   const auth = useSelector((s) => s.auth);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({ type: WHO_AM_I });
-  }, []);
   return (
     <AppBar position="static">
       <Toolbar>

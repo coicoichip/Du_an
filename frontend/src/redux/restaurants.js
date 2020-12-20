@@ -8,29 +8,34 @@ export const DELETE_RESTAURANT = "DELETE_RESTAURANT";
 export const DELETE_RESTAURANT_SUCCESS = "DELETE_RESTAURANT_SUCCESS";
 export const CREATE_RESTAURANT = "CREATE_RESTAURANT";
 export const CREATE_RESTAURANT_SUCCESS = "CREATE_RESTAURANT_SUCCESS";
+export const RESET_RESTAURANTS = "RESET_RESTAURANTS";
 
 export const getRestaurants = () => ({
   type: GET_RESTAURANTS,
 });
 
-export const getRestaurant = ({ resID }) => ({
+export const getRestaurant = ({ resId }) => ({
   type: GET_RESTAURANT,
-  payload: { resID },
+  payload: { resId },
 });
 
-export const editRestaurant = ({ resID, data }) => ({
+export const editRestaurant = ({ resId, data }) => ({
   type: EDIT_RESTAURANT,
-  payload: { resID, data },
+  payload: { resId, data },
 });
 
-export const deleteRestaurant = ({ resID }) => ({
+export const deleteRestaurant = ({ resId }) => ({
   type: DELETE_RESTAURANT,
-  payload: { resID },
+  payload: { resId },
 });
 
 export const createRestaurant = ({ data }) => ({
   type: CREATE_RESTAURANT,
   payload: { data },
+});
+
+export const resetRestaurants = () => ({
+  type: RESET_RESTAURANTS,
 });
 
 const initialState = [];
@@ -39,6 +44,11 @@ export default function restaurants(state, action) {
   switch (action.type) {
     case GET_RESTAURANTS_SUCCESS: {
       return action.payload;
+    }
+    case GET_RESTAURANT_SUCCESS:
+      return [action.payload];
+    case RESET_RESTAURANTS: {
+      return initialState;
     }
     default:
       return state || initialState;
