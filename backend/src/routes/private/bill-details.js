@@ -24,7 +24,7 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
     } catch (e) {
       next(e);
     }
-  }).put(validateCustomer, async (req, res, next) => {
+  }).put(validateOwner, async (req, res, next) => {
     const { user_id, position } = req.session;
     const { restaurant_id, bill_id } = req.params;
     const { status, ship_price, bill_detail } = req.body;
@@ -47,9 +47,11 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
       });
 
       let total = 0;
-      const total_bill_details = bill_detail.map(async ({ food_id, quantity }) => {
-        const { price } = await knex('foods').first().where({ id: food_id });
-        const amount = price * quantity;
+      const foods = await Promise.all(bill_detail.map(({ food_id }) =>
+        knex('foods').first().where({ id: food_id }),
+      ));
+      const total_bill_details = bill_detail.map(({ food_id, quantity }, idx) => {
+        const amount = foods[idx].price * quantity;
         total += amount;
         return { bill_id: bill.id, food_id, quantity, amount };
       });
