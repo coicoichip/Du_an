@@ -6,11 +6,13 @@ const { handleAPIResponse } = require('../../common/handleAPIResponse');
 router.route('/api/upgrade_user')
   .post(validateAdmin, async (req, res, next) => {
     const { email } = req.body;
+    if (!email) return handleAPIResponse(res, 400, 'email required');
 
     try {
       const user = await knex('users').first().where({ email });
       if (!user) return handleAPIResponse(res, 404, 'user not found');
       await knex('users').update({ position: 'owner' }).where({ email });
+
       return handleAPIResponse(res, 200);
     } catch (e) {
       next(e);

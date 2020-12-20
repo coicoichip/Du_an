@@ -8,8 +8,11 @@ tables.forEach(element => {
   if (element !== '\n') {
     db.run(element, err => {
       console.log(element);
-      if (err) console.log(err);
-      else console.log('sucess');
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('sucess');
+      }
     });
   }
 });

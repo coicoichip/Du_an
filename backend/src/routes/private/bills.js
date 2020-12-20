@@ -12,27 +12,21 @@ router.route('/api/restaurants/:restaurant_id/bills')
     const { status } = req.body;
     if (!restaurant_id) return handleAPIResponse(res, 400, 'restaurant_id required');
     if (status && ![0, 1].includes(status)) return handleAPIResponse(res, 400, 'status === 0 || 1');
+
     try {
-      //
       const restaurant = await knex('restaurants').first().where({ id: restaurant_id });
       if (!restaurant) return handleAPIResponse(res, 404, 'restaurant_id not exist');
       let bills = knex('bills').where({ restaurant_id });
       if ([0, 1].includes(status)) bills = bills.andWhere({ status });
       if (user_id !== restaurant.manager_id) bills = bills.andWhere({ recipient_id: user_id });
       bills = await bills;
+
       return handleAPIResponse(res, 200, bills);
     } catch (e) {
       next(e);
     }
-  })
-  .post(validateCustomer, async (req, res, next) => {
-    const {
-      user_id,
-      email,
-      name,
-      phone,
-      address,
-    } = req.session;
+  }).post(validateCustomer, async (req, res, next) => {
+    const { user_id, email, name, phone, address } = req.session;
     const { restaurant_id } = req.params;
     const { bills, ship_price, note } = req.body;
     if (!restaurant_id || !bills || !ship_price) return handleAPIResponse(res, 400, 'restaurant_id(int) && bills(array) && ship_price(int) required');
@@ -42,10 +36,9 @@ router.route('/api/restaurants/:restaurant_id/bills')
       if (!restaurant) return handleAPIResponse(res, 404, 'restaurant_id not exist');
 
       const bill_code = v4();
-      //
       let total = 0;
       const foods = await Promise.all(bills.map(({ food_id }) =>
-        knex('foods').first().where({ id: food_id })
+        knex('foods').first().where({ id: food_id }),
       ));
       const total_bill_details = bills.map(({ food_id, quantity }, idx) => {
         const amount = foods[idx].price * quantity;

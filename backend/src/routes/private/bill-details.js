@@ -8,6 +8,7 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
     const { user_id, position } = req.session;
     const { restaurant_id, bill_id } = req.params;
     if (!restaurant_id || !bill_id) return handleAPIResponse(res, 400, 'restaurant_id && bill_id required');
+
     try {
       const [restaurant, bill] = await Promise.all([
         knex('restaurants').first().where({ id: restaurant_id }),
@@ -23,15 +24,10 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
     } catch (e) {
       next(e);
     }
-  })
-  .put(validateCustomer, async (req, res, next) => {
+  }).put(validateCustomer, async (req, res, next) => {
     const { user_id, position } = req.session;
     const { restaurant_id, bill_id } = req.params;
-    const {
-      status,
-      ship_price,
-      bill_detail,
-    } = req.body;
+    const { status, ship_price, bill_detail } = req.body;
     if (!restaurant_id || !bill_id) return handleAPIResponse(res, 400, 'restaurant_id && bill_id required');
 
     try {
@@ -44,19 +40,11 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
       if (restaurant.manager_id !== user_id && bill.recipient_id !== user_id && position !== 'admin') return handleAPIResponse(res, 403, 'forbidden');
       if (position === 'customer' && ([0, 1].includes(status) || ship_price)) return handleAPIResponse(res, 403, 'status && customer && ship_price forbidden');
 
-      //
-
       await knex('bill_detail').delete().where({ bill_id });
       const update_data = {};
-      ['status',
-        'ship_price',
-        'note',
-        'recipient_id',
-        'recipient_name',
-        'recipient_email',
-        'recipient_phone',
-        'recipient_address',
-      ].forEach(field => { if (req.body[field]) update_data[field] = req.body[field]; });
+      ['status', 'ship_price', 'note', 'recipient_id', 'recipient_name', 'recipient_email', 'recipient_phone', 'recipient_address'].forEach(field => {
+        if (req.body[field]) update_data[field] = req.body[field];
+      });
 
       let total = 0;
       const total_bill_details = bill_detail.map(async ({ food_id, quantity }) => {
@@ -80,12 +68,10 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
       const result = { ...bill1, bill_detail1 };
 
       return handleAPIResponse(res, 200, result);
-
     } catch (e) {
       next(e);
     }
-  })
-  .delete(validateOwner, async (req, res, next) => {
+  }).delete(validateOwner, async (req, res, next) => {
     const { user_id, position } = req.session;
     const { restaurant_id, bill_id } = req.params;
     if (!restaurant_id || !bill_id) return handleAPIResponse(res, 400, 'restaurant_id && bill_id required');
@@ -103,6 +89,7 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
         knex('bills').delete().where({ restaurant_id, id: bill_id }),
         knex('bill_detail').delete().where({ bill_id }),
       ]);
+
       return handleAPIResponse(res, 200);
     } catch (e) {
       next(e);

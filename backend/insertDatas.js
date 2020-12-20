@@ -1,3 +1,4 @@
+/* eslint-disable no-sync */
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
 
@@ -7,8 +8,11 @@ datas.forEach((element, idx) => {
   if (idx !== datas.length - 1) {
     db.run(element, err => {
       console.log(element);
-      if (err) console.log(err);
-      else console.log('sucess');
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('sucess');
+      }
     });
   }
 });

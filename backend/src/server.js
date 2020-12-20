@@ -15,11 +15,8 @@ app.use(bodyParse.json());
 app.use(
   cors({
     credentials: true,
-    allowedHeaders:
-      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-    origin: [
-      'http://localhost:3001',
-    ],
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    origin: ['http://localhost:3001'],
   })
 );
 
@@ -63,6 +60,7 @@ const private_apis = [
   'restaurant-details',
   'restaurants',
   'total-bills',
+  'users',
 ];
 
 public_apis.forEach(api => app.use(require(`./routes/public/${api}`)));

@@ -1,5 +1,4 @@
 const { handleAPIResponse } = require('../common/handleAPIResponse');
-
 module.exports = {
   validateCustomer: (req, res, next) => {
     const { position } = req.session;

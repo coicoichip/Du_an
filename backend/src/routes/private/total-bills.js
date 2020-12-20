@@ -8,13 +8,14 @@ router.route('/api/bills')
     const { user_id } = req.session;
 
     try {
-        const bills = await knex('bills').where({ recipient_id: user_id });
-        const bill_details = await knex('bill_detail').whereIn('bill_id', knex('bills').select('id').where({ recipient_id: user_id }));
-        const total_bill_details = bills.map(bill => {
-          const bill_detail = bill_details.filter(detail => detail.bill_id === bill.id);
-          return { ...bill, bill_detail };
-        });
-        return handleAPIResponse(res, 200, total_bill_details);
+      const bills = await knex('bills').where({ recipient_id: user_id });
+      const bill_details = await knex('bill_detail').whereIn('bill_id', knex('bills').select('id').where({ recipient_id: user_id }));
+      const total_bill_details = bills.map(bill => {
+        const bill_detail = bill_details.filter(detail => detail.bill_id === bill.id);
+        return { ...bill, bill_detail };
+      });
+
+      return handleAPIResponse(res, 200, total_bill_details);
     } catch (e) {
       next(e);
     }
