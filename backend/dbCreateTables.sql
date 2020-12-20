@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS bills (
   status INTEGER,
   ship_price INTEGER,
   total INTEGER,
+  recipient_id INTEGER,
   recipient_name VARCHAR,
   recipient_email VARCHAR,
   recipient_phone VARCHAR,
