@@ -4,6 +4,7 @@ import foodsWatcher from './foods.js';
 import categoriesWatcher from './categories.js';
 import restaurantsWatcher from './restaurants.js';
 import billsWatcher from './bills.js';
+import commentsWatcher from './comments.js';
 
 
 function *rootSaga() {
@@ -13,6 +14,7 @@ function *rootSaga() {
     categoriesWatcher(),
     restaurantsWatcher(),
     billsWatcher(),
+    commentsWatcher(),
   ]);
 }
 

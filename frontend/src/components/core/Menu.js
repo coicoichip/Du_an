@@ -21,33 +21,37 @@ const isPartActive = (history, path) => {
 };
 const Menu = withRouter(({ history }) => {
   const auth = useSelector((s) => s.auth);
-  const cart = useSelector(s => s.cart);
+  const cart = useSelector((s) => s.cart);
   const dispatch = useDispatch();
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6">
-          <Link to="/"><span style={{color: "white"}}>Get Food</span></Link>
+          <span style={{ color: "white" }}>Get Food</span>
         </Typography>
         <div>
-          <Link to="/restaurants/all" className="ml-4">
-            <Button style={isActive(history, "/restaurants/all")}>
-              All Restaurants
-            </Button>
-          </Link>
-          <Link to="/cart" className="ml-4">
-            <Button style={isActive(history, "/cart")}>
-              Cart
-              <Badge
-                color="secondary"
-                invisible={false}
-                badgeContent={cart.length}
-                style={{ marginLeft: "7px" }}
-              >
-                <CartIcon />
-              </Badge>
-            </Button>
-          </Link>
+          {auth.position !== "owner" && (
+            <>
+              <Link to="/restaurants/all" className="ml-4">
+                <Button style={isActive(history, "/restaurants/all")}>
+                  All Restaurants
+                </Button>
+              </Link>
+              <Link to="/cart" className="ml-4">
+                <Button style={isActive(history, "/cart")}>
+                  Cart
+                  <Badge
+                    color="secondary"
+                    invisible={false}
+                    badgeContent={cart.length}
+                    style={{ marginLeft: "7px" }}
+                  >
+                    <CartIcon />
+                  </Badge>
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
         <div style={{ position: "absolute", right: "10px" }}>
           <span style={{ float: "right" }}>

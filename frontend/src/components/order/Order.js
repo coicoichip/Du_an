@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getBills } from "../../redux/bills";
 import { getFoodsByResId, resetFoods } from "../../redux/foods";
@@ -109,14 +109,15 @@ const useStyles = makeStyles((theme) => ({
 export default function Order({ match }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const {
-    state: { order },
-  } = useLocation();
-  console.log("========================================");
-  console.log(order);
+  const location = useLocation();
+  const order = location?.state?.order;
   const foods = useSelector((s) => s.foods);
   const restaurants = useSelector((s) => s.restaurants);
+
   useEffect(() => {
+    if (!order) {
+      return <Redirect to="/"/>
+    }
     dispatch(getFoodsByResId({ resId: order.restaurant_id }));
     dispatch(getRestaurants());
     return () => {
@@ -128,6 +129,9 @@ export default function Order({ match }) {
   useEffect(() => {
     dispatch(getBills({ resId: match.params.resId }));
   }, []);
+  if (!order) {
+    return <Redirect to="/"/>
+  }
   return (
     <Card className={classes.card}>
       <Typography type="headline" component="h2" className={classes.title}>

@@ -16,6 +16,7 @@ import DeleteUser from "./DeleteUser";
 import { Redirect, Link } from "react-router-dom";
 import MyOrders from "./../order/MyOrders";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -39,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile({ match }) {
   const classes = useStyles();
-  const [user, setUser] = useState({});
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const auth = useSelector(s => s.auth)
 
@@ -58,26 +58,26 @@ export default function Profile({ match }) {
               <Person />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={user?.name} secondary={user?.email} />{" "}
-          {auth.user && auth._id == user?._id && (
+          <ListItemText primary={auth?.name} secondary={auth?.email} />{" "}
+          {auth.email && (
             <ListItemSecondaryAction>
-              <Link to={"/user/edit/" + user._id}>
+              {/* <Link to={"/user/edit/" + auth.user_id}>
                 <IconButton aria-label="Edit" color="primary">
                   <Edit />
                 </IconButton>
               </Link>
-              <DeleteUser userId={user._id} />
+              <DeleteUser userId={auth.user_id} /> */}
             </ListItemSecondaryAction>
           )}
         </ListItem>
         <Divider />
         <ListItem>
           <ListItemText
-            primary={"Joined: " + new Date(user?.created).toDateString()}
+            primary={"Joined: " + moment(auth?.created_at).format('MM DD YYYY')}
           />
         </ListItem>
       </List>
-      <MyOrders />
+      {auth.position === "customer" && <MyOrders />}
     </Paper>
   );
 }

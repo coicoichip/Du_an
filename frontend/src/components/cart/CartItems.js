@@ -210,7 +210,7 @@ export default function CartItems(props) {
                   </Button>
                 </Link>
               ))}
-            <Link to="/" className={classes.continueBtn}>
+            <Link to={`/restaurants/${cartItems[0]?.restaurant_id}`} className={classes.continueBtn}>
               <Button variant="contained">Continue Shopping</Button>
             </Link>
           </div>

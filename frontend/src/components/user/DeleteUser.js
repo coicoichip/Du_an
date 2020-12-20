@@ -14,7 +14,6 @@ export default function DeleteUser(props) {
   const [open, setOpen] = useState(false)
   const [redirect, setRedirect] = useState(false)
 
-  const jwt = auth.isAuthenticated()
   const clickButton = () => {
     setOpen(true)
   }

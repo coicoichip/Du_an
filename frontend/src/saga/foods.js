@@ -21,12 +21,13 @@ import {
   getFoods,
   getFoodsByResId,
 } from "../apis/foods";
+import { notifyErrorMsg } from "../redux/Alert";
 function* getFoodsSaga({ payload }) {
   try {
     const { data } = yield call(getFoods, payload);
     yield put({ type: GET_FOODS_SUCCESS, payload: data });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 function* getFoodsByResIdSaga({ payload }) {
@@ -34,7 +35,7 @@ function* getFoodsByResIdSaga({ payload }) {
     const { data } = yield call(getFoodsByResId, payload);
     yield put({ type: GET_FOODS_BY_RESID_SUCCESS, payload: data });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 function* getFoodSaga({ payload }) {
@@ -42,7 +43,7 @@ function* getFoodSaga({ payload }) {
     const { data } = yield call(getFood, payload);
     yield put({ type: GET_FOOD_SUCCESS, payload: data });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 function* editFoodSaga({ payload }) {
@@ -51,7 +52,7 @@ function* editFoodSaga({ payload }) {
     console.log(result);
     yield put({ type: EDIT_FOOD_SUCCESS });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 function* deleteFoodSaga({ payload }) {
@@ -62,7 +63,7 @@ function* deleteFoodSaga({ payload }) {
     }
     yield put({ type: GET_FOODS_BY_RESID, payload: { resId } });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 function* createFoodSaga({ payload }) {
@@ -71,7 +72,7 @@ function* createFoodSaga({ payload }) {
     console.log(result);
     yield put({ type: CREATE_FOOD_SUCCESS });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 

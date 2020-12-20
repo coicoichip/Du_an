@@ -87,7 +87,7 @@ export default function Shop({ match }) {
               <br />
             </CardContent>
           </Card>
-          <Comments postId={1} comments={[]} updateComments={null} />
+          <Comments shopId={resId} updateComments={null} />
         </Grid>
         <Grid item xs={8} sm={8}>
           <Card>

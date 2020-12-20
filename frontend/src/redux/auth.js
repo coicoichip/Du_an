@@ -34,6 +34,7 @@ export default function auth(state, action) {
       }
     case SIGNOUT:
       document.cookie = "";
+      window.location.assign('/restaurants/all')
       return initialState;
     default:
       return state || initialState;

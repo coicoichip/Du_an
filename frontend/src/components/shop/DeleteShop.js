@@ -16,7 +16,10 @@ export default function DeleteShop(props) {
   const clickButton = () => {
     setOpen(true);
   };
-  const deleteShop = () => {};
+  const deleteShop = () => {
+    props.onRemove();
+    setOpen(false);
+  };
   const handleRequestClose = () => {
     setOpen(false);
   };

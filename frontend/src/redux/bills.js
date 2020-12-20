@@ -8,6 +8,10 @@ export const RESET_BILLS = "RESET_BILLS";
 export const RESET_BILLS_SUCCESS = "RESET_BILLS_SUCCESS";
 export const GET_TOTAL_BILL = "GET_TOTAL_BILL";
 export const GET_TOTAL_BILL_SUCCESS = "GET_TOTAL_BILL_SUCCESS";
+export const EDIT_BILL = "EDIT_BILL";
+export const EDIT_BILL_SUCCESS = "EDIT_BILL_SUCCESS";
+export const DELETE_BILL = "DELETE_BILL";
+export const DELETE_BILL_SUCCESS = "DELETE_BILL_SUCCESS";
 
 export const getBills = ({ resId }) => ({
   type: GET_BILLS,
@@ -30,6 +34,16 @@ export const resetBills = () => ({
 
 export const getTotalBills = () => ({
   type: GET_TOTAL_BILL,
+});
+
+export const editBill = ({resId, billId, data}) => ({
+  type: EDIT_BILL,
+  payload: {resId, billId, data}
+});
+
+export const deleteBill = ({resId, billId}) => ({
+  type: DELETE_BILL,
+  payload: {resId, billId}
 });
 
 const initialState = [];

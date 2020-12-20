@@ -18,12 +18,13 @@ import {
   deleteRestaurant,
   createRestaurant,
 } from "../apis/restaurants";
+import { notifyErrorMsg } from "../redux/Alert";
 function* getRestaurantsSaga({ payload }) {
   try {
     const { data } = yield call(getRestaurants, payload);
     yield put({ type: GET_RESTAURANTS_SUCCESS, payload: data });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err);
   }
 }
 function* getRestaurantSaga({ payload }) {
@@ -31,7 +32,7 @@ function* getRestaurantSaga({ payload }) {
     const { data } = yield call(getRestaurant, payload);
     yield put({ type: GET_RESTAURANT_SUCCESS, payload: data });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err);
   }
 }
 function* editRestaurantSaga({ payload }) {
@@ -40,16 +41,15 @@ function* editRestaurantSaga({ payload }) {
     console.log(result);
     yield put({ type: EDIT_RESTAURANT_SUCCESS });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err);
   }
 }
 function* deleteRestaurantSaga({ payload }) {
   try {
     const result = yield call(deleteRestaurant, payload);
-    console.log(result);
-    yield put({ type: DELETE_RESTAURANT_SUCCESS });
+    yield put({ type: GET_RESTAURANTS });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err);
   }
 }
 function* createRestaurantSaga({ payload }) {
@@ -58,7 +58,7 @@ function* createRestaurantSaga({ payload }) {
     console.log(result);
     yield put({ type: CREATE_RESTAURANT_SUCCESS });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err);
   }
 }
 

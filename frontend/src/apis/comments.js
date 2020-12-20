@@ -23,9 +23,18 @@ export const rateRes = async ({ resId, data }) => {
 export const createComment = async ({ resId, data }) => {
   const response = await axios({
     method: "POST",
-    url: `${BASE_URL}/restaurants/${resId}/comments/`,
+    url: `${BASE_URL}/restaurants/${resId}/comments`,
     withCredentials: true,
     data,
+  });
+  return response.data;
+};
+
+export const deleteComment = async ({ resId }) => {
+  const response = await axios({
+    method: "DELETE",
+    url: `${BASE_URL}/restaurants/${resId}/comments`,
+    withCredentials: true,
   });
   return response.data;
 };

@@ -46,3 +46,12 @@ export const signup = async ({
   });
   return response.data;
 };
+
+export const signout = async () => {
+  const response = await axios({
+    method: "GET",
+    url: `${BASE_URL}/logout`,
+    withCredentials: true,
+  });
+  return response.data;
+};

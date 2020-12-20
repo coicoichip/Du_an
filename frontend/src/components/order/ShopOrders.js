@@ -11,8 +11,10 @@ import Collapse from "@material-ui/core/Collapse";
 import Divider from "@material-ui/core/Divider";
 import ProductOrderEdit from "./ProductOrderEdit";
 import { useDispatch, useSelector } from "react-redux";
-import { getBills, resetBills } from "../../redux/bills";
-
+import { deleteBill, editBill, getBills, resetBills } from "../../redux/bills";
+import DoneIcon from "@material-ui/icons/Done";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
     maxWidth: 600,
@@ -46,16 +48,23 @@ export default function ShopOrders({ match }) {
   useEffect(() => {
     dispatch(getBills({ resId: match.params.resId }));
     return () => {
-      dispatch(resetBills())
-    }
+      dispatch(resetBills());
+    };
   }, []);
 
   const handleClick = (index) => (event) => {
     setOpen(index);
   };
-
-  const updateOrders = (index, updatedOrder) => {
+  const handleEdit = (billId) => {
+    dispatch(
+      editBill({ billId, resId: match.params.resId, data: { status: 0 } })
+    );
   };
+  const handleDelete = (billId) => {
+    dispatch(deleteBill({ billId, resId: match.params.resId }));
+  };
+
+  const updateOrders = (index, updatedOrder) => {};
 
   return (
     <div>
@@ -69,7 +78,9 @@ export default function ShopOrders({ match }) {
               <span key={index}>
                 <ListItem button onClick={handleClick(index)}>
                   <ListItemText
-                    primary={"Order # " + order.id}
+                    primary={`Order # ${order.id} ----- ${
+                      order.status ? "Uncheckout" : "Checkedout"
+                    }`}
                     secondary={new Date(order.create_time).toDateString()}
                   />
                   {open == index ? <ExpandLess /> : <ExpandMore />}
@@ -117,7 +128,24 @@ export default function ShopOrders({ match }) {
                     >
                       {order.note}
                     </Typography>
-                    <br />
+                    <Divider />
+                    <Grid
+                      container
+                      style={{
+                        backgroundColor: "rgb(248, 248, 248)",
+                      }}
+                    >
+                      <div className="ml-auto mr-2 mt-3 mb-3">
+                        <DoneIcon
+                          style={{ cursor: "pointer", fill: "green" }}
+                          onClick={() => handleEdit(order.id)}
+                        />
+                        <DeleteOutlineIcon
+                          style={{ cursor: "pointer", fill: "red" }}
+                          onClick={() => handleDelete(order.id)}
+                        />
+                      </div>
+                    </Grid>
                   </div>
                 </Collapse>
                 <Divider />

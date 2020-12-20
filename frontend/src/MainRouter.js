@@ -31,7 +31,7 @@ const MainRouter = () => {
   return (<div>
       <Menu/>
       <Switch>
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" component={Shops}/>
         <Route path="/users" component={Users}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/signin" component={Signin}/>
@@ -46,7 +46,7 @@ const MainRouter = () => {
         <Route path="/order/:orderId" component={Order}/>
         <PrivateRoute path="/seller/orders/:shop/:resId" component={ShopOrders}/>
 
-        <PrivateRoute path="/seller/restaurants" component={MyShops}/>
+        <Route path="/seller/restaurants" component={MyShops}/>
         <PrivateRoute path="/seller/restaurant/new" component={NewShop}/>
         <PrivateRoute path="/seller/restaurant/edit/:resId" component={EditShop}/>
         <PrivateRoute path="/seller/:resId/foods/new" component={NewProduct}/>
