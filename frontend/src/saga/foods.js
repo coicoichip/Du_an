@@ -23,9 +23,8 @@ import {
 } from "../apis/foods";
 function* getFoodsSaga({ payload }) {
   try {
-    const result = yield call(getFoods, payload);
-    console.log(result);
-    yield put({ type: GET_FOODS_SUCCESS });
+    const { data } = yield call(getFoods, payload);
+    yield put({ type: GET_FOODS_SUCCESS, payload: data });
   } catch (err) {
     console.log(err);
   }
@@ -40,9 +39,8 @@ function* getFoodsByResIdSaga({ payload }) {
 }
 function* getFoodSaga({ payload }) {
   try {
-    const result = yield call(getFood, payload);
-    console.log(result);
-    yield put({ type: GET_FOOD_SUCCESS });
+    const { data } = yield call(getFood, payload);
+    yield put({ type: GET_FOOD_SUCCESS, payload: data });
   } catch (err) {
     console.log(err);
   }

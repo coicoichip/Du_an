@@ -1,91 +1,117 @@
-import React, {useState, useEffect} from 'react'
-import Card from '@material-ui/core/Card'
-import {makeStyles} from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import Icon from '@material-ui/core/Icon'
-import PlaceOrder from './PlaceOrder'
-
-const useStyles = makeStyles(theme => ({
+import React, { useState, useEffect } from "react";
+import Card from "@material-ui/core/Card";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Icon from "@material-ui/core/Icon";
+import PlaceOrder from "./PlaceOrder";
+import { useSelector, useDispatch } from "react-redux";
+const useStyles = makeStyles((theme) => ({
   card: {
-    margin: '24px 0px',
-    padding: '16px 40px 90px 40px',
-    backgroundColor: '#80808017'
+    margin: "24px 0px",
+    padding: "16px 40px 90px 40px",
+    backgroundColor: "#80808017",
   },
   title: {
-    margin: '24px 16px 8px 0px',
-    color: theme.palette.openTitle
+    margin: "24px 16px 8px 0px",
+    color: theme.palette.openTitle,
   },
   subheading: {
-    color: 'rgba(88, 114, 128, 0.87)',
+    color: "rgba(88, 114, 128, 0.87)",
     marginTop: "20px",
   },
   addressField: {
     marginTop: "4px",
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: "45%"
+    width: "45%",
   },
   streetField: {
     marginTop: "4px",
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: "93%"
+    width: "93%",
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: "90%"
-  }
-}))
+    width: "90%",
+  },
+}));
 
-export default function Checkout (){
-  const classes = useStyles()
-  const user = auth.isAuthenticated().user
+export default function Checkout() {
+  const classes = useStyles();
+  const user = useSelector((s) => s.auth);
   const [values, setValues] = useState({
-    checkoutDetails: {
-      products: cart.getCart(),
-      customer_name: user.name,
-      customer_email:user.email,
-      delivery_address: { street: '', city: '', state: '', zipcode: '', country:''}
-    },
-    error: ''
-  })
+    note: "",
+    error: "",
+  });
 
-  const handleCustomerChange = name => event => {
-    let checkoutDetails = values.checkoutDetails
-    checkoutDetails[name] = event.target.value || undefined
-    setValues({...values, checkoutDetails: checkoutDetails})
-  }
-
-  const handleAddressChange = name => event => {
-    let checkoutDetails = values.checkoutDetails
-    checkoutDetails.delivery_address[name] = event.target.value || undefined
-    setValues({...values, checkoutDetails: checkoutDetails})
-  }
-
-    return (
-      <Card className={classes.card}>
-        <Typography type="title" className={classes.title}>
-          Checkout
+  return (
+    <Card className={classes.card}>
+      <Typography type="title" className={classes.title}>
+        Checkout
+      </Typography>
+      <TextField
+        id="name"
+        label="Name"
+        className={classes.textField}
+        value={user.name}
+        margin="normal"
+        disabled
+      />
+      <br />
+      <TextField
+        id="email"
+        type="email"
+        label="Email"
+        className={classes.textField}
+        value={user.email}
+        margin="normal"
+        disabled
+      />
+      <br />
+      <TextField
+        id="phone"
+        type="phone"
+        label="Phone"
+        className={classes.textField}
+        value={user.phone}
+        margin="normal"
+        disabled
+      />
+      <br />
+      <TextField
+        id="address"
+        label="Address"
+        className={classes.textField}
+        value={user.address}
+        margin="normal"
+        disabled
+      />
+      <br />
+      <TextField
+            id="multiline-flexible"
+            label="Note"
+            multiline
+            rows="4"
+            value={values.note}
+            onChange={(e) => setValues({...values, note: e.target.value})}
+            className={classes.textField}
+            margin="normal"
+          /><br/>
+      <br />{" "}
+      {values.error && (
+        <Typography component="p" color="error">
+          <Icon color="error" className={classes.error}>
+            error
+          </Icon>
+          {values.error}
         </Typography>
-        <TextField id="name" label="Name" className={classes.textField} value={values.checkoutDetails.customer_name} onChange={handleCustomerChange('customer_name')} margin="normal"/><br/>
-        <TextField id="email" type="email" label="Email" className={classes.textField} value={values.checkoutDetails.customer_email} onChange={handleCustomerChange('customer_email')} margin="normal"/><br/>
-        <Typography type="subheading" component="h3" className={classes.subheading}>
-            Delivery Address
-        </Typography>
-        <TextField id="street" label="Street Address" className={classes.streetField} value={values.checkoutDetails.delivery_address.street} onChange={handleAddressChange('street')} margin="normal"/><br/>
-        <TextField id="city" label="City" className={classes.addressField} value={values.checkoutDetails.delivery_address.city} onChange={handleAddressChange('city')} margin="normal"/>
-        <TextField id="state" label="State" className={classes.addressField} value={values.checkoutDetails.delivery_address.state} onChange={handleAddressChange('state')} margin="normal"/><br/>
-        <TextField id="zipcode" label="Zip Code" className={classes.addressField} value={values.checkoutDetails.delivery_address.zipcode} onChange={handleAddressChange('zipcode')} margin="normal"/>
-        <TextField id="country" label="Country" className={classes.addressField} value={values.checkoutDetails.delivery_address.country} onChange={handleAddressChange('country')} margin="normal"/>
-        <br/> {
-            values.error && (<Typography component="p" color="error">
-                <Icon color="error" className={classes.error}>error</Icon>
-                {values.error}</Typography>)
-          }
-        <div>
-            <PlaceOrder checkoutDetails={values.checkoutDetails} />
-        </div>
-      </Card>)
+      )}
+      <div>
+        <PlaceOrder note={values.note} />
+      </div>
+    </Card>
+  );
 }

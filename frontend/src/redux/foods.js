@@ -20,9 +20,9 @@ export const getFoodsByResId = ({ resId }) => ({
   payload: { resId },
 });
 
-export const getFood = ({ foodId }) => ({
+export const getFood = ({ foodId, resId }) => ({
   type: GET_FOOD,
-  payload: { foodId },
+  payload: { foodId, resId },
 });
 
 export const createFood = ({ data }) => ({
@@ -50,6 +50,8 @@ export default function foods(state, action) {
   switch (action.type) {
     case GET_FOODS_BY_RESID_SUCCESS:
       return action.payload;
+    case GET_FOOD_SUCCESS:
+      return [action.payload];
     case RESET_FOODS: 
       return initialState
     default:

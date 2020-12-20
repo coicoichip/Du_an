@@ -9,8 +9,10 @@ import { Link } from "react-router-dom";
 import Suggestions from "./../product/Suggestions";
 import AddToCart from "./../cart/AddToCart";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { DEFAULT_IMAGE } from "../../config";
+import { getFood, resetFoods } from "../../redux/foods";
+import { getRestaurant, getRestaurants } from "../../redux/restaurants";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -64,48 +66,63 @@ export default function Product({ match }) {
   const classes = useStyles();
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState("");
-  const [food, setFood] = useState({
-    name: "benh mi",
-    restaurant_id: 1,
-    quantity: 40,
-    price: 100
-  });
   const restaurants = useSelector((s) => s.restaurants);
+  const foods = useSelector((s) => s.foods);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getFood({ foodId: match.params.foodId, resId: match.params.resId })
+    );
+    dispatch(getRestaurants());
+    return () => {
+      dispatch(resetFoods());
+    };
+  }, []);
   return (
     <div className={classes.root}>
       <Grid container spacing={10}>
         <Grid item xs={7} sm={7}>
           <Card className={classes.card}>
             <CardHeader
-              title={food.name}
-              subheader={food.quantity > 0 ? "In Stock" : "Out of Stock"}
+              title={foods.name}
+              subheader={"In Stock"}
               action={
                 <span className={classes.action}>
-                  <AddToCart cartStyle={classes.addCart} item={food} />
+                  <AddToCart
+                    cartStyle={classes.addCart}
+                    food={foods[0]}
+                    shop_name={
+                      restaurants.find((r) => r.id === foods[0]?.restaurant_id)
+                        ?.name
+                    }
+                  />
                 </span>
               }
             />
             <div className={classes.flex}>
               <CardMedia
                 className={classes.media}
-                image={food.img_url || DEFAULT_IMAGE + 200}
-                title={food.name}
+                image={foods[0]?.img_url || DEFAULT_IMAGE + 200}
+                title={foods[0]?.name}
               />
               <Typography
                 component="p"
                 variant="subtitle1"
                 className={classes.subheading}
               >
-                {food.description}
+                {foods[0]?.description}
                 <br />
-                <span className={classes.price}>$ {food.price}</span>
+                <span className={classes.price}>$ {foods[0]?.price}</span>
                 <Link
-                  to={"/restaurants/" + food.restaurant_id}
+                  to={"/restaurants/" + foods[0]?.restaurant_id}
                   className={classes.link}
                 >
                   <span>
                     <ShoppingBasketIcon className={classes.icon} />{" "}
-                    {restaurants.find((r) => r.id === food.restaurant_id)?.name}
+                    {
+                      restaurants.find((r) => r.id === foods[0]?.restaurant_id)
+                        ?.name
+                    }
                   </span>
                 </Link>
               </Typography>

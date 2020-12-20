@@ -11,7 +11,6 @@ import { me, signin, signup } from "../apis/auth";
 function* signinSaga({ payload }) {
   try {
     const result = yield call(signin, payload);
-    console.log(result);
     yield put({ type: SIGNIN_SUCCESS });
   } catch (err) {
     console.log(err);

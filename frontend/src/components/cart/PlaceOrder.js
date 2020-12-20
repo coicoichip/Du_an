@@ -5,6 +5,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import { Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { createBill } from "../../redux/bills";
 
 const useStyles = makeStyles((theme) => ({
   subheading: {
@@ -34,29 +36,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PlaceOrder = (props) => {
+const PlaceOrder = ({note}) => {
   const classes = useStyles();
   const [values, setValues] = useState({
-    order: {},
     error: "",
     redirect: false,
     orderId: "",
   });
-
-  const placeOrder = () => {};
+  const dispatch = useDispatch();
+  const cart = useSelector(s => s.cart);
+  const placeOrder = () => {
+    dispatch(
+      createBill({
+        resId: localStorage.getItem('resId'),
+        data: {
+          bills: cart.map((s) => ({ food_id: s.id, quantity: s.quantity })),
+          ship_price: 30,
+          note,
+        },
+      })
+    );
+  };
 
   if (values.redirect) {
     return <Redirect to={"/order/" + values.orderId} />;
   }
   return (
     <span>
-      <Typography
-        type="subheading"
-        component="h3"
-        className={classes.subheading}
-      >
-        Card details
-      </Typography>
       <div className={classes.checkout}>
         {values.error && (
           <Typography component="span" color="error" className={classes.error}>

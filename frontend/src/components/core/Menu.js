@@ -21,6 +21,7 @@ const isPartActive = (history, path) => {
 };
 const Menu = withRouter(({ history }) => {
   const auth = useSelector((s) => s.auth);
+  const cart = useSelector(s => s.cart);
   const dispatch = useDispatch();
   return (
     <AppBar position="static">
@@ -40,7 +41,7 @@ const Menu = withRouter(({ history }) => {
               <Badge
                 color="secondary"
                 invisible={false}
-                badgeContent={9999}
+                badgeContent={cart.length}
                 style={{ marginLeft: "7px" }}
               >
                 <CartIcon />

@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import AddToCart from "./../cart/AddToCart";
+import { DEFAULT_IMAGE } from "../../config";
+import { useDispatch, useSelector } from "react-redux";
+import { getRestaurants, resetRestaurants } from "../../redux/restaurants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +57,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Products({ foods, searched }) {
   const classes = useStyles();
+  const restaurants = useSelector((s) => s.restaurants);
+  const dispatch = useDispatch();
+  const {
+    params: { resId },
+  } = useRouteMatch();
+  useEffect(() => {
+    dispatch(getRestaurants());
+    return () => {
+      dispatch(resetRestaurants());
+    };
+  }, []);
   return (
     <div className={classes.root}>
       {foods?.length > 0 ? (
@@ -61,10 +75,10 @@ export default function Products({ foods, searched }) {
           <GridList cellHeight={200} className={classes.gridList} cols={3}>
             {foods.map((food, i) => (
               <GridListTile key={i} className={classes.tile}>
-                <Link to={"/food/" + food.id}>
+                <Link to={"/food/" + resId + "/" + food.id}>
                   <img
                     className={classes.image}
-                    src={food.img_url}
+                    src={food?.img_url || DEFAULT_IMAGE + 300}
                     alt={food.name}
                   />
                 </Link>
@@ -72,14 +86,23 @@ export default function Products({ foods, searched }) {
                   className={classes.tileBar}
                   title={
                     <Link
-                      to={"/food/" + food.id}
+                      to={"/food/" + resId + "/" + food.id}
                       className={classes.tileTitle}
                     >
                       {food.name}
                     </Link>
                   }
                   subtitle={<span>$ {food.price}</span>}
-                  actionIcon={<AddToCart item={food} />}
+                  actionIcon={
+                    <AddToCart
+                      food={food}
+                      shop_name={
+                        restaurants.find(
+                          (r) => r.id === food?.restaurant_id
+                        )?.name
+                      }
+                    />
+                  }
                 />
               </GridListTile>
             ))}

@@ -19,10 +19,10 @@ export const getFoodsByResId = async ({resId}) => {
   return response.data;
 };
 
-export const getFood = async ({foodId}) => {
+export const getFood = async ({foodId, resId}) => {
   const response = await axios({
     method: "GET",
-    url: `${BASE_URL}/foods/${foodId}`,
+    url: `${BASE_URL}/restaurants/${resId}/foods/${foodId}`,
     withCredentials: true,
   });
   return response.data;

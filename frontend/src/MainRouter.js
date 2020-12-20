@@ -39,7 +39,7 @@ const MainRouter = () => {
         <Route path="/user/:userId" component={Profile}/>
 
         <Route path="/cart" component={Cart}/>
-        <Route path="/food/:foodId" component={Product}/>
+        <Route path="/food/:resId/:foodId" component={Product}/>
         <Route path="/restaurants/all" component={Shops}/>
         <Route path="/restaurants/:resId" component={Shop}/>
 
