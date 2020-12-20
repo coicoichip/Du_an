@@ -1,11 +1,11 @@
 /* eslint-disable require-atomic-updates */
 const router = require('express').Router();
 const knex = require('../../knex');
-const { validateSession } = require('../../middlewares/middlewarAuthorize');
+const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/restaurants/:restaurant_id/foods')
-  .get(validateSession, async (req, res, next) => {
+  .get(validateCustomer, async (req, res, next) => {
     const { food_name } = req.query;
     const { restaurant_id } = req.params;
     try {
@@ -17,7 +17,7 @@ router.route('/api/restaurants/:restaurant_id/foods')
       next(e);
     }
   })
-  .post(validateSession, async (req, res, next) => {
+  .post(validateCustomer, async (req, res, next) => {
     const {
       name,
       price,

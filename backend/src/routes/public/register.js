@@ -6,13 +6,13 @@ const { handleAPIResponse } = require('../../common/handleAPIResponse');
 router.route('/api/register')
   .post(async (req, res, next) => {
     const { email, password, position, name, phone, address } = req.body;
-    if (!email || !password) return handleAPIResponse(res, 400, 'email && password required');
+    if (!email || !password || !position) return handleAPIResponse(res, 400, 'email && password && position required');
     if (!['customer', 'owner'].includes(position)) return handleAPIResponse(res, 400, 'positon invalid');
     try {
       //
       const check_email = await knex('users').first().where({ email });
       if (check_email) return handleAPIResponse(res, 400, 'email exist');
-      let [user] = await knex('users').insert({
+      await knex('users').insert({
         email,
         password,
         name,
@@ -20,7 +20,7 @@ router.route('/api/register')
         address,
         position,
       });
-      user = await knex('users').first().where({ email });
+      const user = await knex('users').first().where({ email });
       if (!user) return handleAPIResponse(res, 500, 'internal server error');
       Object.assign(req.session, user);
       return handleAPIResponse(res, 200);

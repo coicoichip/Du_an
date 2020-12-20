@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const knex = require('../../knex');
-const { validateSession } = require('../../middlewares/middlewarAuthorize');
+const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/restaurants/:restaurant_id/comments')
-  .get(validateSession, async (req, res, next) => {
+  .get(validateCustomer, async (req, res, next) => {
     const { restaurant_id } = req.params;
     if (!restaurant_id) return handleAPIResponse(res, 400, 'restaurant_id required');
     try {
@@ -24,7 +24,7 @@ router.route('/api/restaurants/:restaurant_id/comments')
     } catch (e) {
       next(e);
     }
-  }).post(validateSession, async (req, res, next) => {
+  }).post(validateCustomer, async (req, res, next) => {
     const { user_id } = req.session;
     const { restaurant_id } = req.params;
     const { content } = req.body;

@@ -1,1 +1,0 @@
-rm -rf db/sample.db && node insertDB.js

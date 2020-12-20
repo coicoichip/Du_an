@@ -9,14 +9,10 @@ router.route('/api/login')
     if (!email || !password) return handleAPIResponse(res, 400, 'email && password required');
     try {
       //
-      const [user, admin] = await Promise.all(
-        ['users', 'admins'].map(table => knex(table).first().where({ email, password }))
-      );
-      if (admin || user) {
-        Object.assign(req.session, admin ? admin : user);
-        return handleAPIResponse(res, 200);
-      }
-      return handleAPIResponse(res, 400, 'user not exist');
+      const user = await knex('users').first().where({ email });
+      if (!user) return handleAPIResponse(res, 400, 'user not exist');
+      Object.assign(req.session, user);
+      return handleAPIResponse(res, 200);
     } catch (e) {
       next(e);
     }

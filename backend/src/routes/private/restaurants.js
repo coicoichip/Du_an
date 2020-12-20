@@ -1,11 +1,11 @@
 /* eslint-disable require-atomic-updates */
 const router = require('express').Router();
 const knex = require('../../knex');
-const { validateSession, validateCustomer } = require('../../middlewares/middlewarAuthorize');
+const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/restaurants')
-  .get(validateSession, async (req, res, next) => {
+  .get(validateCustomer, async (req, res, next) => {
     const { restaurant_name } = req.query;
     try {
       let restaurants = knex('restaurants').where({ status: 1 });

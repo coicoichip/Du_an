@@ -1,11 +1,11 @@
 /* eslint-disable require-atomic-updates */
 const router = require('express').Router();
 const knex = require('../../knex');
-const { validateSession } = require('../../middlewares/middlewarAuthorize');
+const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/restaurants/:restaurant_id/rates')
-  .post(validateSession, async (req, res, next) => {
+  .post(validateCustomer, async (req, res, next) => {
     const { user_id } = req.session;
     const { restaurant_id } = req.params;
     const { star } = req.body;

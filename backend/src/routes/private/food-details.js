@@ -1,11 +1,11 @@
 /* eslint-disable require-atomic-updates */
 const router = require('express').Router();
 const knex = require('../../knex');
-const { validateSession } = require('../../middlewares/middlewarAuthorize');
+const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/restaurants/:restaurant_id/foods/:food_id')
-  .get(validateSession, async (req, res, next) => {
+  .get(validateCustomer, async (req, res, next) => {
     const { restaurant_id, food_id } = req.params;
     try {
       const food = await knex('foods').first().where({ restaurant_id, id: food_id });
@@ -13,7 +13,7 @@ router.route('/api/restaurants/:restaurant_id/foods/:food_id')
     } catch (e) {
       next(e);
     }
-  }).put(validateSession, async (req, res, next) => {
+  }).put(validateCustomer, async (req, res, next) => {
     const { restaurant_id, food_id } = req.params;
     try {
       //
@@ -30,7 +30,7 @@ router.route('/api/restaurants/:restaurant_id/foods/:food_id')
       next(e);
     }
   })
-  .delete(validateSession, async (req, res, next) => {
+  .delete(validateCustomer, async (req, res, next) => {
     const { restaurant_id, food_id } = req.params;
     try {
       //

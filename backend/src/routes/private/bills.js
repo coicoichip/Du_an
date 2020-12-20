@@ -2,11 +2,11 @@
 const router = require('express').Router();
 const { v4 } = require('uuid');
 const knex = require('../../knex');
-const { validateSession } = require('../../middlewares/middlewarAuthorize');
+const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/restaurants/:restaurant_id/bills')
-  .get(validateSession, async (req, res, next) => {
+  .get(validateCustomer, async (req, res, next) => {
     const { restaurant_id } = req.params;
     if (!restaurant_id) return handleAPIResponse(res, 400, 'restaurant_id required');
     try {
@@ -17,7 +17,7 @@ router.route('/api/restaurants/:restaurant_id/bills')
       next(e);
     }
   })
-  .post(validateSession, async (req, res, next) => {
+  .post(validateCustomer, async (req, res, next) => {
     const {
       email,
       name,
