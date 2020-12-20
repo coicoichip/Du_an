@@ -26,11 +26,12 @@ router.route('/api/restaurants/:restaurant_id/comments')
 
     try {
       await knex('comments').insert({ user_id, content, restaurant_id });
+      console.log(user_id, typeof user_id);
       const comment = await knex('comments')
-        .first('comments.id as comment_id', 'users.email', 'users.name', 'users.phone', 'comments.content', 'comments.user_id', 'comments.create_time')
+        .first('comments.id', 'users.email', 'users.name', 'users.phone', 'comments.content', 'comments.user_id', 'comments.create_time')
         .join('users', 'users.user_id', 'comments.user_id')
-        .where({ user_id, content, restaurant_id })
-        .orderBy('create_time', 'desc');
+        .where({ 'comments.user_id': user_id, content, restaurant_id: parseInt(restaurant_id) })
+        .orderBy('comments.create_time', 'desc');
 
       return handleAPIResponse(res, 200, comment);
     } catch (e) {

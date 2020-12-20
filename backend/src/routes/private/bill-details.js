@@ -38,8 +38,8 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
       if (!restaurant) return handleAPIResponse(res, 404, 'restaurant_id not exist');
       if (!bill) return handleAPIResponse(res, 404, 'bill_id not exist');
 
-      await knex('bills').update({ status }).where({ bill_id });
-      const bill1 = await knex('bills').first().where({ bill_id });
+      await knex('bills').update({ status }).where({ id: bill_id });
+      const bill1 = await knex('bills').first().where({ id: bill_id });
 
       return handleAPIResponse(res, 200, bill1);
     } catch (e) {
