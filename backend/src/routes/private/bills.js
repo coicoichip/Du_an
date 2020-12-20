@@ -73,9 +73,10 @@ router.route('/api/restaurants/:restaurant_id/bills')
       const bill = await knex('bills').first().where({ bill_code });
       const bill_detail = await knex('bill_detail').where({ bill_id: bill.id });
 
-      const result = { ...bill, bill_detail, bill_path: `/api/restaurants/${restaurant_id}/bills/${bill_id}` };
-      triggerNotification(user_id, result);
-      triggerNotification(restaurant.manager_id, result);
+      const result = { ...bill, bill_detail };
+      const bill_path = `/api/restaurants/${restaurant_id}/bills/${bill_id}`;
+      triggerNotification(user_id, { ...result, bill_path });
+      triggerNotification(restaurant.manager_id, { ...result, bill_path });
 
       return handleAPIResponse(res, 200, result);
     } catch (e) {

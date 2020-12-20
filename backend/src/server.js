@@ -58,6 +58,7 @@ const private_apis = [
   'rates',
   'restaurant-details',
   'restaurants',
+  'total-bills',
 ];
 
 public_apis.forEach(api => app.use(require(`./routes/public/${api}`)));

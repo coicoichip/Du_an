@@ -3,17 +3,20 @@ const { handleAPIResponse } = require('../common/handleAPIResponse');
 module.exports = {
   validateCustomer: (req, res, next) => {
     const { position } = req.session;
-    if (!position || !['customer', 'owner', 'admin'].includes(position)) return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!position) return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!['customer', 'owner', 'admin'].includes(position)) return handleAPIResponse(res, 401, 'Forbidden');
     return next();
   },
   validateOwner: (req, res, next) => {
     const { position } = req.session;
-    if (!position || !['owner', 'admin'].includes(position)) return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!position) return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!['owner', 'admin'].includes(position)) return handleAPIResponse(res, 401, 'Forbidden');
     return next();
   },
   validateAdmin: (req, res, next) => {
     const { position } = req.session;
-    if (!position || !['admin'].includes(position)) return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!position) return handleAPIResponse(res, 401, 'Unauthorized');
+    if (!['admin'].includes(position)) return handleAPIResponse(res, 401, 'Forbidden');
     return next();
   },
 };
