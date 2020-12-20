@@ -1,1 +1,1 @@
-rm -rf db/sample.db && node insertTables.js && node insertDatas.js
+rm -rf db/* && node insertTables.js && node insertDatas.js

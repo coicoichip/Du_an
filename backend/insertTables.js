@@ -5,7 +5,7 @@ const fs = require('fs');
 const db = new sqlite3.Database('./db/sample.db');
 const tables = fs.readFileSync('./dbCreateTables.sql', { encoding: 'utf-8' }).split(';');
 tables.forEach(element => {
-  if (element !== '\n') {
+  if (!['\n', ''].includes(element)) {
     db.run(element, err => {
       console.log(element);
       if (err) {

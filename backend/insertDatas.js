@@ -4,8 +4,8 @@ const fs = require('fs');
 
 const db = new sqlite3.Database('./db/sample.db');
 const datas = fs.readFileSync('./dbInsertData.sql', { encoding: 'utf-8' }).split(';');
-datas.forEach((element, idx) => {
-  if (idx !== datas.length - 1) {
+datas.forEach(element => {
+  if (!['\n', ''].includes(element)) {
     db.run(element, err => {
       console.log(element);
       if (err) {

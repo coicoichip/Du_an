@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "21260303-2336-4f6d-bb90-6b6621923e98",
+		"_postman_id": "6598b6e6-6691-4c00-8b0f-4d9d7071eed2",
 		"name": "duan",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -161,7 +161,7 @@
 							"variable": [
 								{
 									"key": "restaurant_id",
-									"value": "2"
+									"value": "1"
 								}
 							]
 						}
@@ -229,7 +229,7 @@
 							"variable": [
 								{
 									"key": "restaurant_id",
-									"value": "4"
+									"value": "1"
 								}
 							]
 						}
@@ -445,6 +445,238 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"comments"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"abc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/comments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"comments"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bills",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ship_price\": \"abc\",\n  \"note\": \"abc\",\n  \"bills\": [\n    {\n      \"food_id\": 1,\n      \"quantity\": 10\n    },\n    {\n      \"food_id\": 2,\n      \"quantity\": 20\n    },\n    {\n      \"food_id\": 3,\n      \"quantity\": 30\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/bills",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"bills"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bills",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/bills",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"bills"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bill-details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/bills/:bill_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"bills",
+								":bill_id"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								},
+								{
+									"key": "bill_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bill-details",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/:restaurant_id/bills/:bill_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								":restaurant_id",
+								"bills",
+								":bill_id"
+							],
+							"variable": [
+								{
+									"key": "restaurant_id",
+									"value": "1"
+								},
+								{
+									"key": "bill_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"hieunt@kikaitech.io\",\n  \"name\": \"hieunt\",\n  \"password\": \"123456\",\n  \"phone\": \"0394423925\",\n  \"address\": \"HaNoi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -454,7 +686,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "984ebed8-21b3-4ad7-84c3-8203eb9dc40d",
+				"id": "c82032c9-54bb-436e-b22e-ffa3611eb7f0",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -464,7 +696,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "cc5862c6-283e-4991-b63f-a6d2bee4a96a",
+				"id": "4ab4fbfb-e63c-4ee4-9fa5-e121d738728f",
 				"type": "text/javascript",
 				"exec": [
 					""
