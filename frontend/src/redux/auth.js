@@ -29,8 +29,9 @@ export const editProfile = ({ data }) => ({
   payload: { data },
 });
 
-export const deleteUser = () => ({
+export const deleteUser = ({ user_id }) => ({
   type: DELETE_USER,
+  payload: { user_id },
 });
 
 const initialState = {

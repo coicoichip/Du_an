@@ -66,11 +66,14 @@ export const editProfile = async ({data}) => {
   return response.data;
 };
 
-export const deleteProfile = async () => {
+export const deleteProfile = async ({user_id}) => {
   const response = await axios({
     method: "DELETE",
     url: `${BASE_URL}/users`,
     withCredentials: true,
+    data: {
+      user_id
+    }
   });
   return response.data;
 };

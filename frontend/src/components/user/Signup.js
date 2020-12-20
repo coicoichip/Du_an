@@ -138,7 +138,7 @@ export default function Signup() {
             margin="normal"
           />
           <br />
-          <br />
+          {/* <br />
           <Typography variant="subtitle1" className={classes.subheading}>
             Is Restaurant?
           </Typography>
@@ -154,7 +154,7 @@ export default function Signup() {
               />
             }
             label={values.seller ? "Active" : "Inactive"}
-          />
+          /> */}
           <br />
           {values.error && (
             <Typography component="p" color="error">

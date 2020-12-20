@@ -15,12 +15,11 @@ import { deleteUser } from '../../redux/auth'
 export default function DeleteUser(props) {
   const [open, setOpen] = useState(false)
   const [redirect, setRedirect] = useState(false)
-  const dispatch = useDispatch();
   const clickButton = () => {
     setOpen(true)
   }
   const deleteAccount = () => { 
-    dispatch(deleteUser())
+    props.onRemove()
     setOpen(false)
   }
   const handleRequestClose = () => {
@@ -32,7 +31,7 @@ export default function DeleteUser(props) {
   }
     return (<span>
       <IconButton aria-label="Delete" onClick={clickButton} color="secondary">
-        <DeleteIcon/>
+        <DeleteIcon style={{fill: 'red'}}/>
       </IconButton>
 
       <Dialog open={open} onClose={handleRequestClose}>

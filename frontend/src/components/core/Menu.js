@@ -10,7 +10,6 @@ import CartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from "@material-ui/core/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { signout, WHO_AM_I } from "../../redux/auth";
-
 const isActive = (history, path) => {
   if (history.location.pathname == path) return { color: "#bef67a" };
   else return { color: "#ffffff" };
@@ -27,7 +26,7 @@ const Menu = withRouter(({ history }) => {
     if(!auth.email) {
       dispatch({type: WHO_AM_I})
     }
-  })
+  },[])
   return (
     <AppBar position="static">
       <Toolbar>
@@ -35,7 +34,7 @@ const Menu = withRouter(({ history }) => {
           <span style={{ color: "white" }}>Get Food</span>
         </Typography>
         <div>
-          {auth.position !== "owner" && (
+          {auth.position === "customer" && (
             <>
               <Link to="/restaurants/all" className="ml-4">
                 <Button style={isActive(history, "/restaurants/all")}>
@@ -76,6 +75,13 @@ const Menu = withRouter(({ history }) => {
                   <Link to="/seller/restaurants">
                     <Button style={isPartActive(history, "/seller/")}>
                       My Restaurants
+                    </Button>
+                  </Link>
+                )}
+                {auth.position === "admin" && (
+                  <Link to="/users">
+                    <Button style={isPartActive(history, "/users")}>
+                      Users
                     </Button>
                   </Link>
                 )}

@@ -23,10 +23,14 @@ function* signinSaga({ payload }) {
   try {
     const result = yield call(signin, payload);
     yield put({ type: SIGNIN_SUCCESS });
-    window.location.assign("/user");
+    yield put({ type: WHO_AM_I });
+    if (payload.email === "admin") {
+      window.location.assign("/users");
+    }
+    else window.location.assign("/user");
   } catch (err) {
     window.location.assign("/signin");
-    console.log(err)
+    console.log(err);
   }
 }
 function* getMeSaga({ payload }) {
@@ -34,7 +38,7 @@ function* getMeSaga({ payload }) {
     const { data } = yield call(me, payload);
     yield put({ type: WHO_AM_I_SUCCESS, payload: data });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 function* signupSaga({ payload }) {
@@ -47,7 +51,7 @@ function* signupSaga({ payload }) {
       yield put({ type: SIGNUP_SUCCESS });
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 function* signoutSaga({ payload }) {
@@ -56,7 +60,7 @@ function* signoutSaga({ payload }) {
     if (success) {
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 function* editProfileSaga({ payload }) {
@@ -67,7 +71,7 @@ function* editProfileSaga({ payload }) {
       yield put({ type: WHO_AM_I });
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 function* deleteUserSaga({ payload }) {
@@ -76,7 +80,7 @@ function* deleteUserSaga({ payload }) {
     if (success) {
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }
 
