@@ -1,4 +1,3 @@
-/* eslint-disable require-atomic-updates */
 const router = require('express').Router();
 const { v4 } = require('uuid');
 const knex = require('../../knex');
@@ -36,7 +35,7 @@ router.route('/api/restaurants/:restaurant_id/bills')
     } = req.session;
     const { restaurant_id } = req.params;
     const { bills, ship_price, note } = req.body;
-    if (!restaurant_id || !bills || !ship_price || !note) return handleAPIResponse(res, 400, 'restaurant_id(int) && bills(array) && ship_price(int) && note(string) required');
+    if (!restaurant_id || !bills || !ship_price) return handleAPIResponse(res, 400, 'restaurant_id(int) && bills(array) && ship_price(int) required');
 
     try {
       const restaurant = await knex('restaurants').first().where({ id: restaurant_id });
@@ -45,12 +44,15 @@ router.route('/api/restaurants/:restaurant_id/bills')
       const bill_code = v4();
       //
       let total = 0;
-      const total_bill_details = bills.map(async ({ food_id, quantity }) => {
-        const { price } = await knex('foods').first().where({ id: food_id });
-        const amount = price * quantity;
+      const foods = await Promise.all(bills.map(({ food_id }) =>
+        knex('foods').first().where({ id: food_id })
+      ));
+      const total_bill_details = bills.map(({ food_id, quantity }, idx) => {
+        const amount = foods[idx].price * quantity;
         total += amount;
         return { food_id, quantity, amount };
       });
+      console.log(total_bill_details);
 
       total = total + ship_price || 0;
       await knex('bills')

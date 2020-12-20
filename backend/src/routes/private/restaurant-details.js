@@ -1,4 +1,3 @@
-/* eslint-disable require-atomic-updates */
 const router = require('express').Router();
 const knex = require('../../knex');
 const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
