@@ -14,6 +14,15 @@ router.route('/api/users')
     } catch (e) {
       next(e);
     }
+  }).post(validateAdmin, async (req, res, next) => {
+    const { email, name, password, phone, address } = req.body;
+    try {
+      await knex('users').insert({ email, name, password, phone, address });
+      const user = await knex('users').first().where({ email, name, password, phone, address }).orderBy('user_id', 'desc');
+      return handleAPIResponse(res, 200, user);
+    } catch (e) {
+      next(e);
+    }
   }).put(validateCustomer, async (req, res, next) => {
     const { user_id } = req.session;
     // const { email, name, password, phone, address } = req.body;
