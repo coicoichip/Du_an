@@ -5,8 +5,11 @@ const { handleAPIResponse } = require('../../common/handleAPIResponse');
 
 router.route('/api/users')
   .get(validateAdmin, async (req, res, next) => {
+    const { position } = req.body;
     try {
-      const users = await knex('users');
+      let users = knex('users');
+      if (position) users.where({ position });
+      users = await users;
       return handleAPIResponse(res, 200, users);
     } catch (e) {
       next(e);
