@@ -1,0 +1,1 @@
+rm -rf db/sample.db && node insertTables.js && node insertDatas.js
