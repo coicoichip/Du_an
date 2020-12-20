@@ -71,7 +71,7 @@ const server = app.listen(port, () => console.log(`Your app is listening on port
 
 const io = require('socket.io')(server);
 const socket_session = require('express-socket.io-session');
-// io.set('Access-Control-Allow-Origin', '*');
+io.set('Access-Control-Allow-Origin', '*');
 io.use(socket_session(express_session));
 
 const notify = io.of('/notifications');
