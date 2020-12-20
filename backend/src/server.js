@@ -50,7 +50,8 @@ const public_apis = [
   'register',
 ];
 const private_apis = [
-  'comment',
+  'comment-details',
+  'comments',
   'food-details',
   'foods',
   'me',

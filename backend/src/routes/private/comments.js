@@ -24,7 +24,8 @@ router.route('/api/restaurants/:restaurant_id/comments')
     } catch (e) {
       next(e);
     }
-  }).post(validateCustomer, async (req, res, next) => {
+  })
+  .post(validateCustomer, async (req, res, next) => {
     const { user_id } = req.session;
     const { restaurant_id } = req.params;
     const { content } = req.body;
