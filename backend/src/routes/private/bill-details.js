@@ -14,8 +14,8 @@ router.route('/api/restaurants/:restaurant_id/bills/:bill_id')
         knex('restaurants').first().where({ id: restaurant_id }),
         knex('bills').first().where({ restaurant_id, id: bill_id }),
       ]);
-      if (!restaurant) return handleAPIResponse(res, 404, 'restaurant_id not exist');
       if (!bill) return handleAPIResponse(res, 404, 'bill_id not exist');
+      if (!restaurant) return handleAPIResponse(res, 404, 'restaurant_id not exist');
       if (restaurant.manager_id !== user_id && bill.recipient_id !== user_id && position !== 'admin') return handleAPIResponse(res, 403, 'forbidden');
 
       const bill_detail = await knex('bill_detail').where({ bill_id: bill.id });
