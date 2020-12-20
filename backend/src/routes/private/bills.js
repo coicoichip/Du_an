@@ -52,7 +52,6 @@ router.route('/api/restaurants/:restaurant_id/bills')
         total += amount;
         return { food_id, quantity, amount };
       });
-      console.log(total_bill_details);
 
       total = total + ship_price || 0;
       await knex('bills')
