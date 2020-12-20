@@ -16,7 +16,7 @@ import Divider from "@material-ui/core/Divider";
 import { Redirect, Link } from "react-router-dom";
 import DeleteShop from "./DeleteShop";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurants } from "../../redux/restaurants";
+import { deleteRestaurant, getRestaurants } from "../../redux/restaurants";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -51,7 +51,9 @@ export default function MyShops() {
     dispatch(getRestaurants());
   }, []);
 
-  const removeShop = (restaurant) => {};
+  const removeShop = (resId) => {
+    dispatch(deleteRestaurant({resId}))
+  };
 
   if (redirectToSignin) {
     return <Redirect to="/signin" />;
@@ -107,7 +109,7 @@ export default function MyShops() {
                           <Edit />
                         </IconButton>
                       </Link>
-                      <DeleteShop shop={restaurant} onRemove={removeShop} />
+                      <DeleteShop shop={restaurant} onRemove={() => removeShop(restaurant.id)} />
                     </ListItemSecondaryAction>
                   )}
                 </ListItem>

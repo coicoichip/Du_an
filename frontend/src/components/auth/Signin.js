@@ -51,7 +51,6 @@ export default function Signin(props) {
       email: values.email || undefined,
       password: values.password || undefined,
     };
-    setValues({ ...values, error: '',redirectToReferrer: true})
     dispatch(signin(user));
   };
 

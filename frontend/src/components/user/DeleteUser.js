@@ -9,16 +9,18 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import {Redirect} from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { deleteUser } from '../../redux/auth'
 
 export default function DeleteUser(props) {
   const [open, setOpen] = useState(false)
   const [redirect, setRedirect] = useState(false)
-
-  const jwt = auth.isAuthenticated()
   const clickButton = () => {
     setOpen(true)
   }
   const deleteAccount = () => { 
+    props.onRemove()
+    setOpen(false)
   }
   const handleRequestClose = () => {
     setOpen(false)
@@ -29,7 +31,7 @@ export default function DeleteUser(props) {
   }
     return (<span>
       <IconButton aria-label="Delete" onClick={clickButton} color="secondary">
-        <DeleteIcon/>
+        <DeleteIcon style={{fill: 'red'}}/>
       </IconButton>
 
       <Dialog open={open} onClose={handleRequestClose}>

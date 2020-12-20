@@ -37,3 +37,22 @@ export const createBill = async ({ resId, data }) => {
   });
   return response.data;
 };
+
+export const editBill = async ({ resId, billId, data }) => {
+  const response = await axios({
+    method: "PUT",
+    url: `${BASE_URL}/restaurants/${resId}/bills/${billId}`,
+    withCredentials: true,
+    data,
+  });
+  return response.data;
+};
+
+export const deleteBill = async ({ resId, billId }) => {
+  const response = await axios({
+    method: "DELETE",
+    url: `${BASE_URL}/restaurants/${resId}/bills/${billId}`,
+    withCredentials: true,
+  });
+  return response.data;
+};

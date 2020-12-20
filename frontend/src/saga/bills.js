@@ -1,8 +1,18 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-import { createBill, getBill, getBills, totalBills } from "../apis/bills";
+import {
+  createBill,
+  deleteBill,
+  editBill,
+  getBill,
+  getBills,
+  totalBills,
+} from "../apis/bills";
+import { notifyErrorMsg } from "../redux/Alert";
 import {
   CREATE_BILLS,
   CREATE_BILLS_SUCCESS,
+  DELETE_BILL,
+  EDIT_BILL,
   GET_BILL,
   GET_BILLS,
   GET_BILLS_SUCCESS,
@@ -12,10 +22,10 @@ import {
 
 function* getBillsSaga({ payload }) {
   try {
-    const {data} = yield call(getBills, payload);
+    const { data } = yield call(getBills, payload);
     yield put({ type: GET_BILLS_SUCCESS, payload: data });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 function* getBillSaga({ payload }) {
@@ -23,18 +33,18 @@ function* getBillSaga({ payload }) {
     const { data } = yield call(getBill, payload);
     yield put({ type: GET_BILL_SUCCESS, payload: data });
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 function* createBillSaga({ payload }) {
   try {
-    const { success } = yield call(createBill, payload);
+    const { success, data } = yield call(createBill, payload);
     if (success) {
-      window.location.assign("/signin");
+      window.location.assign("/user/" + payload.data.user_id);
       yield put({ type: CREATE_BILLS_SUCCESS });
     }
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
   }
 }
 function* getTotalBillsSaga({ payload }) {
@@ -44,7 +54,29 @@ function* getTotalBillsSaga({ payload }) {
       yield put({ type: GET_BILLS_SUCCESS, payload: data });
     }
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err)
+  }
+}
+function* editBillSaga({ payload }) {
+  try {
+    const { resId } = payload;
+    const { success } = yield call(editBill, payload);
+    if (success) {
+      yield put({ type: GET_BILLS, payload: { resId } });
+    }
+  } catch (err) {
+    notifyErrorMsg(err)
+  }
+}
+function* deleteBillSaga({ payload }) {
+  try {
+    const { resId } = payload;
+    const { success } = yield call(deleteBill, payload);
+    if (success) {
+      yield put({ type: GET_BILLS, payload: { resId } });
+    }
+  } catch (err) {
+    notifyErrorMsg(err)
   }
 }
 
@@ -54,5 +86,7 @@ export default function* billsWatcher() {
     yield takeEvery(GET_BILL, getBillSaga),
     yield takeEvery(GET_TOTAL_BILL, getTotalBillsSaga),
     yield takeEvery(CREATE_BILLS, createBillSaga),
+    yield takeEvery(EDIT_BILL, editBillSaga),
+    yield takeEvery(DELETE_BILL, deleteBillSaga),
   ]);
 }

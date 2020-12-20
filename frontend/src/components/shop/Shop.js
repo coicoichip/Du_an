@@ -11,6 +11,7 @@ import { DEFAULT_AVATAR } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
 import { getFoods, getFoodsByResId, resetFoods } from "../../redux/foods.js";
 import { getRestaurant, resetRestaurants } from "../../redux/restaurants.js";
+import { getComments, resetComments } from "../../redux/comments";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -54,9 +55,11 @@ export default function Shop({ match }) {
   useEffect(() => {
     dispatch(getFoodsByResId({ resId: resId }));
     dispatch(getRestaurant({ resId: resId }));
+    dispatch(getComments({ resId: resId }));
     return () => {
       dispatch(resetFoods());
       dispatch(resetRestaurants());
+      dispatch(resetComments());
     }
   }, [resId]);
 
@@ -87,7 +90,7 @@ export default function Shop({ match }) {
               <br />
             </CardContent>
           </Card>
-          <Comments postId={1} comments={[]} updateComments={null} />
+          <Comments shopId={resId} updateComments={null} />
         </Grid>
         <Grid item xs={8} sm={8}>
           <Card>

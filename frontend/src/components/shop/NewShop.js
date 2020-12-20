@@ -76,6 +76,7 @@ export default function NewShop() {
         },
       })
     );
+    setValues({ ...values, redirect: true });
   };
 
   if (values.redirect) {

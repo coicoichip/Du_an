@@ -6,6 +6,8 @@ export const CREATE_COMMENT = "CREATE_COMMENT";
 export const CREATE_COMMENT_SUCCESS = "CREATE_COMMENT_SUCCESS";
 export const RATE = "RATE";
 export const RATE_SUCCESS = "RATE_SUCCESS";
+export const DELETE_COMMENT = "DELETE_COMMENT";
+export const DELETE_COMMENT_SUCCESS = "DELETE_COMMENT_SUCCESS";
 export const RESET_COMMENTS = "RESET_COMMENTS";
 export const RESET_COMMENTS_SUCCESS = "RESET_COMMENTS_SUCCESS";
 
@@ -14,29 +16,37 @@ export const getComments = ({ resId }) => ({
   payload: { resId },
 });
 
-export const getComment = ({resId, billId}) => ({
+export const getComment = ({ resId, billId }) => ({
   type: GET_COMMENT,
-  payload: {resId, billId}
+  payload: { resId, billId },
 });
 
-export const createComment = ({resId, data}) => ({
+export const createComment = ({ resId, data }) => ({
   type: CREATE_COMMENT,
-  payload: {resId, data}
+  payload: { resId, data },
 });
 
-export const rateRes = ({resId, data}) => ({
+export const rateRes = ({ resId, data }) => ({
   type: RATE,
-  payload: {resId, data}
+  payload: { resId, data },
+});
+
+export const deleteComment = ({ resId, comment_id }) => ({
+  type: DELETE_COMMENT,
+  payload: { resId, comment_id },
 });
 
 export const resetComments = () => ({
   type: RESET_COMMENTS,
+
 });
 
 const initialState = [];
 
 export default function comments(state, action) {
   switch (action.type) {
+    case GET_COMMENT_SUCCESS: 
+      return [...action.payload]
     case RESET_COMMENTS:
       return initialState;
     default:

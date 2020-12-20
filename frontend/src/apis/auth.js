@@ -46,3 +46,34 @@ export const signup = async ({
   });
   return response.data;
 };
+
+export const signout = async () => {
+  const response = await axios({
+    method: "GET",
+    url: `${BASE_URL}/logout`,
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const editProfile = async ({data}) => {
+  const response = await axios({
+    method: "PUT",
+    url: `${BASE_URL}/users`,
+    withCredentials: true,
+    data
+  });
+  return response.data;
+};
+
+export const deleteProfile = async ({user_id}) => {
+  const response = await axios({
+    method: "DELETE",
+    url: `${BASE_URL}/users`,
+    withCredentials: true,
+    data: {
+      user_id
+    }
+  });
+  return response.data;
+};

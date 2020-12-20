@@ -10,6 +10,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import { makeStyles } from '@material-ui/core/styles'
 import {Redirect} from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { editProfile } from '../../redux/auth'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -51,20 +53,21 @@ export default function EditProfile({ match }) {
       redirectToProfile: false,
       error: ''
   })
+  const auth = useSelector(s => s.auth);
+  const dispatch = useDispatch();
 
   const clickSubmit = () => {
     const user = {
       name: values.name || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
-      seller: values.seller || undefined
+      phone: values.phone || undefined,
+      address: values.address || undefined,
     }
+    dispatch(editProfile({data: user}))
   }
   const handleChange = name => event => {
     setValues({...values, [name]: event.target.value})
-  }
-  const handleCheck = (event, checked) => {
-    setValues({...values, 'seller': checked})
   }
 
   if (values.redirectToProfile) {
@@ -76,24 +79,52 @@ export default function EditProfile({ match }) {
           <Typography variant="h6" className={classes.title}>
             Edit Profile
           </Typography>
-          <TextField id="name" label="Name" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal"/><br/>
-          <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
-          <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
-          <Typography variant="subtitle1" className={classes.subheading}>
-            Seller Account
-          </Typography>
-          <FormControlLabel
-            control={
-              <Switch classes={{
-                                checked: classes.checked,
-                                bar: classes.bar,
-                              }}
-                      checked={values.seller}
-                      onChange={handleCheck}
-              />}
-            label={values.seller? 'Active' : 'Inactive'}
+          <TextField
+            id="name"
+            label="Name"
+            className={classes.textField}
+            value={values.name}
+            onChange={handleChange("name")}
+            margin="normal"
           />
-          <br/> {
+          <br />
+          <TextField
+            id="email"
+            type="email"
+            label="Email"
+            className={classes.textField}
+            value={values.email}
+            onChange={handleChange("email")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="phone"
+            label="Phone"
+            className={classes.textField}
+            value={values.phone}
+            onChange={handleChange("phone")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="address"
+            label="Address"
+            className={classes.textField}
+            value={values.address}
+            onChange={handleChange("address")}
+            margin="normal"
+          />
+          <TextField
+            id="password"
+            type="password"
+            label="Password"
+            className={classes.textField}
+            value={values.password}
+            onChange={handleChange("password")}
+            margin="normal"
+          />
+          <br /> {
             values.error && (<Typography component="p" color="error">
               <Icon color="error" className={classes.error}>error</Icon>
               {values.error}
