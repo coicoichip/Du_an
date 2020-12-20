@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { v4 } = require('uuid');
 const knex = require('../../knex');
-const { validateCustomer } = require('../../middlewares/middlewarAuthorize');
+const { validateCustomer, validateOwner } = require('../../middlewares/middlewarAuthorize');
 const { handleAPIResponse } = require('../../common/handleAPIResponse');
 const { triggerNotification } = require('../../socket');
 
@@ -25,7 +25,7 @@ router.route('/api/restaurants/:restaurant_id/bills')
     } catch (e) {
       next(e);
     }
-  }).post(validateCustomer, async (req, res, next) => {
+  }).post(validateOwner, async (req, res, next) => {
     const { user_id, email, name, phone, address } = req.session;
     const { restaurant_id } = req.params;
     const { bills, ship_price, note } = req.body;
