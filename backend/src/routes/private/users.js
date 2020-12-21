@@ -15,13 +15,13 @@ router.route('/api/users')
       next(e);
     }
   }).post(validateAdmin, async (req, res, next) => {
-    const { email, name, password, phone, address } = req.body;
+    const { email, name, password, phone, address, img_url } = req.body;
     if (!email || !password) return handleAPIResponse(res, 400, 'email && password required');
 
     try {
       let user = await knex('users').first().where({ email });
       if (user) return handleAPIResponse(res, 400, 'email exist');
-      await knex('users').insert({ email, name, password, phone, address, position: 'customer' });
+      await knex('users').insert({ email, name, password, phone, address, img_url, position: 'customer' });
       user = await knex('users').first().where({ email, name, password, phone, address }).orderBy('user_id', 'desc');
 
       return handleAPIResponse(res, 200, user);
@@ -30,13 +30,13 @@ router.route('/api/users')
     }
   }).put(validateCustomer, async (req, res, next) => {
     const { user_id, email } = req.session;
-    // const { email, name, password, phone, address } = req.body;
+    // const { email, name, password, phone, address, img_url } = req.body;
 
     try {
       let user = await knex('users').first().where({ email });
       if (user) return handleAPIResponse(res, 400, 'email exist');
       const update_data = {};
-      ['email', 'name', 'password', 'phone', 'address'].forEach(field => {
+      ['email', 'name', 'password', 'phone', 'address', 'img_url'].forEach(field => {
         if (req.body[field]) update_data[field] = req.body[field];
       });
 

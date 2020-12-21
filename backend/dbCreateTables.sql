@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
   phone VARCHAR,
   address VARCHAR,
   position VARCHAR,
+  img_url VARCHAR,
   create_time DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS restaurants (
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS restaurants (
   close_time DATETIME DEFAULT CURRENT_TIMESTAMP,
   order_count INTEGER,
   email VARCHAR,
+  img_url VARCHAR,
   create_time DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS rates (
