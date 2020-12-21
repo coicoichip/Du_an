@@ -76,13 +76,14 @@ export default function MyProducts(props) {
               <ListItem>
                 <CardMedia
                   className={classes.cover}
-                  image={DEFAULT_AVATAR}
+                  image={product?.img_url}
+                  style={{objectFit: 'cover'}}
                   title={product.name}
                 />
                 <div className={classes.details}>
                   <Typography
                     type="headline"
-                    component="h2"
+                    variant="h5"
                     color="primary"
                     className={classes.productTitle}
                   >
@@ -93,7 +94,14 @@ export default function MyProducts(props) {
                     component="h4"
                     className={classes.subheading}
                   >
-                    Quantity: {product.quantity} | Price: ${product.price}
+                    Price: ${product.price}
+                  </Typography>
+                  <Typography
+                    type="subheading"
+                    component="h4"
+                    className={classes.subheading}
+                  >
+                    Description: ${product.description}
                   </Typography>
                 </div>
                 <ListItemSecondaryAction>

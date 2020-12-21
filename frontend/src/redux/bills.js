@@ -23,9 +23,9 @@ export const getBill = ({resId, billId}) => ({
   payload: {resId, billId}
 });
 
-export const createBill = ({resId, data}) => ({
+export const createBill = ({resId, data, history}) => ({
   type: CREATE_BILLS,
-  payload: {resId, data}
+  payload: {resId, data, history}
 });
 
 export const resetBills = () => ({

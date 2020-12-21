@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createBill } from "../../redux/bills";
 import auth from "../../redux/auth";
@@ -45,12 +45,14 @@ const PlaceOrder = ({ note }) => {
     orderId: "",
   });
   const dispatch = useDispatch();
+  const history = useHistory();
   const cart = useSelector((s) => s.cart);
   const auth = useSelector((s) => s.auth);
   const placeOrder = () => {
     dispatch(
       createBill({
         resId: localStorage.getItem("resId"),
+        history,
         data: {
           bills: cart.map((s) => ({ food_id: s.id, quantity: s.quantity })),
           ship_price: 30,

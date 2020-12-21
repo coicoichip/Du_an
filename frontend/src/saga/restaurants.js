@@ -18,48 +18,38 @@ import {
   deleteRestaurant,
   createRestaurant,
 } from "../apis/restaurants";
-import { notifyErrorMsg } from "../redux/Alert";
+import { notifyErrorMsg, notifySuccess } from "../redux/Alert";
 function* getRestaurantsSaga({ payload }) {
   try {
     const { data } = yield call(getRestaurants, payload);
     yield put({ type: GET_RESTAURANTS_SUCCESS, payload: data });
-  } catch (err) {
-    notifyErrorMsg(err);
-  }
+  } catch (err) {}
 }
 function* getRestaurantSaga({ payload }) {
   try {
     const { data } = yield call(getRestaurant, payload);
     yield put({ type: GET_RESTAURANT_SUCCESS, payload: data });
-  } catch (err) {
-    notifyErrorMsg(err);
-  }
+  } catch (err) {}
 }
 function* editRestaurantSaga({ payload }) {
   try {
     const result = yield call(editRestaurant, payload);
-    console.log(result);
+    notifySuccess()
     yield put({ type: EDIT_RESTAURANT_SUCCESS });
-  } catch (err) {
-    notifyErrorMsg(err);
-  }
+  } catch (err) {}
 }
 function* deleteRestaurantSaga({ payload }) {
   try {
     const result = yield call(deleteRestaurant, payload);
     yield put({ type: GET_RESTAURANTS });
-  } catch (err) {
-    notifyErrorMsg(err);
-  }
+  } catch (err) {}
 }
 function* createRestaurantSaga({ payload }) {
   try {
     const result = yield call(createRestaurant, payload);
     console.log(result);
     yield put({ type: CREATE_RESTAURANT_SUCCESS });
-  } catch (err) {
-    notifyErrorMsg(err);
-  }
+  } catch (err) {}
 }
 
 export default function* restaurantsWatcher() {

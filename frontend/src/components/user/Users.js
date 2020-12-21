@@ -80,6 +80,7 @@ export default function Users() {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={item.name} />
+                <ListItemText primary={item.email} />
                 <ListItemText primary={item.position} />
                 <ListItemSecondaryAction>
                   <IconButton onClick={() => handleUpgrade(item.email)}>

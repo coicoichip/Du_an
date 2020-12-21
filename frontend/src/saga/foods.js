@@ -48,8 +48,7 @@ function* getFoodSaga({ payload }) {
 }
 function* editFoodSaga({ payload }) {
   try {
-    const result = yield call(editFood, payload);
-    console.log(result);
+    const {} = yield call(editFood, payload);
     yield put({ type: EDIT_FOOD_SUCCESS });
   } catch (err) {
     notifyErrorMsg(err)

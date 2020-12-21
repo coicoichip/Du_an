@@ -17,6 +17,7 @@ import { Redirect, Link } from "react-router-dom";
 import DeleteShop from "./DeleteShop";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteRestaurant, getRestaurants } from "../../redux/restaurants";
+import { DEFAULT_IMAGE } from "../../config";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -47,7 +48,6 @@ export default function MyShops() {
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (auth.position !== "owner") setRedirectToSignin(true);
     dispatch(getRestaurants());
   }, []);
 
@@ -79,10 +79,7 @@ export default function MyShops() {
                   <ListItemAvatar>
                     <Avatar
                       src={
-                        "/api/restaurant/logo/" +
-                        restaurants.id +
-                        "?" +
-                        new Date().getTime()
+                        restaurant?.img_url || DEFAULT_IMAGE + 300
                       }
                     />
                   </ListItemAvatar>

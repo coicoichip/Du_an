@@ -79,6 +79,7 @@ export default function Products({ foods, searched }) {
                   <img
                     className={classes.image}
                     src={food?.img_url || DEFAULT_IMAGE + 300}
+                    style={{width: '100%', objectFit: 'cover'}}
                     alt={food.name}
                   />
                 </Link>

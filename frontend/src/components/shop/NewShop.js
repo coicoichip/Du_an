@@ -54,6 +54,7 @@ export default function NewShop() {
     open_time: "",
     close_time: "",
     email: "",
+    img_url: "",
     redirect: false,
     error: "",
   });
@@ -62,7 +63,9 @@ export default function NewShop() {
     const value = name === "image" ? event.target.files[0] : event.target.value;
     setValues({ ...values, [name]: value });
   };
-
+  const inputProps = {
+    step: 60,
+  };
   const clickSubmit = () => {
     dispatch(
       createRestaurant({
@@ -72,6 +75,7 @@ export default function NewShop() {
           phone: values.phone,
           open_time: values.open_time,
           close_time: values.close_time,
+          img_url: values.img_url,
           email: values.email,
         },
       })
@@ -100,6 +104,15 @@ export default function NewShop() {
           />
           <br />
           <TextField
+            id="img_url"
+            label="Image Url"
+            className={classes.textField}
+            value={values.img_url}
+            onChange={handleChange("img_url")}
+            margin="normal"
+          />
+          <br />
+          <TextField
             id="address"
             label="Address"
             className={classes.textField}
@@ -124,6 +137,8 @@ export default function NewShop() {
             value={values.open_time}
             onChange={handleChange("open_time")}
             margin="normal"
+            type="time"
+            inputProps={inputProps}
           />
           <br />
           <TextField
@@ -133,6 +148,8 @@ export default function NewShop() {
             value={values.close_time}
             onChange={handleChange("close_time")}
             margin="normal"
+            type="time"
+            inputProps={inputProps}
           />
           <br />
           <TextField

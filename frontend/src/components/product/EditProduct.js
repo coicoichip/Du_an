@@ -9,8 +9,8 @@ import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, Redirect } from "react-router-dom";
 import { DEFAULT_IMAGE } from "../../config";
-import { editFood } from "../../redux/foods";
-import { useDispatch } from "react-redux";
+import { editFood, getFood, resetFoods } from "../../redux/foods";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -62,24 +62,42 @@ export default function EditProduct({ match }) {
     error: "",
   });
   const dispatch = useDispatch();
+  const foods = useSelector((s) => s.foods);
   const clickSubmit = () => {
     dispatch(
       editFood({
         foodId: match.params.foodId,
+        resId: match.params.resId,
         data: {
           name: values.name,
-          resId: match.params.resId,
           description: values.description,
           img_url: values.img_url,
           price: values.price,
         },
       })
     );
-    setValues({...values, redirect: true})
+    setValues({ ...values, redirect: true });
   };
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
+  useEffect(() => {
+    dispatch(
+      getFood({ foodId: match.params.foodId, resId: match.params.resId })
+    );
+    return () => {
+      dispatch(resetFoods());
+    };
+  }, []);
+  useEffect(() => {
+    setValues({
+      ...values,
+      name: foods[0].name,
+      description: foods[0].description,
+      img_url: foods[0].img_url,
+      price: foods[0].price,
+    });
+  }, [foods]);
   if (values.redirect) {
     return <Redirect to={"/seller/restaurant/edit/" + match.params.resId} />;
   }

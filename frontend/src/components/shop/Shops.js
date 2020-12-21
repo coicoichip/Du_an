@@ -9,9 +9,14 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurants } from "../../redux/restaurants.js";
-import { DEFAULT_AVATAR } from "../../config.js";
-
+import { getRestaurants, resetRestaurants } from "../../redux/restaurants.js";
+import { BASE_URL, DEFAULT_AVATAR } from "../../config.js";
+import axios from "axios";
+import { notifyErrorMsg } from "../../redux/Alert.js";
+import StarIcon from "@material-ui/icons/Star";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import StarBorder from "@material-ui/icons/StarBorder";
+import { Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
     maxWidth: 600,
@@ -44,11 +49,27 @@ const useStyles = makeStyles((theme) => ({
 export default function Shops() {
   const classes = useStyles();
   const restaurants = useSelector((s) => s.restaurants);
+  const [rates, setRates] = useState({});
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getRestaurants());
+    return () => {
+      dispatch(resetRestaurants());
+    };
   }, []);
-
+  useEffect(() => {
+    restaurants.forEach((r) => {
+      axios({
+        method: "GET",
+        url: `${BASE_URL}/restaurants/${r.id}/rates`,
+        withCredentials: true,
+      })
+        .then(({ data: { data: { avg } } }) =>
+          setRates({ ...rates, [r.id]: avg })
+        )
+        .catch((err) => notifyErrorMsg(err));
+    });
+  }, [restaurants]);
   return (
     <div>
       <Paper className={classes.root} elevation={4}>
@@ -62,7 +83,7 @@ export default function Shops() {
                 <Divider />
                 <ListItem button>
                   <ListItemAvatar>
-                    <Avatar className={classes.avatar} src={DEFAULT_AVATAR} />
+                    <Avatar className={classes.avatar} src={res?.img_url} />
                   </ListItemAvatar>
                   <div className={classes.details}>
                     <Typography
@@ -80,6 +101,24 @@ export default function Shops() {
                     >
                       {res.address}
                     </Typography>
+                  </div>
+                  <div
+                    className={classes.details}
+                    style={{ marginLeft: "auto" }}
+                  >
+                    <Grid container className="ml-auto mr-auto">
+                      {[1, 2, 3, 4, 5].map((i) =>
+                        i <= rates[res.id] ? (
+                          <StarIcon
+                            style={{ cursor: "pointer", fill: 'black' }}
+                          />
+                        ) : (
+                          <StarBorder
+                            style={{ cursor: "pointer", fill: 'black' }}
+                          />
+                        )
+                      )}
+                    </Grid>
                   </div>
                 </ListItem>
                 <Divider />

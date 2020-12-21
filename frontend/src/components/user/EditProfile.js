@@ -9,7 +9,7 @@ import Icon from '@material-ui/core/Icon'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import { makeStyles } from '@material-ui/core/styles'
-import {Redirect} from 'react-router-dom'
+import {Redirect, useHistory} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { editProfile } from '../../redux/auth'
 
@@ -55,7 +55,7 @@ export default function EditProfile({ match }) {
   })
   const auth = useSelector(s => s.auth);
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const clickSubmit = () => {
     const user = {
       name: values.name || undefined,
@@ -64,12 +64,21 @@ export default function EditProfile({ match }) {
       phone: values.phone || undefined,
       address: values.address || undefined,
     }
-    dispatch(editProfile({data: user}))
+    dispatch(editProfile({data: user, history}))
   }
   const handleChange = name => event => {
     setValues({...values, [name]: event.target.value})
   }
-
+  useEffect(() => {
+    setValues({
+      ...values,
+      name: auth.name ,
+      email: auth.email ,
+      password: "***" ,
+      phone: auth.phone ,
+      address: auth.address ,
+    })
+  })
   if (values.redirectToProfile) {
     return (<Redirect to={'/user/' + values.userId}/>)
   }

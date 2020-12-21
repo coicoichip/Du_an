@@ -30,9 +30,9 @@ export const createFood = ({ data }) => ({
   payload: { data },
 });
 
-export const editFood = ({ foodId, data }) => ({
+export const editFood = ({ resId, foodId, data }) => ({
   type: EDIT_FOOD,
-  payload: { foodId, data },
+  payload: { foodId, data, resId },
 });
 
 export const deleteFood = ({ foodId, resId }) => ({

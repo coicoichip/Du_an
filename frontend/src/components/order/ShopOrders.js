@@ -51,17 +51,16 @@ export default function ShopOrders({ match }) {
       dispatch(resetBills());
     };
   }, []);
-
   const handleClick = (index) => (event) => {
     setOpen(index);
   };
   const handleEdit = (billId) => {
     dispatch(
-      editBill({ billId, resId: match.params.resId, data: { status: 0 } })
+      editBill({ billId, resId: match.params.resId, data: { status: 2 } })
     );
   };
   const handleDelete = (billId) => {
-    dispatch(deleteBill({ billId, resId: match.params.resId }));
+    dispatch(editBill({ billId, resId: match.params.resId, data: { status: 3 } }));
   };
 
   const updateOrders = (index, updatedOrder) => {};
@@ -79,9 +78,9 @@ export default function ShopOrders({ match }) {
                 <ListItem button onClick={handleClick(index)}>
                   <ListItemText
                     primary={`Order # ${order.id} ----- ${
-                      order.status ? "Uncheck out" : "Checked out"
+                      order.status === 2 ? "Paid" : order.status === 3 ? "Cancel" : "Order"
                     }`}
-                    style={{color: !order.status ? 'green' : undefined}}
+                    style={{color: order.status === 2 ? 'green' : order.status === 3 ? 'red' : undefined}}
                     secondary={new Date(order.create_time).toDateString()}
                   />
                   {open == index ? <ExpandLess /> : <ExpandMore />}

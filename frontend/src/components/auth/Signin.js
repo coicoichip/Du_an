@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signin } from "../../redux/auth";
 const useStyles = makeStyles((theme) => ({
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Signin(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -51,7 +52,7 @@ export default function Signin(props) {
       email: values.email || undefined,
       password: values.password || undefined,
     };
-    dispatch(signin(user));
+    dispatch(signin({...user, history}));
   };
 
   const handleChange = (name) => (event) => {

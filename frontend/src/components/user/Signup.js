@@ -12,7 +12,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FormControlLabel, Switch } from "@material-ui/core";
 import { signup } from "../../redux/auth.js";
 import { useDispatch } from "react-redux";
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Signup() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [values, setValues] = useState({
     name: "",
     password: "",
@@ -83,7 +84,7 @@ export default function Signup() {
       phone: values.phone || undefined,
       address: values.address || undefined,
     };
-    dispatch(signup(user));
+    dispatch(signup({...user, history}));
   };
   return (
     <div>

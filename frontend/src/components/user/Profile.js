@@ -73,7 +73,7 @@ export default function Profile({ match }) {
         <Divider />
         <ListItem>
           <ListItemText
-            primary={"Joined: " + moment(auth?.created_at).format('MM DD YYYY')}
+            primary={"Joined: " + moment(auth?.created_at).format('MM/DD/YYYY HH:mm')}
           />
         </ListItem>
       </List>

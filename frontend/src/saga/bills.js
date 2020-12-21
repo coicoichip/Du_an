@@ -25,7 +25,6 @@ function* getBillsSaga({ payload }) {
     const { data } = yield call(getBills, payload);
     yield put({ type: GET_BILLS_SUCCESS, payload: data });
   } catch (err) {
-    notifyErrorMsg(err)
   }
 }
 function* getBillSaga({ payload }) {
@@ -40,7 +39,7 @@ function* createBillSaga({ payload }) {
   try {
     const { success, data } = yield call(createBill, payload);
     if (success) {
-      window.location.assign("/user/" + payload.data.user_id);
+      payload.history.push("/user/" + payload.data.user_id);
       yield put({ type: CREATE_BILLS_SUCCESS });
     }
   } catch (err) {

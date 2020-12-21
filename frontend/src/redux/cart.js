@@ -50,7 +50,7 @@ export default function cart(state, action) {
     }
     case REMOVE_ITEM: {
       const { item } = action.payload;
-      localStorage.clear("resId");
+      localStorage.removeItem("resId");
       return [...state.filter((s) => s.id !== item.id)];
     }
     case RESET_CART:

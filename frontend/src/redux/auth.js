@@ -10,8 +10,9 @@ export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const WHO_AM_I = "WHO_AM_I";
 export const WHO_AM_I_SUCCESS = "WHO_AM_I_SUCCESS";
 
-export const signout = () => ({
+export const signout = ({ history }) => ({
   type: SIGNOUT,
+  payload: { history },
 });
 
 export const signin = (data) => ({
@@ -47,8 +48,6 @@ export default function auth(state, action) {
         ...action.payload,
       };
     case SIGNOUT:
-      document.cookie = "";
-      window.location.assign("/restaurants/all");
       return initialState;
     default:
       return state || initialState;
