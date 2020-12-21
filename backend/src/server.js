@@ -70,11 +70,11 @@ const server = app.listen(port, () => console.log(`Your app is listening on port
 
 const io = require('socket.io')(server);
 io.set('Access-Control-Allow-Origin', '*');
+const { socketNotification } = require('./socket');
 const { socketAuthentication } = require('./middlewares/socketMiddleware');
 
 const notify = io.of('/notifications');
 notify.use(socketAuthentication);
-const { socketNotification } = require('./socket');
 socketNotification(notify);
 
 app.use((err, req, res, next) => handleAPIResponse(res, 500, 'Internal Server Error', err));
