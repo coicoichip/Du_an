@@ -19,8 +19,10 @@ router.route('/api/users')
     if (!email || !password) return handleAPIResponse(res, 400, 'email && password required');
 
     try {
-      await knex('users').insert({ email, name, password, phone, address });
-      const user = await knex('users').first().where({ email, name, password, phone, address }).orderBy('user_id', 'desc');
+      let user = await knex('users').first().where({ email });
+      if (user) return handleAPIResponse(res, 400, 'email exist');
+      await knex('users').insert({ email, name, password, phone, address, position: 'customer' });
+      user = await knex('users').first().where({ email, name, password, phone, address }).orderBy('user_id', 'desc');
       return handleAPIResponse(res, 200, user);
     } catch (e) {
       next(e);
