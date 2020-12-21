@@ -1,5 +1,4 @@
-/* eslint-disable max-statements-per-line */
-/* eslint-disable no-unused-vars *//* eslint-disable global-require */
+/* eslint-disable max-statements-per-line *//* eslint-disable no-unused-vars *//* eslint-disable global-require */
 const express = require('express');
 const cors = require('cors');
 const bodyParse = require('body-parser');
@@ -58,6 +57,7 @@ const private_apis = [
   'rates',
   'restaurant-details',
   'restaurants',
+  'socket-token',
   'total-bills',
   'users',
 ];
