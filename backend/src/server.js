@@ -20,7 +20,7 @@ app.use(
   })
 );
 
-const express_session = session({
+app.use(session({
   store: new SQLiteStore({
     db: './db/sessions.sqlite3',
     schema: {
@@ -39,8 +39,7 @@ const express_session = session({
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // a day
   },
-});
-app.use(express_session);
+}));
 
 const public_apis = [
   'login',
@@ -70,14 +69,11 @@ const port = process.env.PORT || 5000;
 const server = app.listen(port, () => console.log(`Your app is listening on port ${port}`));
 
 const io = require('socket.io')(server);
-const socket_session = require('express-socket.io-session');
 io.set('Access-Control-Allow-Origin', '*');
-io.use(socket_session(express_session));
+const { socketAuthentication } = require('./middlewares/socketMiddleware');
 
 const notify = io.of('/notifications');
-notify.use((socket, next) => {
-  try { Object.assign(socket, { user_id: socket.handshake.session.user_id }); next(); } catch (e) { next(new Error('Unauthorized')); }
-});
+notify.use(socketAuthentication);
 const { socketNotification } = require('./socket');
 socketNotification(notify);
 

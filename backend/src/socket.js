@@ -6,8 +6,10 @@ const userManagement = {
 
 function socketNotification(io) {
   wsNotification = io.on('connection', socket => {
-    userManagement.notifications[socket.user_id] = socket.user_id;
-    socket.join(socket.user_id);
+    const { user_id } = socket.credentials;
+    userManagement.notifications[user_id] = socket.credentials;
+    socket.user_id = user_id;
+    socket.join(user_id);
 
     socket.on('disconnect', () => {
       delete userManagement.notifications[socket.user_id];
@@ -17,8 +19,8 @@ function socketNotification(io) {
 }
 
 function triggerNotification(user_id, content) {
-  if (userManagement.notifications[user_id] && userManagement.notifications[user_id].group_id) {
-    wsNotification.to(user_id).emit('notify', content);
+  if (userManagement.notifications[user_id]) {
+    wsNotification.to(user_id).emit('newNotify', content);
   }
 }
 
