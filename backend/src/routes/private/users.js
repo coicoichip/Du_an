@@ -29,11 +29,13 @@ router.route('/api/users')
       next(e);
     }
   }).put(validateCustomer, async (req, res, next) => {
-    const { user_id, email } = req.session;
+    const { user_id, email: email0 } = req.session;
     // const { email, name, password, phone, address, img_url } = req.body;
+    const { email } = req.body;
 
     try {
-      let user = await knex('users').first().where({ email });
+      let user = false;
+      if (email !== email0) user = await knex('users').first().where({ email: email0 });
       if (user) return handleAPIResponse(res, 400, 'email exist');
       const update_data = {};
       ['email', 'name', 'password', 'phone', 'address', 'img_url'].forEach(field => {
