@@ -75,7 +75,7 @@ export default function Users() {
             <Link key={i}>
               <ListItem button>
                 <ListItemAvatar>
-                  <Avatar>
+                  <Avatar src={item.img_url}>
                     <Person />
                   </Avatar>
                 </ListItemAvatar>

@@ -83,6 +83,7 @@ export default function Signup() {
       position: values.position ? "owner" : "customer" || undefined,
       phone: values.phone || undefined,
       address: values.address || undefined,
+      img_url: values.img_url || undefined,
     };
     dispatch(signup({...user, history}));
   };
@@ -99,6 +100,15 @@ export default function Signup() {
             className={classes.textField}
             value={values.name}
             onChange={handleChange("name")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="img_url"
+            label="Image Url"
+            className={classes.textField}
+            value={values.img_url}
+            onChange={handleChange("img_url")}
             margin="normal"
           />
           <br />

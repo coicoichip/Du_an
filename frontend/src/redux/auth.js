@@ -25,9 +25,9 @@ export const signup = (data) => ({
   payload: data,
 });
 
-export const editProfile = ({ data }) => ({
+export const editProfile = ({ data, history }) => ({
   type: EDIT_PROFILE,
-  payload: { data },
+  payload: { data, history },
 });
 
 export const deleteUser = ({ user_id }) => ({

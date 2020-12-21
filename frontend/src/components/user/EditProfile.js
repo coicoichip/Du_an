@@ -49,7 +49,7 @@ export default function EditProfile({ match }) {
       name: '',
       email: '',
       password: '',
-      seller: false,
+      img_url: '',
       redirectToProfile: false,
       error: ''
   })
@@ -63,6 +63,7 @@ export default function EditProfile({ match }) {
       password: values.password || undefined,
       phone: values.phone || undefined,
       address: values.address || undefined,
+      img_url: values.img_url || undefined,
     }
     dispatch(editProfile({data: user, history}))
   }
@@ -77,8 +78,9 @@ export default function EditProfile({ match }) {
       password: "***" ,
       phone: auth.phone ,
       address: auth.address ,
+      img_url: auth.img_url ,
     })
-  })
+  },[])
   if (values.redirectToProfile) {
     return (<Redirect to={'/user/' + values.userId}/>)
   }
@@ -94,6 +96,15 @@ export default function EditProfile({ match }) {
             className={classes.textField}
             value={values.name}
             onChange={handleChange("name")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="img_url"
+            label="Image Url"
+            className={classes.textField}
+            value={values.img_url}
+            onChange={handleChange("img_url")}
             margin="normal"
           />
           <br />

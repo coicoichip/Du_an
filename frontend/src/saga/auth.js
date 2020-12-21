@@ -18,7 +18,7 @@ import {
   editProfile,
   deleteProfile,
 } from "../apis/auth";
-import { notifyErrorMsg } from "../redux/Alert";
+import { notifyErrorMsg, notifySuccess } from "../redux/Alert";
 function* signinSaga({ payload }) {
   try {
     yield call(signin, payload);
@@ -44,6 +44,7 @@ function* getMeSaga({ payload }) {
 function* signupSaga({ payload }) {
   try {
     const { success } = yield call(signup, payload);
+    yield put({ type: WHO_AM_I });
     if (success) {
       if (payload.position === "owner") {
         payload.history.push("/seller/restaurants");
@@ -51,14 +52,14 @@ function* signupSaga({ payload }) {
       yield put({ type: SIGNUP_SUCCESS });
     }
   } catch (err) {
-    notifyErrorMsg(err)
+    notifyErrorMsg(err);
   }
 }
 function* signoutSaga({ payload }) {
   try {
     const { success } = yield call(signout, payload);
-    localStorage.removeItem('login')
-    payload.history.push('/restaurants/all')
+    localStorage.removeItem("login");
+    payload.history.push("/restaurants/all");
     if (success) {
     }
   } catch (err) {
@@ -69,11 +70,15 @@ function* editProfileSaga({ payload }) {
   try {
     const { success, data } = yield call(editProfile, payload);
     if (success) {
+      notifySuccess();
       payload.history.push("/user/" + data.user_id);
       yield put({ type: WHO_AM_I });
     }
   } catch (err) {
-    console.log(err);
+    if (err) {
+      notifyErrorMsg(err);
+      console.log(err)
+    }
   }
 }
 function* deleteUserSaga({ payload }) {

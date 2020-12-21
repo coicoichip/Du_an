@@ -30,6 +30,7 @@ export const signup = async ({
   name,
   phone,
   address,
+  img_url
 }) => {
   const response = await axios({
     method: "POST",
@@ -42,6 +43,7 @@ export const signup = async ({
       name,
       phone,
       address,
+      img_url
     },
   });
   return response.data;

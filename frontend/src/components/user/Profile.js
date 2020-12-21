@@ -54,7 +54,7 @@ export default function Profile({ match }) {
       <List dense>
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
+            <Avatar src={auth.img_url}>
               <Person />
             </Avatar>
           </ListItemAvatar>
