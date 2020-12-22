@@ -62,6 +62,7 @@ function* deleteFoodSaga({ payload }) {
     }
     yield put({ type: GET_FOODS_BY_RESID, payload: { resId } });
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err)
   }
 }
@@ -71,6 +72,7 @@ function* createFoodSaga({ payload }) {
     console.log(result);
     yield put({ type: CREATE_FOOD_SUCCESS });
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err)
   }
 }

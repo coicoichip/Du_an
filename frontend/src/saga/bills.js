@@ -25,6 +25,7 @@ function* getBillsSaga({ payload }) {
     const { data } = yield call(getBills, payload);
     yield put({ type: GET_BILLS_SUCCESS, payload: data });
   } catch (err) {
+    console.log(err)
   }
 }
 function* getBillSaga({ payload }) {
@@ -32,6 +33,7 @@ function* getBillSaga({ payload }) {
     const { data } = yield call(getBill, payload);
     yield put({ type: GET_BILL_SUCCESS, payload: data });
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err)
   }
 }
@@ -43,6 +45,7 @@ function* createBillSaga({ payload }) {
       yield put({ type: CREATE_BILLS_SUCCESS });
     }
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err)
   }
 }
@@ -53,6 +56,7 @@ function* getTotalBillsSaga({ payload }) {
       yield put({ type: GET_BILLS_SUCCESS, payload: data });
     }
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err)
   }
 }
@@ -64,6 +68,7 @@ function* editBillSaga({ payload }) {
       yield put({ type: GET_BILLS, payload: { resId } });
     }
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err)
   }
 }
@@ -75,6 +80,7 @@ function* deleteBillSaga({ payload }) {
       yield put({ type: GET_BILLS, payload: { resId } });
     }
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err)
   }
 }

@@ -22,14 +22,10 @@ const isPartActive = (history, path) => {
 const Menu = withRouter(({ history }) => {
   const auth = useSelector((s) => s.auth);
   const cart = useSelector((s) => s.cart);
-  const socket = useSelector((s) => s.socket);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!auth.email) {
       dispatch({ type: WHO_AM_I });
-    }
-    if (!socket) {
-      dispatch(getToken());
     }
   }, []);
   return (
