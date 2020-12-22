@@ -52,7 +52,7 @@ export default function MyOrders() {
                 <ListItem button>
                   <ListItemText
                     primary={<strong>{"Order # " + order.id}</strong>}
-                    secondary={moment(order.created_at).format("MM/DD/YYYY HH:mm")}
+                    secondary={moment.utc(order.create_time).local().format("MM/DD/YYYY HH:mm")}
                   />
                 </ListItem>
               </Link>

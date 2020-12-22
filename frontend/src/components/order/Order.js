@@ -143,7 +143,7 @@ export default function Order({ match }) {
         className={classes.subheading}
       >
         Order Code: <strong>{order.id}</strong> <br /> Placed on{" "}
-        {moment(order.created_at).format("MM/DD/YYYY HH:mm")}
+        {moment.utc(order.create_time).local().format("MM/DD/YYYY HH:mm")}
       </Typography>
       <br />
       <Grid container spacing={4}>
