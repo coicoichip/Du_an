@@ -18,14 +18,14 @@ router.route('/api/restaurants')
     }
   }).post(validateOwner, async (req, res, next) => {
     const { user_id } = req.session;
-    const { name, address, phone, open_time, close_time, email } = req.body;
-    ['name', 'address', 'phone', 'open_time', 'close_time', 'email'].forEach(field => {
+    const { name, address, phone, open_time, close_time, email, img_url } = req.body;
+    ['name', 'address', 'phone', 'open_time', 'close_time', 'email', 'img_url'].forEach(field => {
       if (!req.body[field]) return handleAPIResponse(res, 400, `${field} required`);
     });
 
     try {
       const status = 1;
-      await knex('restaurants').insert({ name, address, phone, manager_id: user_id, open_time, close_time, email, status });
+      await knex('restaurants').insert({ name, address, phone, manager_id: user_id, open_time, close_time, email, status, img_url });
       const restaurant = await knex('restaurants')
         .first()
         .where({ name, address, phone, manager_id: user_id, open_time, close_time, email, status })

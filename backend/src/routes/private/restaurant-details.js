@@ -17,7 +17,7 @@ router.route('/api/restaurants/:restaurant_id')
   }).put(validateOwner, async (req, res, next) => {
     const { user_id } = req.session;
     const { restaurant_id } = req.params;
-    const fields = ['name', 'address', 'phone', 'open_time', 'close_time', 'email', 'status'];
+    const fields = ['name', 'address', 'phone', 'open_time', 'close_time', 'email', 'status', 'img_url'];
     const update_data = {};
     fields.forEach(field => {
       if (req.body[`${field}`]) update_data[`${field}`] = req.body[`${field}`];

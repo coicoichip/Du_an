@@ -1,5 +1,4 @@
-/* eslint-disable max-statements-per-line */
-/* eslint-disable no-unused-vars *//* eslint-disable global-require */
+/* eslint-disable max-statements-per-line *//* eslint-disable no-unused-vars *//* eslint-disable global-require */
 const express = require('express');
 const cors = require('cors');
 const bodyParse = require('body-parser');
@@ -20,7 +19,7 @@ app.use(
   })
 );
 
-const express_session = session({
+app.use(session({
   store: new SQLiteStore({
     db: './db/sessions.sqlite3',
     schema: {
@@ -39,8 +38,7 @@ const express_session = session({
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // a day
   },
-});
-app.use(express_session);
+}));
 
 const public_apis = [
   'login',
@@ -59,6 +57,7 @@ const private_apis = [
   'rates',
   'restaurant-details',
   'restaurants',
+  'socket-token',
   'total-bills',
   'users',
 ];
@@ -70,15 +69,12 @@ const port = process.env.PORT || 5000;
 const server = app.listen(port, () => console.log(`Your app is listening on port ${port}`));
 
 const io = require('socket.io')(server);
-const socket_session = require('express-socket.io-session');
 io.set('Access-Control-Allow-Origin', '*');
-io.use(socket_session(express_session));
+const { socketNotification } = require('./socket');
+const { socketAuthentication } = require('./middlewares/socketMiddleware');
 
 const notify = io.of('/notifications');
-notify.use((socket, next) => {
-  try { Object.assign(socket, { user_id: socket.handshake.session.user_id }); next(); } catch (e) { next(new Error('Unauthorized')); }
-});
-const { socketNotification } = require('./socket');
+notify.use(socketAuthentication);
 socketNotification(notify);
 
 app.use((err, req, res, next) => handleAPIResponse(res, 500, 'Internal Server Error', err));
