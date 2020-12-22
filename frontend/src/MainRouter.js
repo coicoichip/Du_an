@@ -6,7 +6,6 @@ import Signup from "./components/user/Signup";
 import Signin from "./components/auth/Signin";
 import EditProfile from "./components/user/EditProfile";
 import Profile from "./components/user/Profile";
-import PrivateRoute from "./components/auth/PrivateRoute";
 import Menu from "./components/core/Menu";
 import NewShop from "./components/shop/NewShop";
 import Shops from "./components/shop/Shops";
@@ -39,7 +38,7 @@ const MainRouter = () => {
         <Route path="/users" component={Users} />
         <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
-        <PrivateRoute
+        <Route
           login={login}
           path="/user/edit/:userId"
           component={EditProfile}
@@ -52,29 +51,29 @@ const MainRouter = () => {
         <Route path="/restaurants/:resId" component={Shop} />
 
         <Route path="/order/:orderId" component={Order} />
-        <PrivateRoute
+        <Route
           login={login}
           path="/seller/orders/:shop/:resId"
           component={ShopOrders}
         />
 
         <Route path="/seller/restaurants" component={MyShops} />
-        <PrivateRoute
+        <Route
           login={login}
           path="/seller/restaurant/new"
           component={NewShop}
         />
-        <PrivateRoute
+        <Route
           login={login}
           path="/seller/restaurant/edit/:resId"
           component={EditShop}
         />
-        <PrivateRoute
+        <Route
           login={login}
           path="/seller/:resId/foods/new"
           component={NewProduct}
         />
-        <PrivateRoute
+        <Route
           login={login}
           path="/seller/:resId/:foodId/edit"
           component={EditProduct}

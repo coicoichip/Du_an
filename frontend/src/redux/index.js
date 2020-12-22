@@ -7,6 +7,7 @@ import comments from './comments';
 import bills from './bills';
 import billDetails from './billDetails';
 import cart from './cart';
+import bells from './bells';
 import socket from './socket';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../saga';
@@ -21,7 +22,8 @@ const reducers = combineReducers({
     billDetails,
     cart,
     comments,
-    socket
+    socket,
+    bells
 });
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
