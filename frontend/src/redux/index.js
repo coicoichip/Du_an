@@ -7,6 +7,7 @@ import comments from './comments';
 import bills from './bills';
 import billDetails from './billDetails';
 import cart from './cart';
+import socket from './socket';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '../saga';
 const sagaMiddleware = createSagaMiddleware();
@@ -19,7 +20,8 @@ const reducers = combineReducers({
     bills,
     billDetails,
     cart,
-    comments
+    comments,
+    socket
 });
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
