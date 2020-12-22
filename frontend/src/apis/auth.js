@@ -30,6 +30,7 @@ export const signup = async ({
   name,
   phone,
   address,
+  img_url,
 }) => {
   const response = await axios({
     method: "POST",
@@ -42,6 +43,7 @@ export const signup = async ({
       name,
       phone,
       address,
+      img_url,
     },
   });
   return response.data;
@@ -56,24 +58,33 @@ export const signout = async () => {
   return response.data;
 };
 
-export const editProfile = async ({data}) => {
+export const getToken = async () => {
   const response = await axios({
-    method: "PUT",
-    url: `${BASE_URL}/users`,
+    url: `${BASE_URL}/socket_token `,
+    method: "GET",
     withCredentials: true,
-    data
   });
   return response.data;
 };
 
-export const deleteProfile = async ({user_id}) => {
+export const editProfile = async ({ data }) => {
+  const response = await axios({
+    method: "PUT",
+    url: `${BASE_URL}/users`,
+    withCredentials: true,
+    data,
+  });
+  return response.data;
+};
+
+export const deleteProfile = async ({ user_id }) => {
   const response = await axios({
     method: "DELETE",
     url: `${BASE_URL}/users`,
     withCredentials: true,
     data: {
-      user_id
-    }
+      user_id,
+    },
   });
   return response.data;
 };

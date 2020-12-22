@@ -75,11 +75,12 @@ export default function Users() {
             <Link key={i}>
               <ListItem button>
                 <ListItemAvatar>
-                  <Avatar>
+                  <Avatar src={item.img_url} >
                     <Person />
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={item.name} />
+                <ListItemText primary={item.email} />
                 <ListItemText primary={item.position} />
                 <ListItemSecondaryAction>
                   <IconButton onClick={() => handleUpgrade(item.email)}>

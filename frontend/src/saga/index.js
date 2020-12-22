@@ -5,6 +5,7 @@ import categoriesWatcher from './categories.js';
 import restaurantsWatcher from './restaurants.js';
 import billsWatcher from './bills.js';
 import commentsWatcher from './comments.js';
+import socketWatcher from './socket.js';
 
 
 function *rootSaga() {
@@ -15,6 +16,7 @@ function *rootSaga() {
     restaurantsWatcher(),
     billsWatcher(),
     commentsWatcher(),
+    socketWatcher(),
   ]);
 }
 

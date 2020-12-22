@@ -7,11 +7,15 @@ import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import Products from "./../product/Products";
 import Comments from "./Comments.js";
-import { DEFAULT_AVATAR } from "../../config";
+import { BASE_URL, DEFAULT_AVATAR } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
 import { getFoods, getFoodsByResId, resetFoods } from "../../redux/foods.js";
 import { getRestaurant, resetRestaurants } from "../../redux/restaurants.js";
 import { getComments, resetComments } from "../../redux/comments";
+import axios from "axios";
+import StarIcon from "@material-ui/icons/Star";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import StarBorder from "@material-ui/icons/StarBorder";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -48,19 +52,50 @@ const useStyles = makeStyles((theme) => ({
 export default function Shop({ match }) {
   const classes = useStyles();
   const [error, setError] = useState("");
+  const [resStar, setResStar] = useState(0);
+  const [showRate, setShowRate] = useState(false);
   const foods = useSelector((s) => s.foods);
+  const auth = useSelector((s) => s.auth);
   const restaurants = useSelector((s) => s.restaurants);
   const dispatch = useDispatch();
   const resId = match.params.resId;
+  const handleHover = (index) => {
+    setResStar(index);
+  };
+  const vote = () => {
+    axios({
+      url: `${BASE_URL}/restaurants/${resId}/rates`,
+      method: "POST",
+      withCredentials: true,
+      data: {
+        star: resStar,
+      }
+    })
+    .then(() => setShowRate(false))
+  }
   useEffect(() => {
     dispatch(getFoodsByResId({ resId: resId }));
     dispatch(getRestaurant({ resId: resId }));
     dispatch(getComments({ resId: resId }));
+    axios({
+      url: `${BASE_URL}/restaurants/${resId}/rates`,
+      method: "GET",
+      withCredentials: true,
+    }).then(
+      ({
+        data: {
+          data: { rates, avg },
+        },
+      }) => {
+        setResStar(avg);
+        if (!rates.find((r) => r.email === auth.email)) setShowRate(true);
+      }
+    );
     return () => {
       dispatch(resetFoods());
       dispatch(resetRestaurants());
       dispatch(resetComments());
-    }
+    };
   }, [resId]);
 
   const logoUrl = DEFAULT_AVATAR + resId;
@@ -77,9 +112,32 @@ export default function Shop({ match }) {
               >
                 {restaurants[0]?.name}
               </Typography>
+              <Avatar
+                src={restaurants[0]?.img_url}
+                className={classes.bigAvatar}
+              />
               <br />
-              <Avatar src={logoUrl} className={classes.bigAvatar} />
-              <br />
+              <Typography
+                type="subheading"
+                component="h2"
+                className={classes.subheading}
+              >
+                {restaurants[0]?.email}
+              </Typography>
+              <Typography
+                type="subheading"
+                component="h2"
+                className={classes.subheading}
+              >
+                {restaurants[0]?.address}
+              </Typography>
+              <Typography
+                type="subheading"
+                component="h2"
+                className={classes.subheading}
+              >
+                {restaurants[0]?.open_time} - {restaurants[0]?.close_time}
+              </Typography>
               <Typography
                 type="subheading"
                 component="h2"
@@ -87,6 +145,30 @@ export default function Shop({ match }) {
               >
                 {restaurants[0]?.description}
               </Typography>
+              {showRate && <Grid container>
+                <div className="ml-auto mr-auto mt-4">
+                  {[1, 2, 3, 4, 5].map((i) =>
+                    i <= resStar ? (
+                      <StarIcon
+                        onMouseOver={() => handleHover(i)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    ) : (
+                      <StarBorder
+                        style={{ cursor: "pointer" }}
+                        onMouseOver={() => handleHover(i)}
+                      />
+                    )
+                  )}
+                </div>
+              </Grid>}
+              {showRate && <div
+                className="ml-auto mr-auto"
+                style={{ fontWeight: "bold", cursor: "pointer" }}
+                onClick={vote}
+              >
+                Vote
+              </div>}
               <br />
             </CardContent>
           </Card>

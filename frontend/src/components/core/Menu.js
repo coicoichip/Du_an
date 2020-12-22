@@ -5,11 +5,12 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
 import Button from "@material-ui/core/Button";
-import { Link, withRouter } from "react-router-dom";
+import { Link, useHistory, withRouter } from "react-router-dom";
 import CartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from "@material-ui/core/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { signout, WHO_AM_I } from "../../redux/auth";
+import { getToken } from "../../redux/socket";
 const isActive = (history, path) => {
   if (history.location.pathname == path) return { color: "#bef67a" };
   else return { color: "#ffffff" };
@@ -21,12 +22,16 @@ const isPartActive = (history, path) => {
 const Menu = withRouter(({ history }) => {
   const auth = useSelector((s) => s.auth);
   const cart = useSelector((s) => s.cart);
+  const socket = useSelector((s) => s.socket);
   const dispatch = useDispatch();
   useEffect(() => {
-    if(!auth.email) {
-      dispatch({type: WHO_AM_I})
+    if (!auth.email) {
+      dispatch({ type: WHO_AM_I });
     }
-  },[])
+    if (!socket) {
+      dispatch(getToken());
+    }
+  }, []);
   return (
     <AppBar position="static">
       <Toolbar>
@@ -93,7 +98,7 @@ const Menu = withRouter(({ history }) => {
                 <Button
                   color="inherit"
                   onClick={() => {
-                    dispatch(signout());
+                    dispatch(signout({ history }));
                   }}
                 >
                   Sign out

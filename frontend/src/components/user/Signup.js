@@ -12,7 +12,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FormControlLabel, Switch } from "@material-ui/core";
 import { signup } from "../../redux/auth.js";
 import { useDispatch } from "react-redux";
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Signup() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [values, setValues] = useState({
     name: "",
     password: "",
@@ -82,8 +83,9 @@ export default function Signup() {
       position: values.position ? "owner" : "customer" || undefined,
       phone: values.phone || undefined,
       address: values.address || undefined,
+      img_url: values.img_url || undefined,
     };
-    dispatch(signup(user));
+    dispatch(signup({...user, history}));
   };
   return (
     <div>
@@ -98,6 +100,15 @@ export default function Signup() {
             className={classes.textField}
             value={values.name}
             onChange={handleChange("name")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="img_url"
+            label="Image Url"
+            className={classes.textField}
+            value={values.img_url}
+            onChange={handleChange("img_url")}
             margin="normal"
           />
           <br />

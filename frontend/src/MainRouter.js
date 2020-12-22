@@ -25,9 +25,11 @@ import { WHO_AM_I } from "./redux/auth";
 
 const MainRouter = () => {
   const dispatch = useDispatch();
+  const login = localStorage.getItem("login");
+  console.log(login);
   useEffect(() => {
     dispatch({ type: WHO_AM_I });
-    localStorage.clear("resId");
+    localStorage.removeItem("resId");
   }, []);
   return (
     <div>
@@ -37,7 +39,11 @@ const MainRouter = () => {
         <Route path="/users" component={Users} />
         <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
-        <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
+        <PrivateRoute
+          login={login}
+          path="/user/edit/:userId"
+          component={EditProfile}
+        />
         <Route path="/user/:userId" component={Profile} />
 
         <Route path="/cart" component={Cart} />
@@ -47,22 +53,32 @@ const MainRouter = () => {
 
         <Route path="/order/:orderId" component={Order} />
         <PrivateRoute
+          login={login}
           path="/seller/orders/:shop/:resId"
           component={ShopOrders}
         />
 
         <Route path="/seller/restaurants" component={MyShops} />
-        <PrivateRoute path="/seller/restaurant/new" component={NewShop} />
         <PrivateRoute
+          login={login}
+          path="/seller/restaurant/new"
+          component={NewShop}
+        />
+        <PrivateRoute
+          login={login}
           path="/seller/restaurant/edit/:resId"
           component={EditShop}
         />
-        <PrivateRoute path="/seller/:resId/foods/new" component={NewProduct} />
         <PrivateRoute
+          login={login}
+          path="/seller/:resId/foods/new"
+          component={NewProduct}
+        />
+        <PrivateRoute
+          login={login}
           path="/seller/:resId/:foodId/edit"
           component={EditProduct}
         />
-
         <Route path="/seller/stripe/connect" component={StripeConnect} />
       </Switch>
     </div>

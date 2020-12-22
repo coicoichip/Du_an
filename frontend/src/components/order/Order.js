@@ -116,7 +116,7 @@ export default function Order({ match }) {
 
   useEffect(() => {
     if (!order) {
-      return <Redirect to="/"/>
+      return <Redirect to="/" />;
     }
     dispatch(getFoodsByResId({ resId: order.restaurant_id }));
     dispatch(getRestaurants());
@@ -130,7 +130,7 @@ export default function Order({ match }) {
     dispatch(getBills({ resId: match.params.resId }));
   }, []);
   if (!order) {
-    return <Redirect to="/"/>
+    return <Redirect to="/" />;
   }
   return (
     <Card className={classes.card}>
@@ -143,7 +143,7 @@ export default function Order({ match }) {
         className={classes.subheading}
       >
         Order Code: <strong>{order.id}</strong> <br /> Placed on{" "}
-        {moment(order.created_at).format("MM DD YYYY")}
+        {moment(order.created_at).format("MM/DD/YYYY HH:mm")}
       </Typography>
       <br />
       <Grid container spacing={4}>
@@ -163,7 +163,6 @@ export default function Order({ match }) {
                     />
                     <div className={classes.details}>
                       <CardContent className={classes.content}>
-                        <Link to={"/product/" + item.product_id}>
                           <Typography
                             type="title"
                             component="h3"
@@ -172,7 +171,6 @@ export default function Order({ match }) {
                           >
                             {foods.find((s) => s.id === item.food_id)?.name}
                           </Typography>
-                        </Link>
                         <Typography
                           type="subheading"
                           component="h3"
@@ -197,10 +195,13 @@ export default function Order({ match }) {
                           type="subheading"
                           component="h3"
                           color={
-                            item.status == "Cancelled" ? "error" : "secondary"
+                            item.status === "Cancelled" ? "error" : "secondary"
                           }
+                          style={{
+                            color: item.status === 2 ? 'green' : item.status === 3 ? 'red' : undefined
+                          }}
                         >
-                          Status: {item.status}
+                          Status: {item.status === 2 ? "Paid" : item.status === 3 ? "Cancel" : "Order"}
                         </Typography>
                       </CardContent>
                     </div>

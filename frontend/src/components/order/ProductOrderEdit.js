@@ -60,8 +60,6 @@ export default function ProductOrderEdit(props) {
     dispatch(getBill({ resId: props.shopId, billId: props.order.id }));
     dispatch(getFoodsByResId({ resId: props.shopId }));
     return () => {
-      dispatch(resetFoods());
-      dispatch(resetBillDetails());
     };
   }, []);
   return (
@@ -78,7 +76,7 @@ export default function ProductOrderEdit(props) {
           order.bill_detail.map((item, index) => {
             return (
               <span key={index}>
-                {item.restaurant_id == props.resId && (
+                {item.restaurant_id === props.resId && (
                   <ListItem button className={classes.nested}>
                     <ListItemText
                       primary={

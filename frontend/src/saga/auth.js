@@ -18,18 +18,18 @@ import {
   editProfile,
   deleteProfile,
 } from "../apis/auth";
-import { notifyErrorMsg } from "../redux/Alert";
+import { notifyErrorMsg, notifySuccess } from "../redux/Alert";
 function* signinSaga({ payload }) {
   try {
-    const result = yield call(signin, payload);
+    yield call(signin, payload);
     yield put({ type: SIGNIN_SUCCESS });
     yield put({ type: WHO_AM_I });
+    localStorage.setItem("login", "1");
     if (payload.email === "admin") {
-      window.location.assign("/users");
-    }
-    else window.location.assign("/user");
+      payload.history.push("/users");
+    } else payload.history.push("/user");
   } catch (err) {
-    window.location.assign("/signin");
+    payload.history.push("/signin");
     console.log(err);
   }
 }
@@ -44,19 +44,22 @@ function* getMeSaga({ payload }) {
 function* signupSaga({ payload }) {
   try {
     const { success } = yield call(signup, payload);
+    yield put({ type: WHO_AM_I });
     if (success) {
       if (payload.position === "owner") {
-        window.location.assign("/seller/restaurants");
-      } else window.location.assign("/restaurants/all");
+        payload.history.push("/seller/restaurants");
+      } else payload.history.push("/restaurants/all");
       yield put({ type: SIGNUP_SUCCESS });
     }
   } catch (err) {
-    console.log(err);
+    notifyErrorMsg(err);
   }
 }
 function* signoutSaga({ payload }) {
   try {
     const { success } = yield call(signout, payload);
+    localStorage.removeItem("login");
+    payload.history.push("/restaurants/all");
     if (success) {
     }
   } catch (err) {
@@ -67,11 +70,15 @@ function* editProfileSaga({ payload }) {
   try {
     const { success, data } = yield call(editProfile, payload);
     if (success) {
-      window.location.assign("/user/" + data.user_id);
+      notifySuccess();
+      payload.history.push("/user/" + data.user_id);
       yield put({ type: WHO_AM_I });
     }
   } catch (err) {
-    console.log(err);
+    if (err) {
+      notifyErrorMsg(err);
+      console.log(err)
+    }
   }
 }
 function* deleteUserSaga({ payload }) {

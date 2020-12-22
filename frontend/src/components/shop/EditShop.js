@@ -14,8 +14,10 @@ import Grid from "@material-ui/core/Grid";
 import MyProducts from "./../product/MyProducts";
 import { DEFAULT_AVATAR } from "../../config";
 import { useDispatch, useSelector } from "react-redux";
-import { editRestaurant } from "../../redux/restaurants";
-
+import { editRestaurant, getRestaurant, resetRestaurants } from "../../redux/restaurants";
+const inputProps = {
+  step: 60,
+};
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditShop({ match }) {
   const classes = useStyles();
-  const restaurants = useSelector(s => s.restaurants);
+  const restaurants = useSelector((s) => s.restaurants);
   const dispatch = useDispatch();
   const [values, setValues] = useState({
     name: "",
@@ -87,6 +89,7 @@ export default function EditShop({ match }) {
           phone: values.phone,
           open_time: values.open_time,
           close_time: values.close_time,
+          img_url: values.img_url,
           email: values.email,
         },
       })
@@ -96,7 +99,25 @@ export default function EditShop({ match }) {
     setValues({ ...values, [name]: event.target.value });
   };
   useEffect(() => {
-  })
+    dispatch(getRestaurant({ resId }));
+    return () => {
+      dispatch(resetRestaurants());
+    }
+  }, []);
+  useEffect(() => {
+    if(restaurants.length) {
+      setValues({
+        ...values,
+        name: restaurants[0].name,
+        address: restaurants[0].address,
+        phone: restaurants[0].phone,
+        open_time: restaurants[0].open_time,
+        img_url: restaurants[0].img_url,
+        close_time: restaurants[0].close_time,
+        email: restaurants[0].email,
+      })
+    }
+  },[restaurants])
   const logoUrl = DEFAULT_AVATAR + resId;
   if (values.redirect) {
     return <Redirect to={"/seller/restaurants"} />;
@@ -115,7 +136,7 @@ export default function EditShop({ match }) {
                 Edit Shop
               </Typography>
               <br />
-              <Avatar src={logoUrl} className={classes.bigAvatar} />
+              <Avatar src={values.img_url} className={classes.bigAvatar} />
               <br />
               <br />
               <TextField
@@ -124,6 +145,15 @@ export default function EditShop({ match }) {
                 className={classes.textField}
                 value={values.name}
                 onChange={handleChange("name")}
+                margin="normal"
+              />
+              <br />
+              <TextField
+                id="img_url"
+                label="Image Url"
+                className={classes.textField}
+                value={values.img_url}
+                onChange={handleChange("img_url")}
                 margin="normal"
               />
               <br />
@@ -152,6 +182,8 @@ export default function EditShop({ match }) {
                 value={values.open_time}
                 onChange={handleChange("open_time")}
                 margin="normal"
+                type="time"
+                inputProps={inputProps}
               />
               <br />
               <TextField
@@ -161,6 +193,8 @@ export default function EditShop({ match }) {
                 value={values.close_time}
                 onChange={handleChange("close_time")}
                 margin="normal"
+                type="time"
+                inputProps={inputProps}
               />
               <br />
               <TextField
