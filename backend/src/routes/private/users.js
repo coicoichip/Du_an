@@ -35,7 +35,7 @@ router.route('/api/users')
 
     try {
       let user = false;
-      if (email !== email0) user = await knex('users').first().where({ email: email0 });
+      if (email !== email0) user = await knex('users').first().where({ email });
       if (user) return handleAPIResponse(res, 400, 'email exist');
       const update_data = {};
       ['email', 'name', 'password', 'phone', 'address', 'img_url'].forEach(field => {
