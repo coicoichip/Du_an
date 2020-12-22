@@ -23,33 +23,44 @@ function* getRestaurantsSaga({ payload }) {
   try {
     const { data } = yield call(getRestaurants, payload);
     yield put({ type: GET_RESTAURANTS_SUCCESS, payload: data });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err)
+  }
 }
 function* getRestaurantSaga({ payload }) {
   try {
     const { data } = yield call(getRestaurant, payload);
     yield put({ type: GET_RESTAURANT_SUCCESS, payload: data });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err)
+  }
 }
 function* editRestaurantSaga({ payload }) {
   try {
     const result = yield call(editRestaurant, payload);
     notifySuccess()
     yield put({ type: EDIT_RESTAURANT_SUCCESS });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err)
+  }
 }
 function* deleteRestaurantSaga({ payload }) {
   try {
     const result = yield call(deleteRestaurant, payload);
     yield put({ type: GET_RESTAURANTS });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err)
+
+  }
 }
 function* createRestaurantSaga({ payload }) {
   try {
     const result = yield call(createRestaurant, payload);
     console.log(result);
     yield put({ type: CREATE_RESTAURANT_SUCCESS });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 export default function* restaurantsWatcher() {

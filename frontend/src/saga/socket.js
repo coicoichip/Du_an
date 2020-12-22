@@ -7,6 +7,7 @@ function* getTokenSaga({ payload }) {
     const {data: {token}} = yield call(getToken, payload);
     yield put({ type: GET_TOKEN_SUCCESS, payload: token });
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err);
   }
 }

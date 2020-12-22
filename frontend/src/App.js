@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import { ToastContainer } from 'react-toastify';
 import theme from "./theme";
 import reduxStore from "./redux/index";
-import './redux/socket'
 const App = () => {
   return (
     <Provider store={reduxStore}>

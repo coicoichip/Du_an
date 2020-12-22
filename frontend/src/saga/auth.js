@@ -19,10 +19,12 @@ import {
   deleteProfile,
 } from "../apis/auth";
 import { notifyErrorMsg, notifySuccess } from "../redux/Alert";
+import { GET_TOKEN } from "../redux/socket";
 function* signinSaga({ payload }) {
   try {
     yield call(signin, payload);
     yield put({ type: SIGNIN_SUCCESS });
+    yield put({ type: GET_TOKEN });
     yield put({ type: WHO_AM_I });
     localStorage.setItem("login", "1");
     if (payload.email === "admin") {

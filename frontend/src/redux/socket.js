@@ -8,23 +8,25 @@ export const GET_TOKEN_SUCCESS = "GET_TOKEN_SUCCESS";
 export const getToken = () => ({
   type: GET_TOKEN,
 });
-let socket;
+let socket = "";
 export default function sockets(state, { type, payload }) {
   switch (type) {
     case GET_TOKEN_SUCCESS: {
-      socket = io(`${BASE_URL}/notifications`, {
+      socket = io(`http://localhost:5000/notifications`, {
         query: { token: payload },
       });
-      socket.emit('connect')
       socket.on("error", (payload) => console.log(payload));
       socket.on("newNotify", (payload) => {
         showNoti(payload);
-        console.log('----------------')
-        console.log(payload)
       });
       return true;
     }
     case SIGNOUT: {
+      console.log('---------------')
+      if (socket) {
+        console.log(socket.disconnect())
+        socket.disconnect()
+      }
       return false;
     }
     default:

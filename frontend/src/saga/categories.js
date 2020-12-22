@@ -8,6 +8,7 @@ function* getCategoriesSaga({ payload }) {
     console.log(result);
     yield put({ type: GET_CATEGORIES_SUCCESS });
   } catch (err) {
+    console.log(err)
     notifyErrorMsg(err)
   }
 }
