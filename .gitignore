@@ -2,3 +2,6 @@ node_modules/
 package-lock.json
 .idea/
 backend/trash.js
+backend/db/sessions.sqlite3
+ backend/db/sample.db
+ .*
