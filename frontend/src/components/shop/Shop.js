@@ -16,6 +16,7 @@ import axios from "axios";
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarBorder from "@material-ui/icons/StarBorder";
+import { notifyErrorMsg, notifySuccess } from "../../redux/Alert";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -53,6 +54,7 @@ export default function Shop({ match }) {
   const classes = useStyles();
   const [error, setError] = useState("");
   const [resStar, setResStar] = useState(0);
+  const [rates, setRates] = useState([]);
   const [showRate, setShowRate] = useState(false);
   const foods = useSelector((s) => s.foods);
   const auth = useSelector((s) => s.auth);
@@ -69,10 +71,14 @@ export default function Shop({ match }) {
       withCredentials: true,
       data: {
         star: resStar,
-      }
+      },
     })
-    .then(() => setShowRate(false))
-  }
+      .then(() => {
+        setShowRate(false);
+        notifySuccess("Đánh giá thành công.");
+      })
+      .catch((err) => notifyErrorMsg(err));
+  };
   useEffect(() => {
     dispatch(getFoodsByResId({ resId: resId }));
     dispatch(getRestaurant({ resId: resId }));
@@ -88,7 +94,7 @@ export default function Shop({ match }) {
         },
       }) => {
         setResStar(avg);
-        if (!rates.find((r) => r.email === auth.email)) setShowRate(true);
+        setRates(rates);
       }
     );
     return () => {
@@ -97,6 +103,10 @@ export default function Shop({ match }) {
       dispatch(resetComments());
     };
   }, [resId]);
+  useEffect(() => {
+    if (!rates.find((r) => r.email === auth.email)) setShowRate(true);
+    else setShowRate(false);
+  }, [rates]);
 
   const logoUrl = DEFAULT_AVATAR + resId;
   return (
@@ -145,30 +155,34 @@ export default function Shop({ match }) {
               >
                 {restaurants[0]?.description}
               </Typography>
-              {showRate && <Grid container>
-                <div className="ml-auto mr-auto mt-4">
-                  {[1, 2, 3, 4, 5].map((i) =>
-                    i <= resStar ? (
-                      <StarIcon
-                        onMouseOver={() => handleHover(i)}
-                        style={{ cursor: "pointer" }}
-                      />
-                    ) : (
-                      <StarBorder
-                        style={{ cursor: "pointer" }}
-                        onMouseOver={() => handleHover(i)}
-                      />
-                    )
-                  )}
+              {showRate && (
+                <Grid container>
+                  <div className="ml-auto mr-auto mt-4">
+                    {[1, 2, 3, 4, 5].map((i) =>
+                      i <= resStar ? (
+                        <StarIcon
+                          onMouseOver={() => handleHover(i)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      ) : (
+                        <StarBorder
+                          style={{ cursor: "pointer" }}
+                          onMouseOver={() => handleHover(i)}
+                        />
+                      )
+                    )}
+                  </div>
+                </Grid>
+              )}
+              {showRate && (
+                <div
+                  className="ml-auto mr-auto"
+                  style={{ fontWeight: "bold", cursor: "pointer" }}
+                  onClick={vote}
+                >
+                  Vote
                 </div>
-              </Grid>}
-              {showRate && <div
-                className="ml-auto mr-auto"
-                style={{ fontWeight: "bold", cursor: "pointer" }}
-                onClick={vote}
-              >
-                Vote
-              </div>}
+              )}
               <br />
             </CardContent>
           </Card>
