@@ -4,6 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import Button from "@material-ui/core/Button";
 import { Link, useHistory, withRouter } from "react-router-dom";
 import CartIcon from "@material-ui/icons/ShoppingCart";
@@ -11,6 +12,7 @@ import Badge from "@material-ui/core/Badge";
 import { useDispatch, useSelector } from "react-redux";
 import { signout, WHO_AM_I } from "../../redux/auth";
 import { getToken } from "../../redux/socket";
+import { emitter } from "../../redux/emitter";
 const isActive = (history, path) => {
   if (history.location.pathname == path) return { color: "#bef67a" };
   else return { color: "#ffffff" };
@@ -22,10 +24,18 @@ const isPartActive = (history, path) => {
 const Menu = withRouter(({ history }) => {
   const auth = useSelector((s) => s.auth);
   const cart = useSelector((s) => s.cart);
+  const bells = useSelector((s) => s.bells);
   const dispatch = useDispatch();
   useEffect(() => {
+    function handleBell () {
+      dispatch({type: 'BELLS'})
+    }
+    emitter.on('bell',handleBell);
     if (!auth.email) {
       dispatch({ type: WHO_AM_I });
+    }
+    return () => {
+      emitter.off('bell', handleBell)
     }
   }, []);
   return (
@@ -72,6 +82,13 @@ const Menu = withRouter(({ history }) => {
             )}
             {auth.email && (
               <span>
+                {auth.position === "owner" && (
+                  <Link to="/seller/restaurants" onClick={() => dispatch({type: "RESET_BELLS"})}>
+                    <Badge badgeContent={bells} color="secondary">
+                      <NotificationsActiveIcon style={{fill: 'white'}}/>
+                    </Badge>
+                  </Link>
+                )}
                 {auth.position === "owner" && (
                   <Link to="/seller/restaurants">
                     <Button style={isPartActive(history, "/seller/")}>

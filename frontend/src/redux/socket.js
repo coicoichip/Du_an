@@ -1,7 +1,8 @@
 import io from "socket.io-client";
 import { BASE_URL } from "../config";
-import { showNoti } from "./Alert";
+import { notifyInfo, showNoti } from "./Alert";
 import { SIGNOUT } from "./auth";
+import { emitter } from "./emitter";
 export const GET_TOKEN = "GET_TOKEN";
 export const GET_TOKEN_SUCCESS = "GET_TOKEN_SUCCESS";
 
@@ -17,15 +18,14 @@ export default function sockets(state, { type, payload }) {
       });
       socket.on("error", (payload) => console.log(payload));
       socket.on("newNotify", (payload) => {
-        showNoti(payload);
+        notifyInfo();
+        emitter.emit('bell')
       });
       return true;
     }
     case SIGNOUT: {
-      console.log('---------------')
       if (socket) {
-        console.log(socket.disconnect())
-        socket.disconnect()
+        socket.disconnect();
       }
       return false;
     }

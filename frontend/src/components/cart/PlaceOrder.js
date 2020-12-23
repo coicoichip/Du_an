@@ -8,6 +8,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createBill } from "../../redux/bills";
 import auth from "../../redux/auth";
+import { resetCart } from "../../redux/cart";
 
 const useStyles = makeStyles((theme) => ({
   subheading: {
@@ -61,6 +62,7 @@ const PlaceOrder = ({ note }) => {
         },
       })
     );
+    dispatch(resetCart());
   };
 
   if (values.redirect) {

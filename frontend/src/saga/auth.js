@@ -62,6 +62,7 @@ function* signoutSaga({ payload }) {
     const { success } = yield call(signout, payload);
     localStorage.removeItem("login");
     payload.history.push("/restaurants/all");
+    localStorage.removeItem('bell')
     if (success) {
     }
   } catch (err) {

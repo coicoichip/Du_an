@@ -12,6 +12,10 @@ export function notifyErrorMsg(err) {
   else toast.error('Error!');
 }
 
+export function notifyInfo() {
+  toast.info('You have a new order!');
+}
+
 
 // eslint-disable-next-line react/prop-types
 const Noti = ({ reminder: { icon_link, title } }) => (

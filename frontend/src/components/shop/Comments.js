@@ -52,6 +52,7 @@ export default function Comments(props) {
   const addComment = (event) => {
     if (event.keyCode === 13 && event.target.value) {
       event.preventDefault();
+      setText('');
       dispatch(createComment({ resId: props.shopId, data: { content: text } }));
     }
   };
@@ -82,7 +83,7 @@ export default function Comments(props) {
   return (
     <div>
       <CardHeader
-        avatar={<Avatar className={classes.smallAvatar} src={DEFAULT_AVATAR} />}
+        avatar={<Avatar className={classes.smallAvatar} src={auth.img_url} />}
         title={
           <TextField
             onKeyDown={addComment}
@@ -101,7 +102,7 @@ export default function Comments(props) {
         return (
           <CardHeader
             avatar={
-              <Avatar className={classes.smallAvatar} src={DEFAULT_AVATAR} />
+              <Avatar className={classes.smallAvatar} src={item.img_url} />
             }
             title={commentBody(item)}
             className={classes.cardHeader}
