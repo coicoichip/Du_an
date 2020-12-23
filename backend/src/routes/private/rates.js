@@ -11,8 +11,8 @@ router.route('/api/restaurants/:restaurant_id/rates')
     try {
       const [rates, avg] = await Promise.all([
         knex('rates').where({ restaurant_id })
-          .join('users', 'users.user_id', 'rates.user_id')
-          .select('users.email', 'users.name', 'users.phone', 'rates.star'),
+          .select('users.email', 'users.name', 'users.phone', 'rates.star', 'users.img_url')
+          .join('users', 'users.user_id', 'rates.user_id'),
         knex('rates').where({ restaurant_id }).first(knex.raw('AVG(star) as avg')),
       ]);
       return handleAPIResponse(res, 200, { rates, avg: avg.avg });
