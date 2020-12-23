@@ -12,7 +12,7 @@ let socket = "";
 export default function sockets(state, { type, payload }) {
   switch (type) {
     case GET_TOKEN_SUCCESS: {
-      socket = io(`http://localhost:5000/notifications`, {
+      socket = io(`http://du-an.thanhvh.com:5000/notifications`, {
         query: { token: payload },
       });
       socket.on("error", (payload) => console.log(payload));

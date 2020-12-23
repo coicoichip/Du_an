@@ -15,7 +15,7 @@ app.use(
   cors({
     credentials: true,
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-    origin: ['http://localhost:3000'],
+    origin: ['http://du-an.thanhvh.com'],
   })
 );
 
